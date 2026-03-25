@@ -1,3 +1,5 @@
+package com.mycompany.demabitespresentacion;
+
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
@@ -263,7 +265,6 @@ public class FrameClientes extends javax.swing.JFrame {
     private javax.swing.JLabel lbl1;
     private javax.swing.JLabel lbl2;
     private javax.swing.JPanel pnlHeader;
-    private javax.swing.JPanel pnlHeader1;
     private javax.swing.JPanel pnlPrincipal;
     private javax.swing.JPanel pnlTablaClientes;
     private javax.swing.JTable tblClientes;
