@@ -8,59 +8,85 @@ import com.mycompany.demabitesdominio.ClienteFrecuente;
 import com.mycompany.demabitesdtos.NuevoClienteFrecuenteDTO;
 import com.mycompany.demabitespersistencia.IClienteDAO;
 import com.mycompany.demabitespersistencia.PersistenciaException;
+import java.util.List;
 
 /**
  *
  * @author Jesus Omar
  */
-public class ClienteBO implements IClientesBO{
+public class ClienteBO implements IClientesBO {
 
     private final IClienteDAO clienteDAO;
-    
-    public ClienteBO(IClienteDAO clienteDAO){
-       this.clienteDAO = clienteDAO;
+
+    public ClienteBO(IClienteDAO clienteDAO) {
+        this.clienteDAO = clienteDAO;
     }
-    
+
     @Override
     public ClienteFrecuente crearClienteFrecuente(NuevoClienteFrecuenteDTO nuevoClienteFrecuente) throws NegocioException {
-        if(nuevoClienteFrecuente.getNombres() == null){
+        if (nuevoClienteFrecuente.getNombres() == null) {
             throw new NegocioException("El nombre no puede estar vacio", null);
         }
-        if(nuevoClienteFrecuente.getApellidoPaterno() == null){
+        if (nuevoClienteFrecuente.getApellidoPaterno() == null) {
             throw new NegocioException("El apellido paterno no puede estar vacio", null);
         }
-        if(nuevoClienteFrecuente.getApellidoMaterno() == null){
+        if (nuevoClienteFrecuente.getApellidoMaterno() == null) {
             throw new NegocioException("El apellido materno no puede estar vacio", null);
         }
-        if(nuevoClienteFrecuente.getTelefono() == null){
+        if (nuevoClienteFrecuente.getTelefono() == null) {
             throw new NegocioException("El telefono no puede estar vacio", null);
         }
-        if(nuevoClienteFrecuente.getNombres().length() > 60){
+        if (nuevoClienteFrecuente.getNombres().length() > 60) {
             throw new NegocioException("El nombre es demasiado largo", null);
         }
-        if(nuevoClienteFrecuente.getApellidoPaterno().length() > 60){
+        if (nuevoClienteFrecuente.getApellidoPaterno().length() > 60) {
             throw new NegocioException("El apellido paterno es demasiado largo", null);
         }
-        if(nuevoClienteFrecuente.getApellidoMaterno().length() > 60){
+        if (nuevoClienteFrecuente.getApellidoMaterno().length() > 60) {
             throw new NegocioException("El apellido materno es demasiado largo", null);
         }
-        if(nuevoClienteFrecuente.getTelefono().length() > 10){
+        if (nuevoClienteFrecuente.getTelefono().length() > 10) {
             throw new NegocioException("El numero de telefono es demasiado largo", null);
         }
-        if(nuevoClienteFrecuente.getEmail().length() > 60){
+        if (nuevoClienteFrecuente.getEmail().length() > 60) {
             throw new NegocioException("El correo es demasiado largo", null);
         }
-        try{
+        try {
             ClienteFrecuente cliente = clienteDAO.generarClienteFrecuente(nuevoClienteFrecuente);
             return cliente;
-        }catch(PersistenciaException ex){
+        } catch (PersistenciaException ex) {
             throw new NegocioException("Error al crear al cliente", null);
         }
     }
 
     @Override
-    public ClienteFrecuente consultarClientesFrecuentes() throws NegocioException {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public List<ClienteFrecuente> consultarTodos() throws NegocioException {
+        try {
+            List<ClienteFrecuente> listaClientes = clienteDAO.consultarTodos();
+            return listaClientes;
+        } catch (PersistenciaException ex) {
+            throw new NegocioException("Error al cargar los clientes", null);
+        }
     }
-    
+
+    @Override
+    public List<ClienteFrecuente> coincidenciaPorNombre(String nombreBusqueda) throws NegocioException {
+        try {
+            List<ClienteFrecuente> listaClientes = clienteDAO.coincidenciaPorNombre(nombreBusqueda);
+            return listaClientes;
+        } catch (PersistenciaException ex) {
+            throw new NegocioException("Error al cargar los clientes", null);
+        }
+    }
+
+    @Override
+    public List<ClienteFrecuente> coincidenciaPorNumero(String numeroBusqueda) throws NegocioException {
+        try {
+            List<ClienteFrecuente> listaClientes = clienteDAO.coincidenciaPorNumero(numeroBusqueda);
+            return listaClientes;
+        } catch (PersistenciaException ex) {
+            throw new NegocioException("Error al cargar los clientes", null);
+        }
+    }
+
 }

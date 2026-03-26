@@ -30,12 +30,12 @@ public class NuevoClienteFrecuenteDTO {
      * @param telefono El telefono del cliente.
      * @param email El email del cliente.
      */
-    public NuevoClienteFrecuenteDTO(String nombres, String apellidoPaterno, String apellidoMaterno, String telefono, String email) {
+    public NuevoClienteFrecuenteDTO(String nombres, String apellidoPaterno, String apellidoMaterno, String email, String telefono) {
         this.nombres = nombres;
         this.apellidoPaterno = apellidoPaterno;
         this.apellidoMaterno = apellidoMaterno;
-        this.telefono = telefono;
         this.email = email;
+        this.telefono = telefono;
     }
 
     /** @return El nombre o nombres del cliente. */
@@ -62,5 +62,27 @@ public class NuevoClienteFrecuenteDTO {
     public String getEmail() {
         return email;
     }
+
+    public void setNombres(String nombres) {
+        this.nombres = nombres;
+    }
+
+    public void setApellidoPaterno(String apellidoPaterno) {
+        this.apellidoPaterno = apellidoPaterno;
+    }
+
+    public void setApellidoMaterno(String apellidoMaterno) {
+        this.apellidoMaterno = apellidoMaterno;
+    }
+
+    public void setTelefono(String telefono) {
+        this.telefono = telefono;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+    
+    
     
 }

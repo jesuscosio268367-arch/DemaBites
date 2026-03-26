@@ -1,26 +1,31 @@
 package com.mycompany.demabitespresentacion;
 
+import com.mycompany.demabitesdominio.ClienteFrecuente;
+import control.ClientesControl;
 import control.Navegacion;
+import java.util.List;
+import javax.swing.table.DefaultTableModel;
 
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-
 /**
  *
  * @author Dario
  */
 public class FrameClientes extends javax.swing.JFrame {
-    
+
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(FrameClientes.class.getName());
+    private final ClientesControl control;
 
     /**
      * Creates new form FrameClientes
      */
     public FrameClientes() {
         initComponents();
-        
+        this.control = new ClientesControl();
+        llenarTabla();
     }
 
     /**
@@ -41,11 +46,11 @@ public class FrameClientes extends javax.swing.JFrame {
         btnClientes = new javax.swing.JButton();
         btnReportes = new javax.swing.JButton();
         lbl1 = new javax.swing.JLabel();
-        btnNewCliente = new javax.swing.JButton();
+        btnBuscar = new javax.swing.JButton();
         pnlTablaClientes = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblClientes = new javax.swing.JTable();
-        btnBuscarCliente = new javax.swing.JButton();
+        btnNuevoCliente = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -121,34 +126,35 @@ public class FrameClientes extends javax.swing.JFrame {
         lbl1.setForeground(new java.awt.Color(52, 59, 27));
         lbl1.setText("Clientes ");
 
-        btnNewCliente.setBackground(new java.awt.Color(47, 65, 86));
-        btnNewCliente.setFont(new java.awt.Font("Yu Gothic UI", 1, 20)); // NOI18N
-        btnNewCliente.setForeground(new java.awt.Color(255, 255, 255));
-        btnNewCliente.setText("Buscar");
-        btnNewCliente.addActionListener(this::btnNewClienteActionPerformed);
+        btnBuscar.setBackground(new java.awt.Color(47, 65, 86));
+        btnBuscar.setFont(new java.awt.Font("Yu Gothic UI", 1, 20)); // NOI18N
+        btnBuscar.setForeground(new java.awt.Color(255, 255, 255));
+        btnBuscar.setText("Buscar");
+        btnBuscar.addActionListener(this::btnBuscarActionPerformed);
 
         jScrollPane1.setFont(jScrollPane1.getFont().deriveFont(jScrollPane1.getFont().getSize()+20f));
 
         tblClientes.setFont(new java.awt.Font("Yu Gothic UI", 0, 20)); // NOI18N
         tblClientes.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null}
             },
             new String [] {
-                "Tipo", "Nombre", "Teléfono", "Puntos"
+                "Nombre", "Teléfono", "Puntos"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false
+                false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
             }
         });
+        tblClientes.setRowHeight(30);
         jScrollPane1.setViewportView(tblClientes);
 
         javax.swing.GroupLayout pnlTablaClientesLayout = new javax.swing.GroupLayout(pnlTablaClientes);
@@ -162,11 +168,11 @@ public class FrameClientes extends javax.swing.JFrame {
             .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 414, Short.MAX_VALUE)
         );
 
-        btnBuscarCliente.setBackground(new java.awt.Color(47, 65, 86));
-        btnBuscarCliente.setFont(new java.awt.Font("Yu Gothic UI", 1, 20)); // NOI18N
-        btnBuscarCliente.setForeground(new java.awt.Color(255, 255, 255));
-        btnBuscarCliente.setText("Nuevo Cliente");
-        btnBuscarCliente.addActionListener(this::btnBuscarClienteActionPerformed);
+        btnNuevoCliente.setBackground(new java.awt.Color(47, 65, 86));
+        btnNuevoCliente.setFont(new java.awt.Font("Yu Gothic UI", 1, 20)); // NOI18N
+        btnNuevoCliente.setForeground(new java.awt.Color(255, 255, 255));
+        btnNuevoCliente.setText("Nuevo Cliente");
+        btnNuevoCliente.addActionListener(this::btnNuevoClienteActionPerformed);
 
         javax.swing.GroupLayout pnlPrincipalLayout = new javax.swing.GroupLayout(pnlPrincipal);
         pnlPrincipal.setLayout(pnlPrincipalLayout);
@@ -179,12 +185,12 @@ public class FrameClientes extends javax.swing.JFrame {
                     .addGroup(pnlPrincipalLayout.createSequentialGroup()
                         .addComponent(lbl1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnNewCliente))
+                        .addComponent(btnBuscar))
                     .addComponent(pnlTablaClientes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(61, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlPrincipalLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnBuscarCliente)
+                .addComponent(btnNuevoCliente)
                 .addGap(14, 14, 14))
         );
         pnlPrincipalLayout.setVerticalGroup(
@@ -194,11 +200,11 @@ public class FrameClientes extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(pnlPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lbl1)
-                    .addComponent(btnNewCliente))
+                    .addComponent(btnBuscar))
                 .addGap(18, 18, 18)
                 .addComponent(pnlTablaClientes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(btnBuscarCliente)
+                .addComponent(btnNuevoCliente)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -216,17 +222,37 @@ public class FrameClientes extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnNewClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNewClienteActionPerformed
-    }//GEN-LAST:event_btnNewClienteActionPerformed
+    private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
+    }//GEN-LAST:event_btnBuscarActionPerformed
 
-    private void btnBuscarClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarClienteActionPerformed
-        
-    }//GEN-LAST:event_btnBuscarClienteActionPerformed
+    private void btnNuevoClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoClienteActionPerformed
+        Navegacion.getControlNavegacion().abrirClientesForm();
+        this.dispose();
+    }//GEN-LAST:event_btnNuevoClienteActionPerformed
 
     private void btnClientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClientesActionPerformed
         // btnClientes.setEnabled(false);
 
     }//GEN-LAST:event_btnClientesActionPerformed
+
+    private void llenarTabla() {
+
+        DefaultTableModel modelo = (DefaultTableModel) tblClientes.getModel();
+        modelo.setRowCount(0);
+        
+        List<ClienteFrecuente> lista = control.cargarTabla();
+
+        Object[] fila = new Object[6]; 
+
+        for (ClienteFrecuente cliente : lista) {
+            fila[0] = cliente.getNombres();
+            fila[1] = cliente.getTelefono();
+            fila[2] = 0;
+
+            modelo.addRow(fila);
+        }
+
+    }
 
     /**
      * @param args the command line arguments
@@ -252,15 +278,14 @@ public class FrameClientes extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(() -> new FrameClientes().setVisible(true));
     }
-    
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnBuscarCliente;
+    private javax.swing.JButton btnBuscar;
     private javax.swing.JButton btnClientes;
     private javax.swing.JButton btnComandas;
     private javax.swing.JButton btnIngredientes;
-    private javax.swing.JButton btnNewCliente;
+    private javax.swing.JButton btnNuevoCliente;
     private javax.swing.JButton btnProductos;
     private javax.swing.JButton btnReportes;
     private javax.swing.JScrollPane jScrollPane1;

@@ -29,8 +29,8 @@ public class ClienteDAO implements IClienteDAO{
                 nuevoClienteFrecuente.getNombres(),
                 nuevoClienteFrecuente.getApellidoPaterno(),
                 nuevoClienteFrecuente.getApellidoMaterno(),
-                nuevoClienteFrecuente.getTelefono(),
                 nuevoClienteFrecuente.getEmail(),
+                nuevoClienteFrecuente.getTelefono(),
                 LocalDate.now()
         );
         try{

@@ -50,7 +50,7 @@
                       <Group type="102" attributes="0">
                           <Component id="lbl1" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="32767" attributes="0"/>
-                          <Component id="btnNewCliente" min="-2" max="-2" attributes="0"/>
+                          <Component id="btnBuscar" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <Component id="pnlTablaClientes" min="-2" max="-2" attributes="0"/>
                   </Group>
@@ -58,7 +58,7 @@
               </Group>
               <Group type="102" alignment="1" attributes="0">
                   <EmptySpace max="32767" attributes="0"/>
-                  <Component id="btnBuscarCliente" min="-2" max="-2" attributes="0"/>
+                  <Component id="btnNuevoCliente" min="-2" max="-2" attributes="0"/>
                   <EmptySpace min="-2" pref="14" max="-2" attributes="0"/>
               </Group>
           </Group>
@@ -70,12 +70,12 @@
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="lbl1" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="btnNewCliente" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="btnBuscar" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace type="separate" min="-2" max="-2" attributes="0"/>
                   <Component id="pnlTablaClientes" min="-2" max="-2" attributes="0"/>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
-                  <Component id="btnBuscarCliente" min="-2" max="-2" attributes="0"/>
+                  <Component id="btnNuevoCliente" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="32767" attributes="0"/>
               </Group>
           </Group>
@@ -227,7 +227,7 @@
             <Property name="text" type="java.lang.String" value="Clientes "/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JButton" name="btnNewCliente">
+        <Component class="javax.swing.JButton" name="btnBuscar">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="56" green="41" red="2f" type="rgb"/>
@@ -241,7 +241,7 @@
             <Property name="text" type="java.lang.String" value="Buscar"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnNewClienteActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnBuscarActionPerformed"/>
           </Events>
         </Component>
         <Container class="javax.swing.JPanel" name="pnlTablaClientes">
@@ -276,20 +276,20 @@
                       <Font name="Yu Gothic UI" size="20" style="0"/>
                     </Property>
                     <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-                      <Table columnCount="4" rowCount="4">
-                        <Column editable="false" title="Tipo" type="java.lang.Object"/>
+                      <Table columnCount="3" rowCount="4">
                         <Column editable="false" title="Nombre" type="java.lang.Object"/>
                         <Column editable="false" title="Tel&#xe9;fono" type="java.lang.Object"/>
                         <Column editable="false" title="Puntos" type="java.lang.Object"/>
                       </Table>
                     </Property>
+                    <Property name="rowHeight" type="int" value="30"/>
                   </Properties>
                 </Component>
               </SubComponents>
             </Container>
           </SubComponents>
         </Container>
-        <Component class="javax.swing.JButton" name="btnBuscarCliente">
+        <Component class="javax.swing.JButton" name="btnNuevoCliente">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="56" green="41" red="2f" type="rgb"/>
@@ -303,7 +303,7 @@
             <Property name="text" type="java.lang.String" value="Nuevo Cliente"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnBuscarClienteActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnNuevoClienteActionPerformed"/>
           </Events>
         </Component>
       </SubComponents>

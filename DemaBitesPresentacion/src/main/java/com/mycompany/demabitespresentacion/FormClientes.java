@@ -1,6 +1,5 @@
 package com.mycompany.demabitespresentacion;
 
-import com.mycompany.demabitesdtos.NuevoClienteDTO;
 import com.mycompany.demabitesdtos.NuevoClienteFrecuenteDTO;
 import control.ClientesControl;
 import javax.swing.JOptionPane;
@@ -9,20 +8,21 @@ import javax.swing.JOptionPane;
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-
 /**
  *
  * @author Dario
  */
 public class FormClientes extends javax.swing.JFrame {
-    
-    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(FormClientes.class.getName());
 
+    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(FormClientes.class.getName());
+    private final ClientesControl control;
+    
     /**
      * Creates new form FormClientes
      */
     public FormClientes() {
         initComponents();
+        this.control = new ClientesControl();
     }
 
     /**
@@ -33,7 +33,6 @@ public class FormClientes extends javax.swing.JFrame {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-        java.awt.GridBagConstraints gridBagConstraints;
 
         pnlPrincipal = new javax.swing.JPanel();
         pnlHeader = new javax.swing.JPanel();
@@ -59,7 +58,6 @@ public class FormClientes extends javax.swing.JFrame {
         btnRegistrar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        getContentPane().setLayout(new java.awt.GridBagLayout());
 
         pnlPrincipal.setBackground(new java.awt.Color(254, 255, 234));
 
@@ -182,15 +180,11 @@ public class FormClientes extends javax.swing.JFrame {
                         .addComponent(txtNombres, javax.swing.GroupLayout.DEFAULT_SIZE, 532, Short.MAX_VALUE)
                         .addComponent(txtAMaterno)
                         .addComponent(txtEmail)
-                        .addGroup(pnlFormLayout.createSequentialGroup()
-                            .addGroup(pnlFormLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(lbl7)
-                                .addComponent(lbl6)
-                                .addComponent(lbl5)
-                                .addComponent(lbl3))
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))))
+                        .addComponent(lbl7)
+                        .addComponent(lbl6)
+                        .addComponent(lbl5)
+                        .addComponent(lbl3)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(34, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlFormLayout.createSequentialGroup()
                 .addContainerGap(256, Short.MAX_VALUE)
                 .addComponent(btnRegistrar)
@@ -252,18 +246,24 @@ public class FormClientes extends javax.swing.JFrame {
             .addGroup(pnlPrincipalLayout.createSequentialGroup()
                 .addComponent(pnlHeader, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(lbl1, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lbl1, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(pnlForm, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGap(12, 12, 12))
         );
 
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.ipadx = 56;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        getContentPane().add(pnlPrincipal, gridBagConstraints);
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(5, 5, 5)
+                .addComponent(pnlPrincipal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(pnlPrincipal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+        );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -273,48 +273,48 @@ public class FormClientes extends javax.swing.JFrame {
     }//GEN-LAST:event_btnClientesActionPerformed
 
     private void btnRegistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarActionPerformed
-        if(txtNombres.getText().trim().isEmpty()){
+        if (txtNombres.getText().trim().isEmpty()) {
             JOptionPane.showMessageDialog(this, "El nombre es obligatorio");
             txtNombres.requestFocus();
             return;
         }
-        if(txtAPaterno.getText().trim().isEmpty()){
+        if (txtAPaterno.getText().trim().isEmpty()) {
             JOptionPane.showMessageDialog(this, "El apellido paterno es obligatorio");
             txtAPaterno.requestFocus();
             return;
         }
-        if(txtAMaterno.getText().trim().isEmpty()){
+        if (txtAMaterno.getText().trim().isEmpty()) {
             JOptionPane.showMessageDialog(this, "El apellido materno es obligatorio");
             txtAMaterno.requestFocus();
             return;
         }
-        if(txtTelefono.getText().trim().isEmpty()){
+        if (!txtEmail.getText().isBlank()) {
+            if (!txtEmail.getText().matches("^[\\w.-]+@[\\w.-]+\\.[a-zA-Z]{2,6}$")) {
+                JOptionPane.showMessageDialog(this, "El formato del correo no es valido");
+                txtNombres.requestFocus();
+                return;
+            }
+        }
+        if (txtTelefono.getText().trim().isEmpty()) {
             JOptionPane.showMessageDialog(this, "El telefono es obligatorio");
             txtTelefono.requestFocus();
             return;
         }
-        if(!txtTelefono.getText().matches("^[0-9]{10}")){
+        if (!txtTelefono.getText().matches("^[0-9]{10}")) {
             JOptionPane.showMessageDialog(this, "El numero solo debe de tener 10 digitos");
             txtNombres.requestFocus();
             return;
         }
-        if(!txtEmail.getText().matches("^[\\w.-]+@[\\w.-]+\\.[a-zA-Z]{2,6}$")){
-            JOptionPane.showMessageDialog(this, "El formato del correo no es valido");
-            txtNombres.requestFocus();
-            return;
-        }
-        
+
         String nombres = txtNombres.getText();
         String aPaterno = txtAPaterno.getText();
         String aMaterno = txtAMaterno.getText();
         String email = txtEmail.getText();
         String telefono = txtTelefono.getText();
-        
-        NuevoClienteFrecuenteDTO nuevoCliente = new NuevoClienteFrecuenteDTO(nombres, aPaterno, aMaterno, telefono, email);
-        
-        ClientesControl control = new ClientesControl();
+
+        NuevoClienteFrecuenteDTO nuevoCliente = new NuevoClienteFrecuenteDTO(nombres, aPaterno, aMaterno, email, telefono);
         control.registrarCliente(nuevoCliente, this);
-        
+
     }//GEN-LAST:event_btnRegistrarActionPerformed
 
     /**
@@ -341,7 +341,7 @@ public class FormClientes extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(() -> new FormClientes().setVisible(true));
     }
-    
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnClientes;
     private javax.swing.JButton btnComandas;

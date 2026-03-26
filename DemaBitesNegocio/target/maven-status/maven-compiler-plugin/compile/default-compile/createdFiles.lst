@@ -1,1 +1,3 @@
 com\mycompany\demabitesnegocio\ClienteBO.class
+com\mycompany\demabitesnegocio\IClientesBO.class
+com\mycompany\demabitesnegocio\NegocioException.class
