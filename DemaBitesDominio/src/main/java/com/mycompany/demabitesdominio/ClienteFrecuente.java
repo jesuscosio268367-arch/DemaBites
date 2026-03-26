@@ -32,7 +32,7 @@ public class ClienteFrecuente extends Cliente implements Serializable {
     public ClienteFrecuente(){
     }
 
-    public ClienteFrecuente(String telefono, String email, LocalDate fechaRegistro, String nombres, String apellidoPaterno, String apellidoMaterno) {
+    public ClienteFrecuente(String nombres, String apellidoPaterno, String apellidoMaterno, String email, String telefono, LocalDate fechaRegistro ) {
         super(nombres, apellidoPaterno, apellidoMaterno);
         this.telefono = telefono;
         this.email = email;
