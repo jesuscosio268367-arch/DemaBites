@@ -29,13 +29,13 @@ public class Cliente implements Serializable {
     @Column(name = "id_cliente")
     private Long id;
     
-    @Column(name = "nombre", nullable = false)
+    @Column(name = "nombre", nullable = false, length = 60)
     private String nombres;
     
-    @Column(name = "apellidoPaterno", nullable = false)
+    @Column(name = "apellidoPaterno", nullable = false, length = 60)
     private String apellidoPaterno;
     
-    @Column(name = "apellidoMaterno", nullable = false)
+    @Column(name = "apellidoMaterno", nullable = false, length = 60)
     private String apellidoMaterno;
 
     public Cliente(){

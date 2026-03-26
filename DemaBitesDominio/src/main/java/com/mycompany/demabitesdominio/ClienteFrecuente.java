@@ -20,10 +20,10 @@ public class ClienteFrecuente extends Cliente implements Serializable {
 
     private static final long serialVersionUID = 1L;
     
-    @Column(name = "telefono", nullable = false)
+    @Column(name = "telefono", nullable = false, length = 10)
     private String telefono;
     
-    @Column(name = "email", nullable = true)
+    @Column(name = "email", nullable = true, length = 60)
     private String email;
     
     @Column(name = "fechaRegistro", nullable = false)
