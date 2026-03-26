@@ -1,5 +1,10 @@
 package com.mycompany.demabitespresentacion;
 
+import com.mycompany.demabitesdtos.NuevoClienteDTO;
+import com.mycompany.demabitesdtos.NuevoClienteFrecuenteDTO;
+import control.ClientesControl;
+import javax.swing.JOptionPane;
+
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
@@ -51,7 +56,7 @@ public class FormClientes extends javax.swing.JFrame {
         txtAMaterno = new javax.swing.JTextField();
         txtEmail = new javax.swing.JTextField();
         txtTelefono = new javax.swing.JTextField();
-        btnNewClienteCrear = new javax.swing.JButton();
+        btnRegistrar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new java.awt.GridBagLayout());
@@ -126,7 +131,7 @@ public class FormClientes extends javax.swing.JFrame {
 
         lbl1.setFont(new java.awt.Font("Yu Gothic UI Semilight", 1, 32)); // NOI18N
         lbl1.setForeground(new java.awt.Color(52, 59, 27));
-        lbl1.setText("Clientes");
+        lbl1.setText("Registar cliente frecuente");
 
         lbl3.setFont(new java.awt.Font("Yu Gothic UI Semilight", 0, 18)); // NOI18N
         lbl3.setText("Nombres:");
@@ -157,11 +162,11 @@ public class FormClientes extends javax.swing.JFrame {
 
         txtTelefono.setFont(new java.awt.Font("Yu Gothic UI", 0, 18)); // NOI18N
 
-        btnNewClienteCrear.setBackground(new java.awt.Color(47, 65, 86));
-        btnNewClienteCrear.setFont(new java.awt.Font("Yu Gothic UI", 1, 20)); // NOI18N
-        btnNewClienteCrear.setForeground(new java.awt.Color(255, 255, 255));
-        btnNewClienteCrear.setText("Nuevo Cliente");
-        btnNewClienteCrear.addActionListener(this::btnNewClienteCrearActionPerformed);
+        btnRegistrar.setBackground(new java.awt.Color(47, 65, 86));
+        btnRegistrar.setFont(new java.awt.Font("Yu Gothic UI", 1, 20)); // NOI18N
+        btnRegistrar.setForeground(new java.awt.Color(255, 255, 255));
+        btnRegistrar.setText("Registrar");
+        btnRegistrar.addActionListener(this::btnRegistrarActionPerformed);
 
         javax.swing.GroupLayout pnlFormLayout = new javax.swing.GroupLayout(pnlForm);
         pnlForm.setLayout(pnlFormLayout);
@@ -173,21 +178,22 @@ public class FormClientes extends javax.swing.JFrame {
                     .addComponent(txtTelefono, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lbl8)
                     .addGroup(pnlFormLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(lbl7)
-                        .addComponent(lbl6)
                         .addComponent(txtAPaterno)
                         .addComponent(txtNombres, javax.swing.GroupLayout.DEFAULT_SIZE, 532, Short.MAX_VALUE)
-                        .addComponent(lbl5)
-                        .addGroup(pnlFormLayout.createSequentialGroup()
-                            .addComponent(lbl3)
-                            .addGap(70, 70, 70))
                         .addComponent(txtAMaterno)
-                        .addComponent(txtEmail)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(txtEmail)
+                        .addGroup(pnlFormLayout.createSequentialGroup()
+                            .addGroup(pnlFormLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(lbl7)
+                                .addComponent(lbl6)
+                                .addComponent(lbl5)
+                                .addComponent(lbl3))
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))))
+                .addContainerGap(34, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlFormLayout.createSequentialGroup()
-                .addContainerGap(239, Short.MAX_VALUE)
-                .addComponent(btnNewClienteCrear)
-                .addGap(202, 202, 202))
+                .addContainerGap(256, Short.MAX_VALUE)
+                .addComponent(btnRegistrar)
+                .addGap(234, 234, 234))
             .addGroup(pnlFormLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(pnlFormLayout.createSequentialGroup()
                     .addGap(16, 16, 16)
@@ -218,7 +224,7 @@ public class FormClientes extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtTelefono, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(btnNewClienteCrear)
+                .addComponent(btnRegistrar)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(pnlFormLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(pnlFormLayout.createSequentialGroup()
@@ -233,25 +239,22 @@ public class FormClientes extends javax.swing.JFrame {
             pnlPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(pnlHeader, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(pnlPrincipalLayout.createSequentialGroup()
-                .addGap(61, 61, 61)
                 .addComponent(lbl1)
-                .addGap(127, 127, 127)
-                .addComponent(pnlForm, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
+            .addGroup(pnlPrincipalLayout.createSequentialGroup()
+                .addGap(284, 284, 284)
+                .addComponent(pnlForm, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         pnlPrincipalLayout.setVerticalGroup(
             pnlPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlPrincipalLayout.createSequentialGroup()
                 .addComponent(pnlHeader, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(pnlPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(pnlPrincipalLayout.createSequentialGroup()
-                        .addComponent(lbl1)
-                        .addGap(0, 496, Short.MAX_VALUE))
-                    .addGroup(pnlPrincipalLayout.createSequentialGroup()
-                        .addGap(38, 38, 38)
-                        .addComponent(pnlForm, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addContainerGap())
+                .addComponent(lbl1, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(pnlForm, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(12, 12, 12))
         );
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -268,9 +271,50 @@ public class FormClientes extends javax.swing.JFrame {
         // btnClientes.setEnabled(false);
     }//GEN-LAST:event_btnClientesActionPerformed
 
-    private void btnNewClienteCrearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNewClienteCrearActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnNewClienteCrearActionPerformed
+    private void btnRegistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarActionPerformed
+        if(txtNombres.getText().trim().isEmpty()){
+            JOptionPane.showMessageDialog(this, "El nombre es obligatorio");
+            txtNombres.requestFocus();
+            return;
+        }
+        if(txtAPaterno.getText().trim().isEmpty()){
+            JOptionPane.showMessageDialog(this, "El apellido paterno es obligatorio");
+            txtAPaterno.requestFocus();
+            return;
+        }
+        if(txtAMaterno.getText().trim().isEmpty()){
+            JOptionPane.showMessageDialog(this, "El apellido materno es obligatorio");
+            txtAMaterno.requestFocus();
+            return;
+        }
+        if(txtTelefono.getText().trim().isEmpty()){
+            JOptionPane.showMessageDialog(this, "El telefono es obligatorio");
+            txtTelefono.requestFocus();
+            return;
+        }
+        if(!txtTelefono.getText().matches("^[0-9]{10}")){
+            JOptionPane.showMessageDialog(this, "El numero solo debe de tener 10 digitos");
+            txtNombres.requestFocus();
+            return;
+        }
+        if(!txtEmail.getText().matches("^[\\w.-]+@[\\w.-]+\\.[a-zA-Z]{2,6}$")){
+            JOptionPane.showMessageDialog(this, "El formato del correo no es valido");
+            txtNombres.requestFocus();
+            return;
+        }
+        
+        String nombres = txtNombres.getText();
+        String aPaterno = txtAPaterno.getText();
+        String aMaterno = txtAMaterno.getText();
+        String email = txtEmail.getText();
+        String telefono = txtTelefono.getText();
+        
+        NuevoClienteFrecuenteDTO nuevoCliente = new NuevoClienteFrecuenteDTO(nombres, aPaterno, aMaterno, telefono, email);
+        
+        ClientesControl control = new ClientesControl();
+        control.registrarCliente(nuevoCliente, this);
+        
+    }//GEN-LAST:event_btnRegistrarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -296,13 +340,13 @@ public class FormClientes extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(() -> new FormClientes().setVisible(true));
     }
-
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnClientes;
     private javax.swing.JButton btnComandas;
     private javax.swing.JButton btnIngredientes;
-    private javax.swing.JButton btnNewClienteCrear;
     private javax.swing.JButton btnProductos;
+    private javax.swing.JButton btnRegistrar;
     private javax.swing.JButton btnReportes;
     private javax.swing.JLabel lbl1;
     private javax.swing.JLabel lbl2;
