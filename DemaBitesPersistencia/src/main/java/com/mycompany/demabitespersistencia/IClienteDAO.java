@@ -6,6 +6,7 @@ package com.mycompany.demabitespersistencia;
 
 import com.mycompany.demabitesdominio.ClienteFrecuente;
 import com.mycompany.demabitesdtos.NuevoClienteFrecuenteDTO;
+import java.util.List;
 
 /**
  *
@@ -13,5 +14,11 @@ import com.mycompany.demabitesdtos.NuevoClienteFrecuenteDTO;
  */
 public interface IClienteDAO {
     public abstract ClienteFrecuente generarClienteFrecuente(NuevoClienteFrecuenteDTO nuevoClienteFrecuente)
+            throws PersistenciaException;
+    public abstract List<ClienteFrecuente> consultarTodos()
+            throws PersistenciaException;
+    public abstract List<ClienteFrecuente> coincidenciaPorNombre(String nombreBusqueda)
+            throws PersistenciaException;
+    public abstract List<ClienteFrecuente> coincidenciaPorNumero(String numeroBusqueda)
             throws PersistenciaException;
 }

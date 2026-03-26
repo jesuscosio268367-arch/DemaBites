@@ -225,17 +225,19 @@
                           <Component id="txtTelefono" min="-2" pref="280" max="-2" attributes="0"/>
                           <Component id="lbl8" min="-2" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                              <Component id="lbl7" min="-2" max="-2" attributes="0"/>
-                              <Component id="lbl6" min="-2" max="-2" attributes="0"/>
                               <Component id="txtAPaterno" max="32767" attributes="0"/>
                               <Component id="txtNombres" pref="532" max="32767" attributes="0"/>
-                              <Component id="lbl5" min="-2" max="-2" attributes="0"/>
-                              <Group type="102" attributes="0">
-                                  <Component id="lbl3" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace min="-2" pref="70" max="-2" attributes="0"/>
-                              </Group>
                               <Component id="txtAMaterno" alignment="0" max="32767" attributes="0"/>
                               <Component id="txtEmail" alignment="0" max="32767" attributes="0"/>
+                              <Group type="102" attributes="0">
+                                  <Group type="103" groupAlignment="0" attributes="0">
+                                      <Component id="lbl7" min="-2" max="-2" attributes="0"/>
+                                      <Component id="lbl6" min="-2" max="-2" attributes="0"/>
+                                      <Component id="lbl5" min="-2" max="-2" attributes="0"/>
+                                      <Component id="lbl3" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                                  <EmptySpace max="-2" attributes="0"/>
+                              </Group>
                           </Group>
                       </Group>
                       <EmptySpace max="32767" attributes="0"/>
