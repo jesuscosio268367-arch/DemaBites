@@ -46,10 +46,10 @@ public class FrameClientes extends javax.swing.JFrame {
         btnClientes = new javax.swing.JButton();
         btnReportes = new javax.swing.JButton();
         lbl1 = new javax.swing.JLabel();
-        btnBuscar = new javax.swing.JButton();
         pnlTablaClientes = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblClientes = new javax.swing.JTable();
+        btnBuscar = new javax.swing.JButton();
         btnNuevoCliente = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -126,12 +126,6 @@ public class FrameClientes extends javax.swing.JFrame {
         lbl1.setForeground(new java.awt.Color(52, 59, 27));
         lbl1.setText("Clientes ");
 
-        btnBuscar.setBackground(new java.awt.Color(47, 65, 86));
-        btnBuscar.setFont(new java.awt.Font("Yu Gothic UI", 1, 20)); // NOI18N
-        btnBuscar.setForeground(new java.awt.Color(255, 255, 255));
-        btnBuscar.setText("Buscar");
-        btnBuscar.addActionListener(this::btnBuscarActionPerformed);
-
         jScrollPane1.setFont(jScrollPane1.getFont().deriveFont(jScrollPane1.getFont().getSize()+20f));
 
         tblClientes.setFont(new java.awt.Font("Yu Gothic UI", 0, 20)); // NOI18N
@@ -168,6 +162,12 @@ public class FrameClientes extends javax.swing.JFrame {
             .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 414, Short.MAX_VALUE)
         );
 
+        btnBuscar.setBackground(new java.awt.Color(47, 65, 86));
+        btnBuscar.setFont(new java.awt.Font("Yu Gothic UI", 1, 20)); // NOI18N
+        btnBuscar.setForeground(new java.awt.Color(255, 255, 255));
+        btnBuscar.setText("Buscar");
+        btnBuscar.addActionListener(this::btnBuscarActionPerformed);
+
         btnNuevoCliente.setBackground(new java.awt.Color(47, 65, 86));
         btnNuevoCliente.setFont(new java.awt.Font("Yu Gothic UI", 1, 20)); // NOI18N
         btnNuevoCliente.setForeground(new java.awt.Color(255, 255, 255));
@@ -188,10 +188,11 @@ public class FrameClientes extends javax.swing.JFrame {
                         .addComponent(btnBuscar))
                     .addComponent(pnlTablaClientes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(61, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlPrincipalLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnNuevoCliente)
-                .addGap(14, 14, 14))
+            .addGroup(pnlPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlPrincipalLayout.createSequentialGroup()
+                    .addContainerGap(1037, Short.MAX_VALUE)
+                    .addComponent(btnNuevoCliente)
+                    .addGap(4, 4, 4)))
         );
         pnlPrincipalLayout.setVerticalGroup(
             pnlPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -203,9 +204,12 @@ public class FrameClientes extends javax.swing.JFrame {
                     .addComponent(btnBuscar))
                 .addGap(18, 18, 18)
                 .addComponent(pnlTablaClientes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(btnNuevoCliente)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(58, Short.MAX_VALUE))
+            .addGroup(pnlPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlPrincipalLayout.createSequentialGroup()
+                    .addContainerGap(622, Short.MAX_VALUE)
+                    .addComponent(btnNuevoCliente)
+                    .addContainerGap()))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -222,18 +226,20 @@ public class FrameClientes extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
+        //hola
     }//GEN-LAST:event_btnBuscarActionPerformed
-
-    private void btnNuevoClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoClienteActionPerformed
-        Navegacion.getControlNavegacion().abrirClientesForm();
-        this.dispose();
-    }//GEN-LAST:event_btnNuevoClienteActionPerformed
 
     private void btnClientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClientesActionPerformed
         // btnClientes.setEnabled(false);
 
     }//GEN-LAST:event_btnClientesActionPerformed
+
+    private void btnNuevoClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoClienteActionPerformed
+        Navegacion.getControlNavegacion().abrirClientesForm();
+        this.dispose();
+    }//GEN-LAST:event_btnNuevoClienteActionPerformed
 
     private void llenarTabla() {
 
