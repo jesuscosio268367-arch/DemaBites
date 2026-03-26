@@ -33,7 +33,7 @@ public class ClientesControl {
             clientesBO.crearClienteFrecuente(nuevoCliente);
             JOptionPane.showMessageDialog(ventana, "El cliente ha sido registrado con exito!");
             Navegacion.getControlNavegacion().abrirClientesFrame(); // te regresa al frame de los clientes
-            ventana.dispose(); // cierra el formulario para registrar al cliente
+            ventana.dispose(); // cierra el formulario para registabre rar al cliente
         }catch(NegocioException ex){
             JOptionPane.showMessageDialog(
                     ventana, 
