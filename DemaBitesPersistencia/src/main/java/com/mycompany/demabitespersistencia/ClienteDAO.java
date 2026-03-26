@@ -62,37 +62,25 @@ public class ClienteDAO implements IClienteDAO{
     }
     
     @Override
-    public List<ClienteFrecuente> coincidenciaPorNombre(String nombreBusqueada) throws PersistenciaException{
+    public List<ClienteFrecuente> buscar(String filtro) throws PersistenciaException {
         try {
             EntityManager entityManager = ManejadorConexiones.crearEntityManager();
-            entityManager.getTransaction().begin();
-            String jpql = "SELECT c FROM ClienteFrecuente c WHERE c.nombres LIKE :nombre";
-            TypedQuery<ClienteFrecuente> query = entityManager.createQuery(jpql, ClienteFrecuente.class);
-            query.setParameter("nombre", "%" + nombreBusqueada + "%");
-            List<ClienteFrecuente> resultados = query.getResultList();
-            entityManager.getTransaction().commit();
-            return resultados;
-        }catch(PersistenceException ex){
+
+            String jpql = "SELECT DISTINCT c FROM ClienteFrecuente c " +
+                          "WHERE LOWER(c.nombres) LIKE :filtro " +
+                          "OR c.telefono LIKE :filtro " +
+                          "OR (c.email IS NOT NULL AND LOWER(c.email) LIKE :filtro)";
+
+            TypedQuery<ClienteFrecuente> query =
+                    entityManager.createQuery(jpql, ClienteFrecuente.class);
+
+            query.setParameter("filtro", "%" + filtro.toLowerCase() + "%");
+
+            return query.getResultList();
+
+        } catch (PersistenceException ex) {
             LOGGER.severe(ex.getMessage());
-            throw new PersistenciaException("Error al consultar clientes", ex);
+            throw new PersistenciaException("Error al buscar clientes", ex);
         }
     }
-    
-    @Override
-    public List<ClienteFrecuente> coincidenciaPorNumero(String numeroBusqueada) throws PersistenciaException{
-        try {
-            EntityManager entityManager = ManejadorConexiones.crearEntityManager();
-            entityManager.getTransaction().begin();
-            String jpql = "SELECT c FROM ClienteFrecuente c WHERE c.telefono LIKE :numero";
-            TypedQuery<ClienteFrecuente> query = entityManager.createQuery(jpql, ClienteFrecuente.class);
-            query.setParameter("numero", "%" + numeroBusqueada + "%");
-            List<ClienteFrecuente> resultados = query.getResultList();
-            entityManager.getTransaction().commit();
-            return resultados;
-        }catch(PersistenceException ex){
-            LOGGER.severe(ex.getMessage());
-            throw new PersistenciaException("Error al consultar clientes", ex);
-        }
-    }
-    
 }

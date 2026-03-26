@@ -54,4 +54,13 @@ public class ClientesControl {
         }
     }
     
+    public List<ClienteFrecuente> buscar(String filtro) {
+        try {
+            return clientesBO.buscar(filtro);
+        } catch (NegocioException ex) {
+            JOptionPane.showMessageDialog(null, 
+                "Error al buscar clientes: " + ex.getMessage());
+            return new ArrayList<>();
+        }
+    }    
 }

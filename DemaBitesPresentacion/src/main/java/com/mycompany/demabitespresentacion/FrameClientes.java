@@ -41,16 +41,18 @@ public class FrameClientes extends javax.swing.JFrame {
         pnlHeader = new javax.swing.JPanel();
         lbl2 = new javax.swing.JLabel();
         btnComandas = new javax.swing.JButton();
-        btnProductos = new javax.swing.JButton();
         btnIngredientes = new javax.swing.JButton();
         btnClientes = new javax.swing.JButton();
         btnReportes = new javax.swing.JButton();
+        btnProductos1 = new javax.swing.JButton();
         lbl1 = new javax.swing.JLabel();
         btnBuscar = new javax.swing.JButton();
         pnlTablaClientes = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblClientes = new javax.swing.JTable();
         btnNuevoCliente = new javax.swing.JButton();
+        lbl4 = new javax.swing.JLabel();
+        txtBuscar = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -66,11 +68,6 @@ public class FrameClientes extends javax.swing.JFrame {
         btnComandas.setFont(new java.awt.Font("Yu Gothic UI", 1, 24)); // NOI18N
         btnComandas.setText("Comandas");
         btnComandas.setBorder(null);
-
-        btnProductos.setBackground(new java.awt.Color(255, 239, 150));
-        btnProductos.setFont(new java.awt.Font("Yu Gothic UI", 1, 24)); // NOI18N
-        btnProductos.setText("Productos");
-        btnProductos.setBorder(null);
 
         btnIngredientes.setBackground(new java.awt.Color(255, 239, 150));
         btnIngredientes.setFont(new java.awt.Font("Yu Gothic UI", 1, 24)); // NOI18N
@@ -89,6 +86,11 @@ public class FrameClientes extends javax.swing.JFrame {
         btnReportes.setText("Reportes");
         btnReportes.setBorder(null);
 
+        btnProductos1.setBackground(new java.awt.Color(255, 239, 150));
+        btnProductos1.setFont(new java.awt.Font("Yu Gothic UI", 1, 24)); // NOI18N
+        btnProductos1.setText("Productos");
+        btnProductos1.setBorder(null);
+
         javax.swing.GroupLayout pnlHeaderLayout = new javax.swing.GroupLayout(pnlHeader);
         pnlHeader.setLayout(pnlHeaderLayout);
         pnlHeaderLayout.setHorizontalGroup(
@@ -98,9 +100,9 @@ public class FrameClientes extends javax.swing.JFrame {
                 .addComponent(lbl2)
                 .addGap(68, 68, 68)
                 .addComponent(btnComandas)
-                .addGap(53, 53, 53)
-                .addComponent(btnProductos)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnProductos1)
+                .addGap(46, 46, 46)
                 .addComponent(btnIngredientes)
                 .addGap(32, 32, 32)
                 .addComponent(btnClientes, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -115,10 +117,10 @@ public class FrameClientes extends javax.swing.JFrame {
                 .addGroup(pnlHeaderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lbl2)
                     .addComponent(btnComandas)
-                    .addComponent(btnProductos)
                     .addComponent(btnIngredientes)
                     .addComponent(btnClientes)
-                    .addComponent(btnReportes))
+                    .addComponent(btnReportes)
+                    .addComponent(btnProductos1))
                 .addContainerGap(18, Short.MAX_VALUE))
         );
 
@@ -137,18 +139,25 @@ public class FrameClientes extends javax.swing.JFrame {
         tblClientes.setFont(new java.awt.Font("Yu Gothic UI", 0, 20)); // NOI18N
         tblClientes.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null}
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
             },
             new String [] {
-                "Nombre", "Teléfono", "Puntos"
+                "Nombre", "Teléfono", "Correo", "Puntos"
             }
         ) {
-            boolean[] canEdit = new boolean [] {
-                false, false, false
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class
             };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
@@ -165,7 +174,9 @@ public class FrameClientes extends javax.swing.JFrame {
         );
         pnlTablaClientesLayout.setVerticalGroup(
             pnlTablaClientesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 414, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlTablaClientesLayout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 401, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         btnNuevoCliente.setBackground(new java.awt.Color(47, 65, 86));
@@ -173,6 +184,12 @@ public class FrameClientes extends javax.swing.JFrame {
         btnNuevoCliente.setForeground(new java.awt.Color(255, 255, 255));
         btnNuevoCliente.setText("Nuevo Cliente");
         btnNuevoCliente.addActionListener(this::btnNuevoClienteActionPerformed);
+
+        lbl4.setFont(new java.awt.Font("Yu Gothic UI Semilight", 1, 18)); // NOI18N
+        lbl4.setForeground(new java.awt.Color(52, 59, 27));
+        lbl4.setText("Consultar por nombre, teléfono o correo: ");
+
+        txtBuscar.addActionListener(this::txtBuscarActionPerformed);
 
         javax.swing.GroupLayout pnlPrincipalLayout = new javax.swing.GroupLayout(pnlPrincipal);
         pnlPrincipal.setLayout(pnlPrincipalLayout);
@@ -185,7 +202,12 @@ public class FrameClientes extends javax.swing.JFrame {
                     .addGroup(pnlPrincipalLayout.createSequentialGroup()
                         .addComponent(lbl1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnBuscar))
+                        .addGroup(pnlPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(pnlPrincipalLayout.createSequentialGroup()
+                                .addComponent(txtBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 429, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(27, 27, 27)
+                                .addComponent(btnBuscar))
+                            .addComponent(lbl4)))
                     .addComponent(pnlTablaClientes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(61, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlPrincipalLayout.createSequentialGroup()
@@ -198,10 +220,17 @@ public class FrameClientes extends javax.swing.JFrame {
             .addGroup(pnlPrincipalLayout.createSequentialGroup()
                 .addComponent(pnlHeader, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addGroup(pnlPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lbl1)
-                    .addComponent(btnBuscar))
-                .addGap(18, 18, 18)
+                .addGroup(pnlPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(pnlPrincipalLayout.createSequentialGroup()
+                        .addComponent(lbl4)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(pnlPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(btnBuscar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(txtBuscar))
+                        .addGap(24, 24, 24))
+                    .addGroup(pnlPrincipalLayout.createSequentialGroup()
+                        .addComponent(lbl1)
+                        .addGap(48, 48, 48)))
                 .addComponent(pnlTablaClientes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(btnNuevoCliente)
@@ -235,8 +264,11 @@ public class FrameClientes extends javax.swing.JFrame {
 
     }//GEN-LAST:event_btnClientesActionPerformed
 
-    private void llenarTabla() {
+    private void txtBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtBuscarActionPerformed
+        llenarTabla(txtBuscar.getText());
+    }//GEN-LAST:event_txtBuscarActionPerformed
 
+    private void llenarTabla() {
         DefaultTableModel modelo = (DefaultTableModel) tblClientes.getModel();
         modelo.setRowCount(0);
         
@@ -247,13 +279,34 @@ public class FrameClientes extends javax.swing.JFrame {
         for (ClienteFrecuente cliente : lista) {
             fila[0] = cliente.getNombres();
             fila[1] = cliente.getTelefono();
-            fila[2] = 0;
+            fila[2] = (cliente.getEmail() == null || cliente.getEmail().isEmpty()) 
+                ? "sin correo" : cliente.getEmail();
+            fila[3] = 0; //Falta persistir (mapear) puntos acumulados, visitas y total consumido :/
+            modelo.addRow(fila);
+        }
+    }
+
+    private void llenarTabla(String filtro) {
+        DefaultTableModel modelo = (DefaultTableModel) tblClientes.getModel();
+        modelo.setRowCount(0);
+
+        List<ClienteFrecuente> lista = control.buscar(filtro);
+
+        Object[] fila = new Object[6]; 
+
+        for (ClienteFrecuente cliente : lista) {
+            fila[0] = cliente.getNombres();
+            fila[1] = cliente.getTelefono();
+            fila[2] = (cliente.getEmail() == null || cliente.getEmail().isEmpty()) 
+                ? "sin correo" : cliente.getEmail();
+            fila[3] = 0;
 
             modelo.addRow(fila);
         }
-
     }
-
+    
+    
+    
     /**
      * @param args the command line arguments
      */
@@ -286,14 +339,16 @@ public class FrameClientes extends javax.swing.JFrame {
     private javax.swing.JButton btnComandas;
     private javax.swing.JButton btnIngredientes;
     private javax.swing.JButton btnNuevoCliente;
-    private javax.swing.JButton btnProductos;
+    private javax.swing.JButton btnProductos1;
     private javax.swing.JButton btnReportes;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lbl1;
     private javax.swing.JLabel lbl2;
+    private javax.swing.JLabel lbl4;
     private javax.swing.JPanel pnlHeader;
     private javax.swing.JPanel pnlPrincipal;
     private javax.swing.JPanel pnlTablaClientes;
     private javax.swing.JTable tblClientes;
+    private javax.swing.JTextField txtBuscar;
     // End of variables declaration//GEN-END:variables
 }
