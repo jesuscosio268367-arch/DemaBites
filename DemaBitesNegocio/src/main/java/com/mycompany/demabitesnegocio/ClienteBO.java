@@ -65,27 +65,29 @@ public class ClienteBO implements IClientesBO {
             List<ClienteFrecuente> listaClientes = clienteDAO.consultarTodos();
             return listaClientes;
         } catch (PersistenciaException ex) {
-            throw new NegocioException("Error al cargar los clientes", null);
+            throw new NegocioException("Error al cargar los clientes", ex);
         }
     }
 
     @Override
-    public List<ClienteFrecuente> coincidenciaPorNombre(String nombreBusqueda) throws NegocioException {
+    public List<ClienteFrecuente> buscar(String filtro) throws NegocioException {
         try {
-            List<ClienteFrecuente> listaClientes = clienteDAO.coincidenciaPorNombre(nombreBusqueda);
-            return listaClientes;
-        } catch (PersistenciaException ex) {
-            throw new NegocioException("Error al cargar los clientes", null);
-        }
-    }
+            if (filtro == null) {
+                return clienteDAO.consultarTodos();
+            }
 
-    @Override
-    public List<ClienteFrecuente> coincidenciaPorNumero(String numeroBusqueda) throws NegocioException {
-        try {
-            List<ClienteFrecuente> listaClientes = clienteDAO.coincidenciaPorNumero(numeroBusqueda);
-            return listaClientes;
+            filtro = filtro.trim();
+           
+            if (filtro.isEmpty()) {
+                return clienteDAO.consultarTodos();
+            }
+
+            filtro = filtro.toLowerCase();
+
+            return clienteDAO.buscar(filtro);
+
         } catch (PersistenciaException ex) {
-            throw new NegocioException("Error al cargar los clientes", null);
+            throw new NegocioException("Error al buscar clientes", ex);
         }
     }
 

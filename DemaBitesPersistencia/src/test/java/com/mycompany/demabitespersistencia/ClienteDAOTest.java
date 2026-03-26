@@ -55,40 +55,55 @@ public class ClienteDAOTest {
         });
     }
     
-//    @Test
-//    public void testConsultarTodosEncuentraOk() {
-//        int cantidadClientes = 3; 
-//        assertDoesNotThrow(() -> {
-//            List<ClienteFrecuente> listaClientes = dao.consultarTodos();
-//            assertNotNull(listaClientes);
-//            assertEquals(listaClientes.size(), cantidadClientes);
-//            ClienteFrecuente primerCliente = listaClientes.get(0);
-//            assertNotNull(primerCliente.getId());
-//            assertNotNull(primerCliente.getNombres());
-//        });   
-//    }
+    @Test
+    public void testConsultarTodosEncuentraOk() {
+        assertDoesNotThrow(() -> {
+            List<ClienteFrecuente> listaClientes = dao.consultarTodos();
+
+            assertNotNull(listaClientes);
+            assertFalse(listaClientes.isEmpty());
+
+            ClienteFrecuente cliente = listaClientes.get(0);
+            assertNotNull(cliente.getId());
+            assertNotNull(cliente.getNombres());
+        });
+    }
     
-//    @Test
-//    public void testCoincidenciaPorNombreEncuentraOk(){
-//        int cantidadClientes = 2;
-//        String busquedaNombre = "Crist";
-//        assertDoesNotThrow(() -> {
-//            List<ClienteFrecuente> listaClientes = dao.coincidenciaPorNombre(busquedaNombre);
-//            assertNotNull(listaClientes);
-//            assertEquals(listaClientes.size(), cantidadClientes);
-//            assertTrue(listaClientes.get(0).getNombres().contains(busquedaNombre));
-//        });
-//    }
     
-//    @Test
-//    public void testCoincidenciaPorNumeroEncuentraOk(){
-//        int cantidadClientes = 2;
-//        String digitosTelefono = "5171";
-//        assertDoesNotThrow(() -> {
-//            List<ClienteFrecuente> listaClientes = dao.coincidenciaPorNumero(digitosTelefono);
-//            assertNotNull(listaClientes);
-//            assertEquals(listaClientes.size(), cantidadClientes);
-//            assertTrue(listaClientes.get(0).getTelefono().contains(digitosTelefono));
-//        });
-//    }
+    
+    @Test
+    public void testBuscarPorTelefonoEncuentraOk() {
+        String filtro = "644";
+
+        assertDoesNotThrow(() -> {
+            List<ClienteFrecuente> listaClientes = dao.buscar(filtro);
+
+            assertNotNull(listaClientes);
+            assertFalse(listaClientes.isEmpty());
+
+            assertTrue(listaClientes.stream()
+                    .anyMatch(c -> 
+                        c.getTelefono() != null &&
+                        c.getTelefono().contains(filtro)
+                    ));
+        });
+    }
+    
+    @Test
+    public void testBuscarPorCorreoEncuentraOk() {
+        String filtro = "@gmail";
+
+        assertDoesNotThrow(() -> {
+            List<ClienteFrecuente> listaClientes = dao.buscar(filtro);
+
+            assertNotNull(listaClientes);
+            assertFalse(listaClientes.isEmpty());
+
+            assertTrue(listaClientes.stream()
+                    .anyMatch(c -> 
+                        c.getEmail() != null &&
+                        c.getEmail().toLowerCase().contains(filtro.toLowerCase())
+                    ));
+        });
+    }
 }
