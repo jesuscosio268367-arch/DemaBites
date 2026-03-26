@@ -8,7 +8,7 @@ package com.mycompany.demabitespersistencia;
  *
  * @author Dario
  */
-class PersistenciaException extends Exception {
+public class PersistenciaException extends Exception {
     public PersistenciaException() {
         
     }

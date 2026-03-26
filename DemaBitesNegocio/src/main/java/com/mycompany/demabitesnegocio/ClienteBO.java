@@ -6,6 +6,8 @@ package com.mycompany.demabitesnegocio;
 
 import com.mycompany.demabitesdominio.ClienteFrecuente;
 import com.mycompany.demabitesdtos.NuevoClienteFrecuenteDTO;
+import com.mycompany.demabitespersistencia.IClienteDAO;
+import com.mycompany.demabitespersistencia.PersistenciaException;
 
 /**
  *
@@ -13,6 +15,12 @@ import com.mycompany.demabitesdtos.NuevoClienteFrecuenteDTO;
  */
 public class ClienteBO implements IClientesBO{
 
+    private final IClienteDAO clienteDAO;
+    
+    public ClienteBO(IClienteDAO clienteDAO){
+       this.clienteDAO = clienteDAO;
+    }
+    
     @Override
     public ClienteFrecuente crearClienteFrecuente(NuevoClienteFrecuenteDTO nuevoClienteFrecuente) throws NegocioException {
         if(nuevoClienteFrecuente.getNombres() == null){
@@ -42,14 +50,17 @@ public class ClienteBO implements IClientesBO{
         if(nuevoClienteFrecuente.getEmail().length() > 60){
             throw new NegocioException("El correo es demasiado largo", null);
         }
-        return null;
+        try{
+            ClienteFrecuente cliente = clienteDAO.generarClienteFrecuente(nuevoClienteFrecuente);
+            return cliente;
+        }catch(PersistenciaException ex){
+            throw new NegocioException("Error al crear al cliente", null);
+        }
     }
 
     @Override
     public ClienteFrecuente consultarClientesFrecuentes() throws NegocioException {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
-    
-    
     
 }
