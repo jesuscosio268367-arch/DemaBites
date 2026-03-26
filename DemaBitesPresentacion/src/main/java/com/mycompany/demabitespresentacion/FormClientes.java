@@ -189,6 +189,7 @@ public class FormClientes extends javax.swing.JFrame {
                                 .addComponent(lbl5)
                                 .addComponent(lbl3))
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(34, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlFormLayout.createSequentialGroup()
                 .addContainerGap(256, Short.MAX_VALUE)

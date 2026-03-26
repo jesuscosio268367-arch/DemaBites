@@ -119,7 +119,7 @@ public class FrameClientes extends javax.swing.JFrame {
 
         lbl1.setFont(new java.awt.Font("Yu Gothic UI Semilight", 1, 32)); // NOI18N
         lbl1.setForeground(new java.awt.Color(52, 59, 27));
-        lbl1.setText("Clientes");
+        lbl1.setText("Clientes ");
 
         btnNewCliente.setBackground(new java.awt.Color(47, 65, 86));
         btnNewCliente.setFont(new java.awt.Font("Yu Gothic UI", 1, 20)); // NOI18N
