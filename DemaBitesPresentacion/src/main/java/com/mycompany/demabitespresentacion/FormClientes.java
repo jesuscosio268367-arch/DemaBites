@@ -23,6 +23,12 @@ public class FormClientes extends javax.swing.JFrame {
     public FormClientes() {
         initComponents();
         this.control = new ClientesControl();
+        MenuHeader header = new MenuHeader();
+        pnlHeader.setLayout(new java.awt.BorderLayout());
+        pnlHeader.add(header, java.awt.BorderLayout.CENTER);
+        pnlHeader.revalidate();
+        pnlHeader.repaint();
+        
     }
 
     /**
@@ -36,12 +42,6 @@ public class FormClientes extends javax.swing.JFrame {
 
         pnlPrincipal = new javax.swing.JPanel();
         pnlHeader = new javax.swing.JPanel();
-        lbl2 = new javax.swing.JLabel();
-        btnComandas = new javax.swing.JButton();
-        btnProductos = new javax.swing.JButton();
-        btnIngredientes = new javax.swing.JButton();
-        btnClientes = new javax.swing.JButton();
-        btnReportes = new javax.swing.JButton();
         lbl1 = new javax.swing.JLabel();
         pnlForm = new javax.swing.JPanel();
         lbl3 = new javax.swing.JLabel();
@@ -61,70 +61,17 @@ public class FormClientes extends javax.swing.JFrame {
 
         pnlPrincipal.setBackground(new java.awt.Color(254, 255, 234));
 
-        pnlHeader.setBackground(new java.awt.Color(255, 239, 150));
-
-        lbl2.setFont(new java.awt.Font("Script MT Bold", 1, 56)); // NOI18N
-        lbl2.setForeground(new java.awt.Color(158, 42, 43));
-        lbl2.setText("DemaBites");
-
-        btnComandas.setBackground(new java.awt.Color(255, 239, 150));
-        btnComandas.setFont(new java.awt.Font("Yu Gothic UI", 1, 24)); // NOI18N
-        btnComandas.setText("Comandas");
-        btnComandas.setBorder(null);
-
-        btnProductos.setBackground(new java.awt.Color(255, 239, 150));
-        btnProductos.setFont(new java.awt.Font("Yu Gothic UI", 1, 24)); // NOI18N
-        btnProductos.setText("Productos");
-        btnProductos.setBorder(null);
-
-        btnIngredientes.setBackground(new java.awt.Color(255, 239, 150));
-        btnIngredientes.setFont(new java.awt.Font("Yu Gothic UI", 1, 24)); // NOI18N
-        btnIngredientes.setText("Ingredientes");
-        btnIngredientes.setBorder(null);
-
-        btnClientes.setBackground(new java.awt.Color(224, 159, 62));
-        btnClientes.setFont(new java.awt.Font("Yu Gothic UI", 1, 24)); // NOI18N
-        btnClientes.setForeground(new java.awt.Color(255, 255, 255));
-        btnClientes.setText("Clientes");
-        btnClientes.setBorder(null);
-        btnClientes.addActionListener(this::btnClientesActionPerformed);
-
-        btnReportes.setBackground(new java.awt.Color(255, 239, 150));
-        btnReportes.setFont(new java.awt.Font("Yu Gothic UI", 1, 24)); // NOI18N
-        btnReportes.setText("Reportes");
-        btnReportes.setBorder(null);
+        pnlHeader.setBackground(new java.awt.Color(204, 204, 204));
 
         javax.swing.GroupLayout pnlHeaderLayout = new javax.swing.GroupLayout(pnlHeader);
         pnlHeader.setLayout(pnlHeaderLayout);
         pnlHeaderLayout.setHorizontalGroup(
             pnlHeaderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnlHeaderLayout.createSequentialGroup()
-                .addGap(50, 50, 50)
-                .addComponent(lbl2)
-                .addGap(68, 68, 68)
-                .addComponent(btnComandas)
-                .addGap(53, 53, 53)
-                .addComponent(btnProductos)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 62, Short.MAX_VALUE)
-                .addComponent(btnIngredientes)
-                .addGap(32, 32, 32)
-                .addComponent(btnClientes, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(37, 37, 37)
-                .addComponent(btnReportes, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(56, 56, 56))
+            .addGap(0, 0, Short.MAX_VALUE)
         );
         pnlHeaderLayout.setVerticalGroup(
             pnlHeaderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnlHeaderLayout.createSequentialGroup()
-                .addGap(14, 14, 14)
-                .addGroup(pnlHeaderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lbl2)
-                    .addComponent(btnComandas)
-                    .addComponent(btnProductos)
-                    .addComponent(btnIngredientes)
-                    .addComponent(btnClientes)
-                    .addComponent(btnReportes))
-                .addContainerGap(18, Short.MAX_VALUE))
+            .addGap(0, 101, Short.MAX_VALUE)
         );
 
         lbl1.setFont(new java.awt.Font("Yu Gothic UI Semilight", 1, 32)); // NOI18N
@@ -186,7 +133,7 @@ public class FormClientes extends javax.swing.JFrame {
                         .addComponent(lbl3)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlFormLayout.createSequentialGroup()
-                .addContainerGap(256, Short.MAX_VALUE)
+                .addContainerGap(258, Short.MAX_VALUE)
                 .addComponent(btnRegistrar)
                 .addGap(234, 234, 234))
             .addGroup(pnlFormLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -220,7 +167,7 @@ public class FormClientes extends javax.swing.JFrame {
                 .addComponent(txtTelefono, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(btnRegistrar)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(16, Short.MAX_VALUE))
             .addGroup(pnlFormLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(pnlFormLayout.createSequentialGroup()
                     .addGap(24, 24, 24)
@@ -232,22 +179,24 @@ public class FormClientes extends javax.swing.JFrame {
         pnlPrincipal.setLayout(pnlPrincipalLayout);
         pnlPrincipalLayout.setHorizontalGroup(
             pnlPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(pnlHeader, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(pnlHeader, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(pnlPrincipalLayout.createSequentialGroup()
-                .addComponent(lbl1)
-                .addGap(0, 0, Short.MAX_VALUE))
-            .addGroup(pnlPrincipalLayout.createSequentialGroup()
-                .addGap(284, 284, 284)
-                .addComponent(pnlForm, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(pnlPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(pnlPrincipalLayout.createSequentialGroup()
+                        .addGap(284, 284, 284)
+                        .addComponent(pnlForm, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(pnlPrincipalLayout.createSequentialGroup()
+                        .addGap(19, 19, 19)
+                        .addComponent(lbl1)))
+                .addContainerGap(325, Short.MAX_VALUE))
         );
         pnlPrincipalLayout.setVerticalGroup(
             pnlPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlPrincipalLayout.createSequentialGroup()
                 .addComponent(pnlHeader, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(lbl1, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(lbl1, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(pnlForm, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGap(12, 12, 12))
         );
@@ -267,10 +216,6 @@ public class FormClientes extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void btnClientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClientesActionPerformed
-        // btnClientes.setEnabled(false);
-    }//GEN-LAST:event_btnClientesActionPerformed
 
     private void btnRegistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarActionPerformed
         if (txtNombres.getText().trim().isEmpty()) {
@@ -343,14 +288,8 @@ public class FormClientes extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnClientes;
-    private javax.swing.JButton btnComandas;
-    private javax.swing.JButton btnIngredientes;
-    private javax.swing.JButton btnProductos;
     private javax.swing.JButton btnRegistrar;
-    private javax.swing.JButton btnReportes;
     private javax.swing.JLabel lbl1;
-    private javax.swing.JLabel lbl2;
     private javax.swing.JLabel lbl3;
     private javax.swing.JLabel lbl4;
     private javax.swing.JLabel lbl5;

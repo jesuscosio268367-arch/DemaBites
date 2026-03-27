@@ -19,8 +19,5 @@ public interface IClientesBO {
    
     public abstract List<ClienteFrecuente> consultarTodos()throws NegocioException;
     
-    public abstract List<ClienteFrecuente> coincidenciaPorNombre(String nombreBusqueda)throws NegocioException;
-    
-    public abstract List<ClienteFrecuente> coincidenciaPorNumero(String numeroBusqueda)throws NegocioException;
-    
+    public abstract List<ClienteFrecuente> buscar(String filtro) throws NegocioException;
 }

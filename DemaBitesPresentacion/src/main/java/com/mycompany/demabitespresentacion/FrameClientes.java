@@ -3,6 +3,7 @@ package com.mycompany.demabitespresentacion;
 import com.mycompany.demabitesdominio.ClienteFrecuente;
 import control.ClientesControl;
 import control.Navegacion;
+import java.awt.event.ActionEvent;
 import java.util.List;
 import javax.swing.table.DefaultTableModel;
 
@@ -26,6 +27,11 @@ public class FrameClientes extends javax.swing.JFrame {
         initComponents();
         this.control = new ClientesControl();
         llenarTabla();
+        MenuHeader header = new MenuHeader();
+        pnlHeader.setLayout(new java.awt.BorderLayout());
+        pnlHeader.add(header, java.awt.BorderLayout.CENTER);
+        pnlHeader.revalidate();
+        pnlHeader.repaint();
     }
 
     /**
@@ -39,87 +45,30 @@ public class FrameClientes extends javax.swing.JFrame {
 
         pnlPrincipal = new javax.swing.JPanel();
         pnlHeader = new javax.swing.JPanel();
-        lbl2 = new javax.swing.JLabel();
-        btnComandas = new javax.swing.JButton();
-        btnProductos = new javax.swing.JButton();
-        btnIngredientes = new javax.swing.JButton();
-        btnClientes = new javax.swing.JButton();
-        btnReportes = new javax.swing.JButton();
         lbl1 = new javax.swing.JLabel();
         pnlTablaClientes = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblClientes = new javax.swing.JTable();
         btnBuscar = new javax.swing.JButton();
         btnNuevoCliente = new javax.swing.JButton();
+        lbl4 = new javax.swing.JLabel();
+        txtBuscar = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         pnlPrincipal.setBackground(new java.awt.Color(254, 255, 234));
 
-        pnlHeader.setBackground(new java.awt.Color(255, 239, 150));
-
-        lbl2.setFont(new java.awt.Font("Script MT Bold", 1, 56)); // NOI18N
-        lbl2.setForeground(new java.awt.Color(158, 42, 43));
-        lbl2.setText("DemaBites");
-
-        btnComandas.setBackground(new java.awt.Color(255, 239, 150));
-        btnComandas.setFont(new java.awt.Font("Yu Gothic UI", 1, 24)); // NOI18N
-        btnComandas.setText("Comandas");
-        btnComandas.setBorder(null);
-
-        btnProductos.setBackground(new java.awt.Color(255, 239, 150));
-        btnProductos.setFont(new java.awt.Font("Yu Gothic UI", 1, 24)); // NOI18N
-        btnProductos.setText("Productos");
-        btnProductos.setBorder(null);
-
-        btnIngredientes.setBackground(new java.awt.Color(255, 239, 150));
-        btnIngredientes.setFont(new java.awt.Font("Yu Gothic UI", 1, 24)); // NOI18N
-        btnIngredientes.setText("Ingredientes");
-        btnIngredientes.setBorder(null);
-
-        btnClientes.setBackground(new java.awt.Color(224, 159, 62));
-        btnClientes.setFont(new java.awt.Font("Yu Gothic UI", 1, 24)); // NOI18N
-        btnClientes.setForeground(new java.awt.Color(255, 255, 255));
-        btnClientes.setText("Clientes");
-        btnClientes.setBorder(null);
-        btnClientes.addActionListener(this::btnClientesActionPerformed);
-
-        btnReportes.setBackground(new java.awt.Color(255, 239, 150));
-        btnReportes.setFont(new java.awt.Font("Yu Gothic UI", 1, 24)); // NOI18N
-        btnReportes.setText("Reportes");
-        btnReportes.setBorder(null);
+        pnlHeader.setBackground(new java.awt.Color(204, 204, 204));
 
         javax.swing.GroupLayout pnlHeaderLayout = new javax.swing.GroupLayout(pnlHeader);
         pnlHeader.setLayout(pnlHeaderLayout);
         pnlHeaderLayout.setHorizontalGroup(
             pnlHeaderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnlHeaderLayout.createSequentialGroup()
-                .addGap(50, 50, 50)
-                .addComponent(lbl2)
-                .addGap(68, 68, 68)
-                .addComponent(btnComandas)
-                .addGap(53, 53, 53)
-                .addComponent(btnProductos)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnIngredientes)
-                .addGap(32, 32, 32)
-                .addComponent(btnClientes, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(37, 37, 37)
-                .addComponent(btnReportes, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(56, 56, 56))
+            .addGap(0, 1200, Short.MAX_VALUE)
         );
         pnlHeaderLayout.setVerticalGroup(
             pnlHeaderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnlHeaderLayout.createSequentialGroup()
-                .addGap(14, 14, 14)
-                .addGroup(pnlHeaderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lbl2)
-                    .addComponent(btnComandas)
-                    .addComponent(btnProductos)
-                    .addComponent(btnIngredientes)
-                    .addComponent(btnClientes)
-                    .addComponent(btnReportes))
-                .addContainerGap(18, Short.MAX_VALUE))
+            .addGap(0, 101, Short.MAX_VALUE)
         );
 
         lbl1.setFont(new java.awt.Font("Yu Gothic UI Semilight", 1, 32)); // NOI18N
@@ -131,18 +80,25 @@ public class FrameClientes extends javax.swing.JFrame {
         tblClientes.setFont(new java.awt.Font("Yu Gothic UI", 0, 20)); // NOI18N
         tblClientes.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null}
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
             },
             new String [] {
-                "Nombre", "Teléfono", "Puntos"
+                "Nombre", "Teléfono", "Correo", "Puntos"
             }
         ) {
-            boolean[] canEdit = new boolean [] {
-                false, false, false
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class
             };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
@@ -159,7 +115,9 @@ public class FrameClientes extends javax.swing.JFrame {
         );
         pnlTablaClientesLayout.setVerticalGroup(
             pnlTablaClientesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 414, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlTablaClientesLayout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 401, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         btnBuscar.setBackground(new java.awt.Color(47, 65, 86));
@@ -174,6 +132,12 @@ public class FrameClientes extends javax.swing.JFrame {
         btnNuevoCliente.setText("Nuevo Cliente");
         btnNuevoCliente.addActionListener(this::btnNuevoClienteActionPerformed);
 
+        lbl4.setFont(new java.awt.Font("Yu Gothic UI Semilight", 1, 18)); // NOI18N
+        lbl4.setForeground(new java.awt.Color(52, 59, 27));
+        lbl4.setText("Consultar por nombre, teléfono o correo: ");
+
+        txtBuscar.addActionListener(this::txtBuscarActionPerformed);
+
         javax.swing.GroupLayout pnlPrincipalLayout = new javax.swing.GroupLayout(pnlPrincipal);
         pnlPrincipal.setLayout(pnlPrincipalLayout);
         pnlPrincipalLayout.setHorizontalGroup(
@@ -185,7 +149,12 @@ public class FrameClientes extends javax.swing.JFrame {
                     .addGroup(pnlPrincipalLayout.createSequentialGroup()
                         .addComponent(lbl1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnBuscar))
+                        .addGroup(pnlPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(pnlPrincipalLayout.createSequentialGroup()
+                                .addComponent(txtBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 429, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(27, 27, 27)
+                                .addComponent(btnBuscar))
+                            .addComponent(lbl4)))
                     .addComponent(pnlTablaClientes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(61, Short.MAX_VALUE))
             .addGroup(pnlPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -199,10 +168,17 @@ public class FrameClientes extends javax.swing.JFrame {
             .addGroup(pnlPrincipalLayout.createSequentialGroup()
                 .addComponent(pnlHeader, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addGroup(pnlPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lbl1)
-                    .addComponent(btnBuscar))
-                .addGap(18, 18, 18)
+                .addGroup(pnlPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(pnlPrincipalLayout.createSequentialGroup()
+                        .addComponent(lbl4)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(pnlPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(btnBuscar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(txtBuscar))
+                        .addGap(24, 24, 24))
+                    .addGroup(pnlPrincipalLayout.createSequentialGroup()
+                        .addComponent(lbl1)
+                        .addGap(48, 48, 48)))
                 .addComponent(pnlTablaClientes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(58, Short.MAX_VALUE))
             .addGroup(pnlPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -226,23 +202,20 @@ public class FrameClientes extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btnNuevoClienteActionPerformed(java.awt.event.ActionEvent evt) {
+        Navegacion.getControlNavegacion().abrirClientesForm();
+        this.dispose();
+    }
     
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
         //hola
     }//GEN-LAST:event_btnBuscarActionPerformed
 
-    private void btnClientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClientesActionPerformed
-        // btnClientes.setEnabled(false);
-
-    }//GEN-LAST:event_btnClientesActionPerformed
-
-    private void btnNuevoClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoClienteActionPerformed
-        Navegacion.getControlNavegacion().abrirClientesForm();
-        this.dispose();
-    }//GEN-LAST:event_btnNuevoClienteActionPerformed
+    private void txtBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtBuscarActionPerformed
+        llenarTabla(txtBuscar.getText());
+    }//GEN-LAST:event_txtBuscarActionPerformed
 
     private void llenarTabla() {
-
         DefaultTableModel modelo = (DefaultTableModel) tblClientes.getModel();
         modelo.setRowCount(0);
         
@@ -253,13 +226,34 @@ public class FrameClientes extends javax.swing.JFrame {
         for (ClienteFrecuente cliente : lista) {
             fila[0] = cliente.getNombres();
             fila[1] = cliente.getTelefono();
-            fila[2] = 0;
+            fila[2] = (cliente.getEmail() == null || cliente.getEmail().isEmpty()) 
+                ? "sin correo" : cliente.getEmail();
+            fila[3] = 0; //Falta persistir (mapear) puntos acumulados, visitas y total consumido :/
+            modelo.addRow(fila);
+        }
+    }
+
+    private void llenarTabla(String filtro) {
+        DefaultTableModel modelo = (DefaultTableModel) tblClientes.getModel();
+        modelo.setRowCount(0);
+
+        List<ClienteFrecuente> lista = control.buscar(filtro);
+
+        Object[] fila = new Object[6]; 
+
+        for (ClienteFrecuente cliente : lista) {
+            fila[0] = cliente.getNombres();
+            fila[1] = cliente.getTelefono();
+            fila[2] = (cliente.getEmail() == null || cliente.getEmail().isEmpty()) 
+                ? "sin correo" : cliente.getEmail();
+            fila[3] = 0;
 
             modelo.addRow(fila);
         }
-
     }
-
+    
+    
+    
     /**
      * @param args the command line arguments
      */
@@ -288,18 +282,15 @@ public class FrameClientes extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBuscar;
-    private javax.swing.JButton btnClientes;
-    private javax.swing.JButton btnComandas;
-    private javax.swing.JButton btnIngredientes;
     private javax.swing.JButton btnNuevoCliente;
-    private javax.swing.JButton btnProductos;
-    private javax.swing.JButton btnReportes;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lbl1;
-    private javax.swing.JLabel lbl2;
+    private javax.swing.JLabel lbl4;
     private javax.swing.JPanel pnlHeader;
     private javax.swing.JPanel pnlPrincipal;
     private javax.swing.JPanel pnlTablaClientes;
     private javax.swing.JTable tblClientes;
+    private javax.swing.JTextField txtBuscar;
     // End of variables declaration//GEN-END:variables
+
 }

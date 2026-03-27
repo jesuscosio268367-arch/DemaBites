@@ -17,8 +17,7 @@ public interface IClienteDAO {
             throws PersistenciaException;
     public abstract List<ClienteFrecuente> consultarTodos()
             throws PersistenciaException;
-    public abstract List<ClienteFrecuente> coincidenciaPorNombre(String nombreBusqueda)
-            throws PersistenciaException;
-    public abstract List<ClienteFrecuente> coincidenciaPorNumero(String numeroBusqueda)
-            throws PersistenciaException;
+    
+   public List<ClienteFrecuente> buscar(String filtro) 
+           throws PersistenciaException;
 }

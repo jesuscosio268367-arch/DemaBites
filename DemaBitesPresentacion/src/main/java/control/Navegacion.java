@@ -41,4 +41,5 @@ public class Navegacion {
         nuevoFrame.setLocationRelativeTo(null);
     }
     
+    //prueva
 }
