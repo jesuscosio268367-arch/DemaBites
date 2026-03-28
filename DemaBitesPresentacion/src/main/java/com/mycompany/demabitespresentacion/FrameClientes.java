@@ -263,19 +263,19 @@ public class FrameClientes extends javax.swing.JFrame {
         }
     }
     
-//    private void seleccionarClienteEditar(){
-//        int fila = tblClientes.getSelectedRow();
-//        if (fila != -1) {
-//            int id = (int) tblClientes.getValueAt(fila, 0);
-//            String nombre = tblClientes.getValueAt(fila, 1).toString();
-//            String telefono = tblClientes.getValueAt(fila, 2).toString();
-//            ClienteDTO seleccionado = new ClienteDTO(id, nombre, telefono);
-//            Navegacion.getControlNavegacion().setDato(seleccionado);
-//            Navegacion.getControlNavegacion().abrirEditarClientesForm();
-//        } else {
-//            JOptionPane.showMessageDialog(this, "Seleccione un cliente para editar");
-//        }
-//    }
+    private void seleccionarClienteEditar(){
+        int fila = tblClientes.getSelectedRow();
+        if (fila != -1) {
+            int id = (int) tblClientes.getValueAt(fila, 0);
+            String nombre = tblClientes.getValueAt(fila, 1).toString();
+            String telefono = tblClientes.getValueAt(fila, 2).toString();
+            ClienteDTO seleccionado = new ClienteDTO(id, nombre, telefono);
+            Navegacion.getControlNavegacion().setDato(seleccionado);
+            Navegacion.getControlNavegacion().abrirEditarClientesForm();
+        } else {
+            JOptionPane.showMessageDialog(this, "Seleccione un cliente para editar");
+        }
+    }
     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
