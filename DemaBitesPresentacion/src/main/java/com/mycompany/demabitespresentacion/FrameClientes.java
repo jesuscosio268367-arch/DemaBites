@@ -5,7 +5,9 @@ import control.ClientesControl;
 import control.Navegacion;
 import java.awt.event.ActionEvent;
 import java.util.List;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import utileria.utilMetodos;
 
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
@@ -28,10 +30,7 @@ public class FrameClientes extends javax.swing.JFrame {
         this.control = new ClientesControl();
         llenarTabla();
         MenuHeader header = new MenuHeader();
-        pnlHeader.setLayout(new java.awt.BorderLayout());
-        pnlHeader.add(header, java.awt.BorderLayout.CENTER);
-        pnlHeader.revalidate();
-        pnlHeader.repaint();
+        utilMetodos.insertarPanel(pnlHeader, header);
     }
 
     /**
@@ -53,6 +52,7 @@ public class FrameClientes extends javax.swing.JFrame {
         btnNuevoCliente = new javax.swing.JButton();
         lbl4 = new javax.swing.JLabel();
         txtBuscar = new javax.swing.JTextField();
+        btnEditarCliente = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -138,6 +138,12 @@ public class FrameClientes extends javax.swing.JFrame {
 
         txtBuscar.addActionListener(this::txtBuscarActionPerformed);
 
+        btnEditarCliente.setBackground(new java.awt.Color(47, 65, 86));
+        btnEditarCliente.setFont(new java.awt.Font("Yu Gothic UI", 1, 20)); // NOI18N
+        btnEditarCliente.setForeground(new java.awt.Color(255, 255, 255));
+        btnEditarCliente.setText("Editar Cliente");
+        btnEditarCliente.addActionListener(this::btnEditarClienteActionPerformed);
+
         javax.swing.GroupLayout pnlPrincipalLayout = new javax.swing.GroupLayout(pnlPrincipal);
         pnlPrincipal.setLayout(pnlPrincipalLayout);
         pnlPrincipalLayout.setHorizontalGroup(
@@ -156,12 +162,13 @@ public class FrameClientes extends javax.swing.JFrame {
                                 .addComponent(btnBuscar))
                             .addComponent(lbl4)))
                     .addComponent(pnlTablaClientes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(61, Short.MAX_VALUE))
-            .addGroup(pnlPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlPrincipalLayout.createSequentialGroup()
-                    .addContainerGap(1037, Short.MAX_VALUE)
-                    .addComponent(btnNuevoCliente)
-                    .addGap(4, 4, 4)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlPrincipalLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnNuevoCliente)
+                .addGap(114, 114, 114)
+                .addComponent(btnEditarCliente)
+                .addGap(372, 372, 372))
         );
         pnlPrincipalLayout.setVerticalGroup(
             pnlPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -180,12 +187,11 @@ public class FrameClientes extends javax.swing.JFrame {
                         .addComponent(lbl1)
                         .addGap(48, 48, 48)))
                 .addComponent(pnlTablaClientes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(58, Short.MAX_VALUE))
-            .addGroup(pnlPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlPrincipalLayout.createSequentialGroup()
-                    .addContainerGap(622, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
+                .addGroup(pnlPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnNuevoCliente)
-                    .addContainerGap()))
+                    .addComponent(btnEditarCliente))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -214,6 +220,11 @@ public class FrameClientes extends javax.swing.JFrame {
     private void txtBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtBuscarActionPerformed
         llenarTabla(txtBuscar.getText());
     }//GEN-LAST:event_txtBuscarActionPerformed
+
+    private void btnEditarClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarClienteActionPerformed
+        Navegacion.getControlNavegacion().abrirEditarClientesForm();
+        this.dispose();
+    }//GEN-LAST:event_btnEditarClienteActionPerformed
 
     private void llenarTabla() {
         DefaultTableModel modelo = (DefaultTableModel) tblClientes.getModel();
@@ -252,36 +263,24 @@ public class FrameClientes extends javax.swing.JFrame {
         }
     }
     
-    
-    
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ReflectiveOperationException | javax.swing.UnsupportedLookAndFeelException ex) {
-            logger.log(java.util.logging.Level.SEVERE, null, ex);
+    private void seleccionarClienteEditar(){
+        int fila = tblClientes.getSelectedRow();
+        if (fila != -1) {
+            int id = (int) tblClientes.getValueAt(fila, 0);
+            String nombre = tblClientes.getValueAt(fila, 1).toString();
+            String telefono = tblClientes.getValueAt(fila, 2).toString();
+            ClienteDTO seleccionado = new ClienteDTO(id, nombre, telefono);
+            Navegacion.getControlNavegacion().setDato(seleccionado);
+            Navegacion.getControlNavegacion().abrirEditarClientesForm();
+        } else {
+            JOptionPane.showMessageDialog(this, "Seleccione un cliente para editar");
         }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(() -> new FrameClientes().setVisible(true));
     }
-
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBuscar;
+    private javax.swing.JButton btnEditarCliente;
     private javax.swing.JButton btnNuevoCliente;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lbl1;

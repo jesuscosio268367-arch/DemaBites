@@ -3,6 +3,8 @@ control\Navegacion.class
 com\mycompany\demabitespresentacion\FrameClientes.class
 com\mycompany\demabitespresentacion\MainPruebaClientes.class
 control\ClientesControl.class
+com\mycompany\demabitespresentacion\FormEditarClientes.class
+utileria\utilMetodos.class
 com\mycompany\demabitespresentacion\FrameClientes$1.class
 com\mycompany\demabitespresentacion\FormClientes.class
 com\mycompany\demabitespresentacion\MenuPrincipal.class
