@@ -4,7 +4,15 @@
  */
 package com.mycompany.demabitespresentacion;
 
+import com.mycompany.demabitesdominio.ClienteFrecuente;
+import com.mycompany.demabitesdtos.NuevoClienteFrecuenteActualizadoDTO;
+import com.mycompany.demabitesnegocio.NegocioException;
+import com.mycompany.demabitespersistencia.ClienteDAO;
+import com.mycompany.demabitespersistencia.PersistenciaException;
+import control.ClientesControl;
+import control.Navegacion;
 import javax.swing.JOptionPane;
+import utileria.utilMetodos;
 
 /**
  *
@@ -13,12 +21,17 @@ import javax.swing.JOptionPane;
 public class FormEditarClientes extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(FormEditarClientes.class.getName());
-
+    private final ClientesControl control = new ClientesControl();
+    private Long idClienteSeleccionado;
+    
     /**
      * Creates new form FormEditarClientes
      */
     public FormEditarClientes() {
         initComponents();
+        MenuHeader header = new MenuHeader();
+        utilMetodos.insertarPanel(pnlHeader, header);
+        cargarDatos();
     }
 
     /**
@@ -87,10 +100,13 @@ public class FormEditarClientes extends javax.swing.JFrame {
         lbl8.setFont(new java.awt.Font("Yu Gothic UI Semilight", 0, 18)); // NOI18N
         lbl8.setText("Telefono:");
 
+        txtNombres.setEditable(false);
         txtNombres.setFont(new java.awt.Font("Yu Gothic UI", 0, 18)); // NOI18N
 
+        txtAPaterno.setEditable(false);
         txtAPaterno.setFont(new java.awt.Font("Yu Gothic UI", 0, 18)); // NOI18N
 
+        txtAMaterno.setEditable(false);
         txtAMaterno.setFont(new java.awt.Font("Yu Gothic UI", 0, 18)); // NOI18N
 
         txtEmail.setFont(new java.awt.Font("Yu Gothic UI", 0, 18)); // NOI18N
@@ -178,7 +194,7 @@ public class FormEditarClientes extends javax.swing.JFrame {
                     .addGroup(pnlPrincipalLayout.createSequentialGroup()
                         .addGap(19, 19, 19)
                         .addComponent(lbl1)))
-                .addContainerGap(330, Short.MAX_VALUE))
+                .addContainerGap(237, Short.MAX_VALUE))
         );
         pnlPrincipalLayout.setVerticalGroup(
             pnlPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -195,9 +211,7 @@ public class FormEditarClientes extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(pnlPrincipal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+            .addComponent(pnlPrincipal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -208,21 +222,6 @@ public class FormEditarClientes extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnRegistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarActionPerformed
-        if (txtNombres.getText().trim().isEmpty()) {
-            JOptionPane.showMessageDialog(this, "El nombre es obligatorio");
-            txtNombres.requestFocus();
-            return;
-        }
-        if (txtAPaterno.getText().trim().isEmpty()) {
-            JOptionPane.showMessageDialog(this, "El apellido paterno es obligatorio");
-            txtAPaterno.requestFocus();
-            return;
-        }
-        if (txtAMaterno.getText().trim().isEmpty()) {
-            JOptionPane.showMessageDialog(this, "El apellido materno es obligatorio");
-            txtAMaterno.requestFocus();
-            return;
-        }
         if (!txtEmail.getText().isBlank()) {
             if (!txtEmail.getText().matches("^[\\w.-]+@[\\w.-]+\\.[a-zA-Z]{2,6}$")) {
                 JOptionPane.showMessageDialog(this, "El formato del correo no es valido");
@@ -241,16 +240,34 @@ public class FormEditarClientes extends javax.swing.JFrame {
             return;
         }
 
-        String nombres = txtNombres.getText();
-        String aPaterno = txtAPaterno.getText();
-        String aMaterno = txtAMaterno.getText();
-        String email = txtEmail.getText();
-        String telefono = txtTelefono.getText();
+        String email = txtEmail.getText().trim();
+        String telefono = txtTelefono.getText().trim();
 
-//        NuevoClienteFrecuenteDTO nuevoCliente = new NuevoClienteFrecuenteDTO(nombres, aPaterno, aMaterno, email, telefono);
-//        control.registrarCliente(nuevoCliente, this);
+        NuevoClienteFrecuenteActualizadoDTO nuevoClienteActualizado = new NuevoClienteFrecuenteActualizadoDTO(idClienteSeleccionado, email, telefono);
+        control.editarCliente(nuevoClienteActualizado, this);
     }//GEN-LAST:event_btnRegistrarActionPerformed
 
+    private void cargarDatos() {
+        Object datoId = Navegacion.getControlNavegacion().getDato();
+        if (datoId != null) {
+            Long id = (Long) datoId;   
+            try {
+                ClienteFrecuente cliente = control.consultarPorId(id);
+                if (cliente != null) {
+                    txtNombres.setText(cliente.getNombres());
+                    txtAPaterno.setText(cliente.getApellidoPaterno());
+                    txtAMaterno.setText(cliente.getApellidoMaterno());
+                    txtTelefono.setText(cliente.getTelefono());
+                    txtEmail.setText(cliente.getEmail());
+
+                    this.idClienteSeleccionado = id;
+                }
+            } catch (NegocioException ex) {
+                JOptionPane.showMessageDialog(this, "Error: " + ex.getMessage());
+            }
+        }
+    }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnRegistrar;
     private javax.swing.JLabel lbl1;

@@ -5,6 +5,7 @@
 package com.mycompany.demabitespersistencia;
 
 import com.mycompany.demabitesdominio.ClienteFrecuente;
+import com.mycompany.demabitesdtos.NuevoClienteFrecuenteActualizadoDTO;
 import com.mycompany.demabitesdtos.NuevoClienteFrecuenteDTO;
 import java.time.LocalDate;
 import java.util.List;
@@ -45,6 +46,26 @@ public class ClienteDAO implements IClienteDAO{
         }
     }
     
+    
+    @Override
+    public ClienteFrecuente editarClienteFrecuente(
+            NuevoClienteFrecuenteActualizadoDTO clienteFrecuenteActualizadoDTO
+    ) throws PersistenciaException {
+        try {
+            EntityManager entityManager = ManejadorConexiones.crearEntityManager();
+            entityManager.getTransaction().begin();
+            ClienteFrecuente clienteExistente = entityManager.find(ClienteFrecuente.class, clienteFrecuenteActualizadoDTO.getId());
+            clienteExistente.setTelefono(clienteFrecuenteActualizadoDTO.getTelefono());
+            clienteExistente.setEmail(clienteFrecuenteActualizadoDTO.getEmail()); 
+            entityManager.merge(clienteExistente);
+            entityManager.getTransaction().commit();
+            return clienteExistente;
+        } catch (PersistenceException ex) {
+            LOGGER.severe(ex.getMessage());
+            throw new PersistenciaException("Error al editar el cliente", ex);
+        }
+    }
+    
     @Override
     public List<ClienteFrecuente> consultarTodos() throws PersistenciaException {
         try{
@@ -60,6 +81,7 @@ public class ClienteDAO implements IClienteDAO{
             throw new PersistenciaException("Error al consultar clientes", ex);
         }
     }
+    
     
     @Override
     public List<ClienteFrecuente> buscar(String filtro) throws PersistenciaException {
@@ -83,4 +105,17 @@ public class ClienteDAO implements IClienteDAO{
             throw new PersistenciaException("Error al buscar clientes", ex);
         }
     }
+    
+    @Override
+    public ClienteFrecuente consultarPorId(Long id) throws PersistenciaException {
+        try {
+            EntityManager entityManager = ManejadorConexiones.crearEntityManager();
+            ClienteFrecuente cliente = entityManager.find(ClienteFrecuente.class, id);
+            return cliente; 
+        } catch (PersistenceException ex) {
+            LOGGER.severe(ex.getMessage());
+            throw new PersistenciaException("No se pudo encontrar el cliente", ex);
+        }
+    }
+
 }

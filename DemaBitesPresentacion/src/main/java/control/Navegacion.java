@@ -65,6 +65,7 @@ public class Navegacion {
     }
     
     public void abrirEditarClientesForm(){
+        this.pantallaActual = "";
         cambiarPantalla(new FormEditarClientes());
     }
     

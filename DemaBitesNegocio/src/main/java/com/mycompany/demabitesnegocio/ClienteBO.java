@@ -5,6 +5,7 @@
 package com.mycompany.demabitesnegocio;
 
 import com.mycompany.demabitesdominio.ClienteFrecuente;
+import com.mycompany.demabitesdtos.NuevoClienteFrecuenteActualizadoDTO;
 import com.mycompany.demabitesdtos.NuevoClienteFrecuenteDTO;
 import com.mycompany.demabitespersistencia.IClienteDAO;
 import com.mycompany.demabitespersistencia.PersistenciaException;
@@ -36,13 +37,13 @@ public class ClienteBO implements IClientesBO {
         if (nuevoClienteFrecuente.getTelefono() == null) {
             throw new NegocioException("El telefono no puede estar vacio", null);
         }
-        if (nuevoClienteFrecuente.getNombres().length() > 60) {
+        if (nuevoClienteFrecuente.getNombres().length() > 50) {
             throw new NegocioException("El nombre es demasiado largo", null);
         }
-        if (nuevoClienteFrecuente.getApellidoPaterno().length() > 60) {
+        if (nuevoClienteFrecuente.getApellidoPaterno().length() > 50) {
             throw new NegocioException("El apellido paterno es demasiado largo", null);
         }
-        if (nuevoClienteFrecuente.getApellidoMaterno().length() > 60) {
+        if (nuevoClienteFrecuente.getApellidoMaterno().length() > 50) {
             throw new NegocioException("El apellido materno es demasiado largo", null);
         }
         if (nuevoClienteFrecuente.getTelefono().length() > 10) {
@@ -53,6 +54,25 @@ public class ClienteBO implements IClientesBO {
         }
         try {
             ClienteFrecuente cliente = clienteDAO.generarClienteFrecuente(nuevoClienteFrecuente);
+            return cliente;
+        } catch (PersistenciaException ex) {
+            throw new NegocioException("Error al crear al cliente", null);
+        }
+    }
+    
+    @Override
+    public ClienteFrecuente editarClienteFrecuente(NuevoClienteFrecuenteActualizadoDTO nuevoClienteFrecuenteActualizado) throws NegocioException {
+        if (nuevoClienteFrecuenteActualizado.getTelefono() == null) {
+            throw new NegocioException("El telefono no puede estar vacio", null);
+        }
+        if (nuevoClienteFrecuenteActualizado.getTelefono().length() > 10) {
+            throw new NegocioException("El numero de telefono es demasiado largo", null);
+        }
+        if (nuevoClienteFrecuenteActualizado.getEmail().length() > 60) {
+            throw new NegocioException("El correo es demasiado largo", null);
+        }
+        try {
+            ClienteFrecuente cliente = clienteDAO.editarClienteFrecuente(nuevoClienteFrecuenteActualizado);
             return cliente;
         } catch (PersistenciaException ex) {
             throw new NegocioException("Error al crear al cliente", null);
@@ -91,4 +111,17 @@ public class ClienteBO implements IClientesBO {
         }
     }
 
+    @Override
+    public ClienteFrecuente consultarPorId(Long id) throws NegocioException {
+        try {
+            if (id == null || id <= 0) {
+                throw new NegocioException("El ID del cliente no es valido.", null);
+            }
+            ClienteFrecuente cliente = clienteDAO.consultarPorId(id);
+            return cliente;
+
+        } catch (PersistenciaException ex) {
+            throw new NegocioException("No pudimos obtener la informacion del cliente.", ex);
+        }
+    }
 }

@@ -3,7 +3,6 @@ package com.mycompany.demabitespresentacion;
 import com.mycompany.demabitesdominio.ClienteFrecuente;
 import control.ClientesControl;
 import control.Navegacion;
-import java.awt.event.ActionEvent;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -80,20 +79,17 @@ public class FrameClientes extends javax.swing.JFrame {
         tblClientes.setFont(new java.awt.Font("Yu Gothic UI", 0, 20)); // NOI18N
         tblClientes.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+
             },
             new String [] {
-                "Nombre", "Teléfono", "Correo", "Puntos"
+                "Id", "Nombre", "Teléfono", "Correo", "Puntos"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class
+                java.lang.Long.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false
+                false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -222,10 +218,15 @@ public class FrameClientes extends javax.swing.JFrame {
     }//GEN-LAST:event_txtBuscarActionPerformed
 
     private void btnEditarClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarClienteActionPerformed
-        Navegacion.getControlNavegacion().abrirEditarClientesForm();
-        this.dispose();
+        seleccionarClienteEditar();
     }//GEN-LAST:event_btnEditarClienteActionPerformed
 
+    public void ocultarColumnaID() {
+        if (tblClientes.getColumnCount() > 0) {
+            tblClientes.removeColumn(tblClientes.getColumnModel().getColumn(0));
+        }
+    }
+    
     private void llenarTabla() {
         DefaultTableModel modelo = (DefaultTableModel) tblClientes.getModel();
         modelo.setRowCount(0);
@@ -235,13 +236,15 @@ public class FrameClientes extends javax.swing.JFrame {
         Object[] fila = new Object[6]; 
 
         for (ClienteFrecuente cliente : lista) {
-            fila[0] = cliente.getNombres();
-            fila[1] = cliente.getTelefono();
-            fila[2] = (cliente.getEmail() == null || cliente.getEmail().isEmpty()) 
+            fila[0] = cliente.getId();
+            fila[1] = cliente.getNombres();
+            fila[2] = cliente.getTelefono();
+            fila[3] = (cliente.getEmail() == null || cliente.getEmail().isEmpty()) 
                 ? "sin correo" : cliente.getEmail();
-            fila[3] = 0; //Falta persistir (mapear) puntos acumulados, visitas y total consumido :/
+            fila[4] = 0; //Falta persistir (mapear) puntos acumulados, visitas y total consumido :/
             modelo.addRow(fila);
         }
+        ocultarColumnaID();
     }
 
     private void llenarTabla(String filtro) {
@@ -253,29 +256,28 @@ public class FrameClientes extends javax.swing.JFrame {
         Object[] fila = new Object[6]; 
 
         for (ClienteFrecuente cliente : lista) {
-            fila[0] = cliente.getNombres();
-            fila[1] = cliente.getTelefono();
-            fila[2] = (cliente.getEmail() == null || cliente.getEmail().isEmpty()) 
+            fila[1] = cliente.getNombres();
+            fila[2] = cliente.getTelefono();
+            fila[3] = (cliente.getEmail() == null || cliente.getEmail().isEmpty()) 
                 ? "sin correo" : cliente.getEmail();
-            fila[3] = 0;
+            fila[4] = 0;
 
             modelo.addRow(fila);
         }
     }
     
-//    private void seleccionarClienteEditar(){
-//        int fila = tblClientes.getSelectedRow();
-//        if (fila != -1) {
-//            int id = (int) tblClientes.getValueAt(fila, 0);
-//            String nombre = tblClientes.getValueAt(fila, 1).toString();
-//            String telefono = tblClientes.getValueAt(fila, 2).toString();
-//            ClienteDTO seleccionado = new ClienteDTO(id, nombre, telefono);
-//            Navegacion.getControlNavegacion().setDato(seleccionado);
-//            Navegacion.getControlNavegacion().abrirEditarClientesForm();
-//        } else {
-//            JOptionPane.showMessageDialog(this, "Seleccione un cliente para editar");
-//        }
-//    }
+    private void seleccionarClienteEditar(){
+        int fila = tblClientes.getSelectedRow();
+            if (fila != -1) {
+                int filaModelo = tblClientes.convertRowIndexToModel(fila);
+                Object valorId = tblClientes.getModel().getValueAt(filaModelo, 0); 
+                Long idCliente = Long.valueOf(valorId.toString());
+                Navegacion.getControlNavegacion().setDato(idCliente);
+                Navegacion.getControlNavegacion().abrirEditarClientesForm();
+            }else{
+                JOptionPane.showMessageDialog(this, "Por favor, selecciona un cliente de la tabla.");
+            }
+    }
     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

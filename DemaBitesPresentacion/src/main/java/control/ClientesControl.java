@@ -5,6 +5,7 @@
 package control;
 
 import com.mycompany.demabitesdominio.ClienteFrecuente;
+import com.mycompany.demabitesdtos.NuevoClienteFrecuenteActualizadoDTO;
 import com.mycompany.demabitesdtos.NuevoClienteFrecuenteDTO;
 import com.mycompany.demabitesnegocio.ClienteBO;
 import com.mycompany.demabitesnegocio.IClientesBO;
@@ -62,5 +63,24 @@ public class ClientesControl {
                 "Error al buscar clientes: " + ex.getMessage());
             return new ArrayList<>();
         }
-    }    
+    }
+    
+    public ClienteFrecuente consultarPorId(Long id) throws NegocioException{
+            return clientesBO.consultarPorId(id);
+    }
+    
+    public void editarCliente(NuevoClienteFrecuenteActualizadoDTO clienteEditado, JFrame ventana) {
+        try {
+            clientesBO.editarClienteFrecuente(clienteEditado);
+            JOptionPane.showMessageDialog(ventana, "¡El cliente ha sido actualizado con éxito!");
+            Navegacion.getControlNavegacion().abrirClientesFrame();
+            ventana.dispose();
+        } catch (NegocioException ex) {
+            JOptionPane.showMessageDialog(
+                    ventana, 
+                    ex.getMessage(), 
+                    "Error al actualizar cliente", 
+                    JOptionPane.ERROR_MESSAGE);
+        }
+    }
 }
