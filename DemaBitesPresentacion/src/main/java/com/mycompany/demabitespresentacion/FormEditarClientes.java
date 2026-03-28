@@ -1,34 +1,24 @@
-package com.mycompany.demabitespresentacion;
-
-import com.mycompany.demabitesdtos.NuevoClienteFrecuenteDTO;
-import control.ClientesControl;
-import javax.swing.JOptionPane;
-
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
+package com.mycompany.demabitespresentacion;
+
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author Dario
  */
-public class FormClientes extends javax.swing.JFrame {
-
-    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(FormClientes.class.getName());
-    private final ClientesControl control;
+public class FormEditarClientes extends javax.swing.JFrame {
     
+    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(FormEditarClientes.class.getName());
+
     /**
-     * Creates new form FormClientes
+     * Creates new form FormEditarClientes
      */
-    public FormClientes() {
+    public FormEditarClientes() {
         initComponents();
-        this.control = new ClientesControl();
-        MenuHeader header = new MenuHeader();
-        pnlHeader.setLayout(new java.awt.BorderLayout());
-        pnlHeader.add(header, java.awt.BorderLayout.CENTER);
-        pnlHeader.revalidate();
-        pnlHeader.repaint();
-        
     }
 
     /**
@@ -76,14 +66,14 @@ public class FormClientes extends javax.swing.JFrame {
 
         lbl1.setFont(new java.awt.Font("Yu Gothic UI Semilight", 1, 32)); // NOI18N
         lbl1.setForeground(new java.awt.Color(52, 59, 27));
-        lbl1.setText("Registar cliente frecuente");
+        lbl1.setText("Editar cliente frecuente");
 
         lbl3.setFont(new java.awt.Font("Yu Gothic UI Semilight", 0, 18)); // NOI18N
         lbl3.setText("Nombres:");
 
         lbl4.setFont(new java.awt.Font("Yu Gothic UI Semilight", 1, 18)); // NOI18N
         lbl4.setForeground(new java.awt.Color(52, 59, 27));
-        lbl4.setText("Nuevo Cliente");
+        lbl4.setText("Editar Cliente");
 
         lbl5.setFont(new java.awt.Font("Yu Gothic UI Semilight", 0, 18)); // NOI18N
         lbl5.setText("Apellido Paterno:");
@@ -110,7 +100,7 @@ public class FormClientes extends javax.swing.JFrame {
         btnRegistrar.setBackground(new java.awt.Color(47, 65, 86));
         btnRegistrar.setFont(new java.awt.Font("Yu Gothic UI", 1, 20)); // NOI18N
         btnRegistrar.setForeground(new java.awt.Color(255, 255, 255));
-        btnRegistrar.setText("Registrar");
+        btnRegistrar.setText("Registrar Cambios");
         btnRegistrar.addActionListener(this::btnRegistrarActionPerformed);
 
         javax.swing.GroupLayout pnlFormLayout = new javax.swing.GroupLayout(pnlForm);
@@ -188,7 +178,7 @@ public class FormClientes extends javax.swing.JFrame {
                     .addGroup(pnlPrincipalLayout.createSequentialGroup()
                         .addGap(19, 19, 19)
                         .addComponent(lbl1)))
-                .addContainerGap(325, Short.MAX_VALUE))
+                .addContainerGap(330, Short.MAX_VALUE))
         );
         pnlPrincipalLayout.setVerticalGroup(
             pnlPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -206,8 +196,8 @@ public class FormClientes extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(5, 5, 5)
-                .addComponent(pnlPrincipal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(pnlPrincipal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -257,11 +247,9 @@ public class FormClientes extends javax.swing.JFrame {
         String email = txtEmail.getText();
         String telefono = txtTelefono.getText();
 
-        NuevoClienteFrecuenteDTO nuevoCliente = new NuevoClienteFrecuenteDTO(nombres, aPaterno, aMaterno, email, telefono);
-        control.registrarCliente(nuevoCliente, this);
-
+//        NuevoClienteFrecuenteDTO nuevoCliente = new NuevoClienteFrecuenteDTO(nombres, aPaterno, aMaterno, email, telefono);
+//        control.registrarCliente(nuevoCliente, this);
     }//GEN-LAST:event_btnRegistrarActionPerformed
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnRegistrar;
