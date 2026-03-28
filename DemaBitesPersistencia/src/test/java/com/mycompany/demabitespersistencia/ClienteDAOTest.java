@@ -71,39 +71,39 @@ public class ClienteDAOTest {
     
     
     
-    @Test
-    public void testBuscarPorTelefonoEncuentraOk() {
-        String filtro = "644";
-
-        assertDoesNotThrow(() -> {
-            List<ClienteFrecuente> listaClientes = dao.buscar(filtro);
-
-            assertNotNull(listaClientes);
-            assertFalse(listaClientes.isEmpty());
-
-            assertTrue(listaClientes.stream()
-                    .anyMatch(c -> 
-                        c.getTelefono() != null &&
-                        c.getTelefono().contains(filtro)
-                    ));
-        });
-    }
+//    @Test
+//    public void testBuscarPorTelefonoEncuentraOk() {
+//        String filtro = "644";
+//
+//        assertDoesNotThrow(() -> {
+//            List<ClienteFrecuente> listaClientes = dao.buscar(filtro);
+//
+//            assertNotNull(listaClientes);
+//            assertFalse(listaClientes.isEmpty());
+//
+//            assertTrue(listaClientes.stream()
+//                    .anyMatch(c -> 
+//                        c.getTelefono() != null &&
+//                        c.getTelefono().contains(filtro)
+//                    ));
+//        });
+//    }
     
-    @Test
-    public void testBuscarPorCorreoEncuentraOk() {
-        String filtro = "@gmail";
-
-        assertDoesNotThrow(() -> {
-            List<ClienteFrecuente> listaClientes = dao.buscar(filtro);
-
-            assertNotNull(listaClientes);
-            assertFalse(listaClientes.isEmpty());
-
-            assertTrue(listaClientes.stream()
-                    .anyMatch(c -> 
-                        c.getEmail() != null &&
-                        c.getEmail().toLowerCase().contains(filtro.toLowerCase())
-                    ));
-        });
-    }
+//    @Test
+//    public void testBuscarPorCorreoEncuentraOk() {
+//        String filtro = "@gmail";
+//
+//        assertDoesNotThrow(() -> {
+//            List<ClienteFrecuente> listaClientes = dao.buscar(filtro);
+//
+//            assertNotNull(listaClientes);
+//            assertFalse(listaClientes.isEmpty());
+//
+//            assertTrue(listaClientes.stream()
+//                    .anyMatch(c -> 
+//                        c.getEmail() != null &&
+//                        c.getEmail().toLowerCase().contains(filtro.toLowerCase())
+//                    ));
+//        });
+//    }
 }

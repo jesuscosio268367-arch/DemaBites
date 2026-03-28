@@ -36,13 +36,13 @@ public class ClienteBO implements IClientesBO {
         if (nuevoClienteFrecuente.getTelefono() == null) {
             throw new NegocioException("El telefono no puede estar vacio", null);
         }
-        if (nuevoClienteFrecuente.getNombres().length() > 60) {
+        if (nuevoClienteFrecuente.getNombres().length() > 40) {
             throw new NegocioException("El nombre es demasiado largo", null);
         }
-        if (nuevoClienteFrecuente.getApellidoPaterno().length() > 60) {
+        if (nuevoClienteFrecuente.getApellidoPaterno().length() > 30) {
             throw new NegocioException("El apellido paterno es demasiado largo", null);
         }
-        if (nuevoClienteFrecuente.getApellidoMaterno().length() > 60) {
+        if (nuevoClienteFrecuente.getApellidoMaterno().length() > 30) {
             throw new NegocioException("El apellido materno es demasiado largo", null);
         }
         if (nuevoClienteFrecuente.getTelefono().length() > 10) {
