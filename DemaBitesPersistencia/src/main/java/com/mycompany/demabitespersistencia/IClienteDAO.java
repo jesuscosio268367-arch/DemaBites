@@ -20,8 +20,11 @@ public interface IClienteDAO {
             throws PersistenciaException;
     public abstract List<ClienteFrecuente> consultarTodos()
             throws PersistenciaException; 
-    public List<ClienteFrecuente> buscar(String filtro) 
+    public List<ClienteFrecuente> filtrar(String filtro) 
            throws PersistenciaException;
     public abstract ClienteFrecuente consultarPorId(Long id)
+            throws PersistenciaException;
+    
+    public abstract ClienteFrecuente consultarPorTelefono(String telefono)
             throws PersistenciaException;
 }

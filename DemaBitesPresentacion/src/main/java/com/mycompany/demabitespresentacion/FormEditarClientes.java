@@ -248,25 +248,23 @@ public class FormEditarClientes extends javax.swing.JFrame {
     }//GEN-LAST:event_btnRegistrarActionPerformed
 
     private void cargarDatos() {
-        Object datoId = Navegacion.getControlNavegacion().getDato();
-        if (datoId != null) {
-            Long id = (Long) datoId;   
-            try {
-                ClienteFrecuente cliente = control.consultarPorId(id);
-                if (cliente != null) {
-                    txtNombres.setText(cliente.getNombres());
-                    txtAPaterno.setText(cliente.getApellidoPaterno());
-                    txtAMaterno.setText(cliente.getApellidoMaterno());
-                    txtTelefono.setText(cliente.getTelefono());
-                    txtEmail.setText(cliente.getEmail());
+        Long id = Navegacion.getControlNavegacion().getIdSeleccionado();
 
-                    this.idClienteSeleccionado = id;
-                }
-            } catch (NegocioException ex) {
-                JOptionPane.showMessageDialog(this, "Error: " + ex.getMessage());
+        if (id != null) {
+            ClienteFrecuente cliente = control.consultarPorId(id);
+
+            if (cliente != null) {
+                txtNombres.setText(cliente.getNombres());
+                txtAPaterno.setText(cliente.getApellidoPaterno());
+                txtAMaterno.setText(cliente.getApellidoMaterno());
+                txtTelefono.setText(cliente.getTelefono());
+                txtEmail.setText(cliente.getEmail());
+
+                this.idClienteSeleccionado = id;
             }
         }
     }
+    
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnRegistrar;

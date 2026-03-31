@@ -24,58 +24,74 @@ public class ClienteBO implements IClientesBO {
     }
 
     @Override
-    public ClienteFrecuente crearClienteFrecuente(NuevoClienteFrecuenteDTO nuevoClienteFrecuente) throws NegocioException {
-        if (nuevoClienteFrecuente.getNombres() == null) {
-            throw new NegocioException("El nombre no puede estar vacio", null);
+    public ClienteFrecuente crearClienteFrecuente(NuevoClienteFrecuenteDTO nuevoClienteFrecuente) throws NegocioException {       
+        if (nuevoClienteFrecuente.getNombres() == null || nuevoClienteFrecuente.getNombres().trim().isEmpty()) {
+            throw new NegocioException("El nombre no puede estar vacío", null);
         }
-        if (nuevoClienteFrecuente.getApellidoPaterno() == null) {
-            throw new NegocioException("El apellido paterno no puede estar vacio", null);
+
+        if (nuevoClienteFrecuente.getApellidoPaterno() == null || nuevoClienteFrecuente.getApellidoPaterno().trim().isEmpty()) {
+            throw new NegocioException("El apellido paterno no puede estar vacío", null);
         }
-        if (nuevoClienteFrecuente.getApellidoMaterno() == null) {
-            throw new NegocioException("El apellido materno no puede estar vacio", null);
+
+        if (nuevoClienteFrecuente.getApellidoMaterno() == null || nuevoClienteFrecuente.getApellidoMaterno().trim().isEmpty()) {
+            throw new NegocioException("El apellido materno no puede estar vacío", null);
         }
-        if (nuevoClienteFrecuente.getTelefono() == null) {
-            throw new NegocioException("El telefono no puede estar vacio", null);
+
+        if (nuevoClienteFrecuente.getTelefono() == null || nuevoClienteFrecuente.getTelefono().trim().isEmpty()) {
+            throw new NegocioException("El teléfono no puede estar vacío", null);
         }
+
+        if (!nuevoClienteFrecuente.getTelefono().matches("\\d{10}")) {
+            throw new NegocioException("El teléfono debe tener exactamente 10 dígitos", null);
+        }
+
         if (nuevoClienteFrecuente.getNombres().length() > 50) {
             throw new NegocioException("El nombre es demasiado largo", null);
         }
+
         if (nuevoClienteFrecuente.getApellidoPaterno().length() > 50) {
             throw new NegocioException("El apellido paterno es demasiado largo", null);
         }
+
         if (nuevoClienteFrecuente.getApellidoMaterno().length() > 50) {
             throw new NegocioException("El apellido materno es demasiado largo", null);
         }
-        if (nuevoClienteFrecuente.getTelefono().length() > 10) {
-            throw new NegocioException("El numero de telefono es demasiado largo", null);
-        }
-        if (nuevoClienteFrecuente.getEmail().length() > 60) {
+
+        if (nuevoClienteFrecuente.getEmail() != null && nuevoClienteFrecuente.getEmail().length() > 60) {
             throw new NegocioException("El correo es demasiado largo", null);
         }
+
         try {
-            ClienteFrecuente cliente = clienteDAO.generarClienteFrecuente(nuevoClienteFrecuente);
-            return cliente;
+            return clienteDAO.generarClienteFrecuente(nuevoClienteFrecuente);
+
         } catch (PersistenciaException ex) {
-            throw new NegocioException("Error al crear al cliente", null);
+            throw new NegocioException("Error al crear el cliente", ex);
         }
     }
     
     @Override
     public ClienteFrecuente editarClienteFrecuente(NuevoClienteFrecuenteActualizadoDTO nuevoClienteFrecuenteActualizado) throws NegocioException {
-        if (nuevoClienteFrecuenteActualizado.getTelefono() == null) {
-            throw new NegocioException("El telefono no puede estar vacio", null);
+        if (nuevoClienteFrecuenteActualizado.getId() == null || nuevoClienteFrecuenteActualizado.getId() <= 0) {
+            throw new NegocioException("ID inválido", null);
         }
-        if (nuevoClienteFrecuenteActualizado.getTelefono().length() > 10) {
-            throw new NegocioException("El numero de telefono es demasiado largo", null);
+
+        if (nuevoClienteFrecuenteActualizado.getTelefono() == null || nuevoClienteFrecuenteActualizado.getTelefono().trim().isEmpty()) {
+            throw new NegocioException("El teléfono no puede estar vacío", null);
         }
-        if (nuevoClienteFrecuenteActualizado.getEmail().length() > 60) {
+
+        if (!nuevoClienteFrecuenteActualizado.getTelefono().matches("\\d{10}")) {
+            throw new NegocioException("El teléfono debe tener exactamente 10 dígitos", null);
+        }
+
+        if (nuevoClienteFrecuenteActualizado.getEmail() != null && nuevoClienteFrecuenteActualizado.getEmail().length() > 60) {
             throw new NegocioException("El correo es demasiado largo", null);
         }
+
         try {
-            ClienteFrecuente cliente = clienteDAO.editarClienteFrecuente(nuevoClienteFrecuenteActualizado);
-            return cliente;
+            return clienteDAO.editarClienteFrecuente(nuevoClienteFrecuenteActualizado);
+
         } catch (PersistenciaException ex) {
-            throw new NegocioException("Error al crear al cliente", null);
+            throw new NegocioException("Error al editar el cliente", ex);
         }
     }
 
@@ -89,22 +105,21 @@ public class ClienteBO implements IClientesBO {
         }
     }
 
+    /**
+     * Método filtrar
+     * @param filtro
+     * @return
+     * @throws NegocioException 
+     * Validaciones para implementar el metodo en el buscador
+     */
     @Override
-    public List<ClienteFrecuente> buscar(String filtro) throws NegocioException {
+    public List<ClienteFrecuente> filtrar(String filtro) throws NegocioException {
         try {
-            if (filtro == null) {
+            if (filtro == null || filtro.trim().isEmpty()) {
                 return clienteDAO.consultarTodos();
             }
 
-            filtro = filtro.trim();
-           
-            if (filtro.isEmpty()) {
-                return clienteDAO.consultarTodos();
-            }
-
-            filtro = filtro.toLowerCase();
-
-            return clienteDAO.buscar(filtro);
+            return clienteDAO.filtrar(filtro.trim().toLowerCase());
 
         } catch (PersistenciaException ex) {
             throw new NegocioException("Error al buscar clientes", ex);

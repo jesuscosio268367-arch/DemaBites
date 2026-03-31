@@ -20,16 +20,55 @@ import static org.junit.jupiter.api.Assertions.*;
  */
 public class ClienteDAOTest {
     
-//    private ClienteDAO dao;
-//    
-//    public ClienteDAOTest() {
-//        
-//    }
-//    
-//    @BeforeEach()
-//    public void init(){
-//       this.dao = new ClienteDAO();
-//    }
+    private ClienteDAO dao;
+
+        @BeforeEach
+        public void init() {
+            this.dao = new ClienteDAO();
+        }
+
+        /**
+         * Caso: El teléfono SÍ existe en la BD
+         * Emy
+         */
+//        @Test
+//        public void testConsultarPorTelefonoExisteOk() {
+//            String telefono = "6441234567";
+//
+//            // Primero insertamos un cliente con ese teléfono
+//            NuevoClienteFrecuenteDTO nuevoCliente = new NuevoClienteFrecuenteDTO(
+//                    "Juan",
+//                    "Perez",
+//                    "Lopez",
+//                    "juan@test.com",
+//                    telefono
+//            );
+//
+//            assertDoesNotThrow(() -> {
+//                dao.generarClienteFrecuente(nuevoCliente);
+//
+//                ClienteFrecuente cliente = dao.consultarPorTelefono(telefono);
+//
+//                assertNotNull(cliente);
+//                assertEquals(telefono, cliente.getTelefono());
+//            });
+//        }
+//
+//        /**
+//         * Caso: El teléfono NO existe en la BD
+//         */
+//        @Test
+//        public void testConsultarPorTelefonoNoExisteOk() {
+//            // Generamos un teléfono único para asegurar que no exista
+//            String telefonoInexistente = "5456554545";
+//
+//            assertDoesNotThrow(() -> {
+//                ClienteFrecuente cliente = dao.consultarPorTelefono(telefonoInexistente);
+//
+//                assertNull(cliente);
+//            });
+//        }
+
 //    
 //    @Test
 //    public void testGenerarClienteFrecuenteFuncionaOk(){

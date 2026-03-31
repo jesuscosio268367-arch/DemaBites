@@ -24,7 +24,7 @@ public interface IClientesBO {
     public abstract List<ClienteFrecuente> consultarTodos()
             throws NegocioException;
     
-    public abstract List<ClienteFrecuente> buscar(String filtro) 
+    public abstract List<ClienteFrecuente> filtrar(String filtro) 
             throws NegocioException;
     
     public ClienteFrecuente consultarPorId(Long id) 

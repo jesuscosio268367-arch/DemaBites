@@ -210,11 +210,11 @@ public class FrameClientes extends javax.swing.JFrame {
     }
     
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
-        //hola
+        consultar(txtBuscar.getText());
     }//GEN-LAST:event_btnBuscarActionPerformed
 
     private void txtBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtBuscarActionPerformed
-        llenarTabla(txtBuscar.getText());
+  
     }//GEN-LAST:event_txtBuscarActionPerformed
 
     private void btnEditarClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarClienteActionPerformed
@@ -247,15 +247,17 @@ public class FrameClientes extends javax.swing.JFrame {
         ocultarColumnaID();
     }
 
-    private void llenarTabla(String filtro) {
+    private void consultar(String filtro) {
         DefaultTableModel modelo = (DefaultTableModel) tblClientes.getModel();
         modelo.setRowCount(0);
 
-        List<ClienteFrecuente> lista = control.buscar(filtro);
+        List<ClienteFrecuente> lista = control.filtrar(filtro, this);
 
         Object[] fila = new Object[6]; 
 
         for (ClienteFrecuente cliente : lista) {
+            
+            fila[0] = cliente.getId();
             fila[1] = cliente.getNombres();
             fila[2] = cliente.getTelefono();
             fila[3] = (cliente.getEmail() == null || cliente.getEmail().isEmpty()) 
