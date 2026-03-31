@@ -45,6 +45,15 @@ public class ClienteBO implements IClientesBO {
             throw new NegocioException("El teléfono debe tener exactamente 10 dígitos", null);
         }
 
+         try {
+            ClienteFrecuente existente = clienteDAO.consultarPorTelefono(nuevoClienteFrecuente.getTelefono());
+            if (existente != null) {
+                throw new NegocioException("Ya existe un cliente con ese número de teléfono", null);
+            }
+        } catch (PersistenciaException e) {
+            throw new NegocioException("Error al validar el teléfono", e);
+        }
+
         if (nuevoClienteFrecuente.getNombres().length() > 50) {
             throw new NegocioException("El nombre es demasiado largo", null);
         }
@@ -61,6 +70,7 @@ public class ClienteBO implements IClientesBO {
             throw new NegocioException("El correo es demasiado largo", null);
         }
 
+        
         try {
             return clienteDAO.generarClienteFrecuente(nuevoClienteFrecuente);
 
