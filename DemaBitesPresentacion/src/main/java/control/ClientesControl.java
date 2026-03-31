@@ -75,30 +75,30 @@ public class ClientesControl {
      * Implementado en el buscador
      */
     public List<ClienteFrecuente> filtrar(String filtro, JFrame ventana) {
-        try {
-            List<ClienteFrecuente> lista = clientesBO.filtrar(filtro);
+    try {
+        List<ClienteFrecuente> lista = clientesBO.filtrar(filtro);
 
-            if (lista.isEmpty()) {
-                JOptionPane.showMessageDialog(
-                    ventana,
-                    "No se encontraron coincidencias",
-                    "Búsqueda",
-                    JOptionPane.INFORMATION_MESSAGE
-                );
-
-                return clientesBO.consultarTodos();
-            }
-
-            return lista;
-
-        } catch (NegocioException ex) {
+        if (lista.isEmpty()) {
             JOptionPane.showMessageDialog(
                 ventana,
-                "Error al buscar clientes: " + ex.getMessage()
+                "No se encontraron coincidencias. Mostrando todos los clientes.",
+                "Búsqueda",
+                JOptionPane.INFORMATION_MESSAGE
             );
-            return new ArrayList<>();
+
+            return clientesBO.consultarTodos();
         }
+
+        return lista;
+
+    } catch (NegocioException ex) {
+        JOptionPane.showMessageDialog(
+            ventana,
+            "Error al buscar clientes: " + ex.getMessage()
+        );
+        return new ArrayList<>();
     }
+}
       
     public ClienteFrecuente consultarPorId(Long id){
         try {

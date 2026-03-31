@@ -147,13 +147,7 @@ public class ClienteDAO implements IClienteDAO{
             query.setParameter("filtro", "%" + filtro.toLowerCase() + "%"); //Aquí definimos un parametro, hacemos que "filtro" sea 
             // minuscula y al asignarle % al inicio y al final, le decimos a la linea que busque coincidencia EN CUALQUIER parte del texto.
 
-            List<ClienteFrecuente> resultados = query.getResultList(); //Almacenamos los resultados en una lista
-
-            if (resultados.isEmpty()) { // Si la lista está vacia, quiere decir que no hubo coincidencias, entonces
-                return consultarTodos(); // Lanzamos la tabla completa con todos los clientes registrados
-            } else {
-                return resultados; // Pero si si hay registros, si hay coincidencia, por lo tanto, los mostraremos en la tabla
-            }
+            return query.getResultList(); // Regresamos la lista de resultados
 
         } catch (PersistenceException ex) {
             LOGGER.severe(ex.getMessage());
