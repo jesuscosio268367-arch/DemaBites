@@ -11,6 +11,7 @@ import com.mycompany.demabitesnegocio.ClienteBO;
 import com.mycompany.demabitesnegocio.IClientesBO;
 import com.mycompany.demabitesnegocio.NegocioException;
 import com.mycompany.demabitespersistencia.ClienteDAO;
+import com.mycompany.demabitesutilidades.SeguridadUtil;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JFrame;
@@ -38,6 +39,17 @@ public class ClientesControl {
         );
     }
     
+    // Este método es nuevo y privado para no repetir código
+    // Se encarga de convertir el destastre (la encriptación) de la base de datos en números legibles
+    private void desencriptarTelefonos(List<ClienteFrecuente> lista) {
+        for (ClienteFrecuente cliente : lista) {
+            if (cliente.getTelefonoEncriptado() != null) {
+                String telLegible = SeguridadUtil.desencriptar(cliente.getTelefonoEncriptado());
+                cliente.setTelefono(telLegible); // Seteamos el valor temporal para la vista
+            }
+        }
+    }
+    
     public void registrarCliente(NuevoClienteFrecuenteDTO nuevoCliente, JFrame ventana){
         try{
             clientesBO.crearClienteFrecuente(nuevoCliente);
@@ -57,7 +69,9 @@ public class ClientesControl {
     
     public List<ClienteFrecuente> cargarTabla(){
         try{
-            return clientesBO.consultarTodos();
+            List<ClienteFrecuente> lista = clientesBO.consultarTodos();
+            desencriptarTelefonos(lista);
+            return lista;
         } catch(NegocioException ex){
             JOptionPane.showMessageDialog(
                 null, 
@@ -75,34 +89,39 @@ public class ClientesControl {
      * Implementado en el buscador
      */
     public List<ClienteFrecuente> filtrar(String filtro, JFrame ventana) {
-    try {
-        List<ClienteFrecuente> lista = clientesBO.filtrar(filtro);
+        try {
+            List<ClienteFrecuente> lista = clientesBO.filtrar(filtro);
 
-        if (lista.isEmpty()) {
+            if (lista.isEmpty()) {
+                JOptionPane.showMessageDialog(
+                    ventana,
+                    "No se encontraron coincidencias. Mostrando todos los clientes.",
+                    "Búsqueda",
+                    JOptionPane.INFORMATION_MESSAGE
+                );
+
+                lista = clientesBO.consultarTodos();
+            }
+
+            desencriptarTelefonos(lista); // Desencriptamos antes de retornar
+            return lista;
+
+        } catch (NegocioException ex) {
             JOptionPane.showMessageDialog(
                 ventana,
-                "No se encontraron coincidencias. Mostrando todos los clientes.",
-                "Búsqueda",
-                JOptionPane.INFORMATION_MESSAGE
+                "Error al buscar clientes: " + ex.getMessage()
             );
-
-            return clientesBO.consultarTodos();
+            return new ArrayList<>();
         }
-
-        return lista;
-
-    } catch (NegocioException ex) {
-        JOptionPane.showMessageDialog(
-            ventana,
-            "Error al buscar clientes: " + ex.getMessage()
-        );
-        return new ArrayList<>();
     }
-}
       
     public ClienteFrecuente consultarPorId(Long id){
         try {
-            return clientesBO.consultarPorId(id);
+            ClienteFrecuente cliente = clientesBO.consultarPorId(id);
+            if(cliente != null) {
+                cliente.setTelefono(SeguridadUtil.desencriptar(cliente.getTelefonoEncriptado()));
+            }
+            return cliente;
         } catch (NegocioException ex) {
             JOptionPane.showMessageDialog(
                 null, 

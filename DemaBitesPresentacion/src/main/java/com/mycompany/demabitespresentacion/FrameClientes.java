@@ -274,7 +274,7 @@ public class FrameClientes extends javax.swing.JFrame {
                 int filaModelo = tblClientes.convertRowIndexToModel(fila);
                 Object valorId = tblClientes.getModel().getValueAt(filaModelo, 0); 
                 Long idCliente = Long.valueOf(valorId.toString());
-                Navegacion.getControlNavegacion().setDato(idCliente);
+                Navegacion.getControlNavegacion().setIdSeleccionado(idCliente);
                 Navegacion.getControlNavegacion().abrirEditarClientesForm();
             }else{
                 JOptionPane.showMessageDialog(this, "Por favor, selecciona un cliente de la tabla.");
