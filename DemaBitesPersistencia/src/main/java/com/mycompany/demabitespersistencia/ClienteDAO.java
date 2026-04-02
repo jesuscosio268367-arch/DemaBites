@@ -3,7 +3,6 @@ package com.mycompany.demabitespersistencia;
 import com.mycompany.demabitesdominio.ClienteFrecuente;
 import com.mycompany.demabitesdtos.NuevoClienteFrecuenteActualizadoDTO;
 import com.mycompany.demabitesdtos.NuevoClienteFrecuenteDTO;
-import com.mycompany.demabitesutilidades.SeguridadUtil;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.logging.Logger;
@@ -28,25 +27,24 @@ public class ClienteDAO implements IClienteDAO{
             EntityManager entityManager = ManejadorConexiones.crearEntityManager();
             entityManager.getTransaction().begin();
 
-            // Buscamos por HASH para validar duplicados
-            String telHash = SeguridadUtil.hash(nuevoClienteFrecuente.getTelefono());
-            
-            String jpql = "SELECT c FROM ClienteFrecuente c WHERE c.telefonoHash = :hash";
-            TypedQuery<ClienteFrecuente> query = entityManager.createQuery(jpql, ClienteFrecuente.class);
-            query.setParameter("hash", telHash);
+            String jpql = "SELECT c FROM ClienteFrecuente c WHERE c.telefono = :telefono";
+            TypedQuery<ClienteFrecuente> query =
+                    entityManager.createQuery(jpql, ClienteFrecuente.class);
+            query.setParameter("telefono", nuevoClienteFrecuente.getTelefono());
 
-            if (!query.getResultList().isEmpty()) {
+            List<ClienteFrecuente> resultados = query.getResultList();
+
+            if (!resultados.isEmpty()) {
                 throw new PersistenciaException("Ya existe un cliente con ese número de teléfono");
             }
 
-            // Crear entidad con datos encriptados y hash
+            // Crear entidad
             ClienteFrecuente clienteFrecuente = new ClienteFrecuente(
                     nuevoClienteFrecuente.getNombres(),
                     nuevoClienteFrecuente.getApellidoPaterno(),
                     nuevoClienteFrecuente.getApellidoMaterno(),
                     nuevoClienteFrecuente.getEmail(),
-                    SeguridadUtil.encriptar(nuevoClienteFrecuente.getTelefono()), // AES
-                    telHash, // SHA-256
+                    nuevoClienteFrecuente.getTelefono(),
                     LocalDate.now()
             );
 
@@ -58,38 +56,42 @@ public class ClienteDAO implements IClienteDAO{
         } catch (PersistenceException ex) {
             LOGGER.severe(ex.getMessage());
             throw new PersistenciaException("No se pudo crear un nuevo cliente frecuente", ex);
-        }
+
+        } 
     }
     
     
     @Override
     public ClienteFrecuente editarClienteFrecuente(
-            NuevoClienteFrecuenteActualizadoDTO dto
+            NuevoClienteFrecuenteActualizadoDTO clienteFrecuenteActualizadoDTO
     ) throws PersistenciaException {
         try {
             EntityManager entityManager = ManejadorConexiones.crearEntityManager();
             entityManager.getTransaction().begin();
 
-            ClienteFrecuente clienteExistente = entityManager.find(ClienteFrecuente.class, dto.getId());
+            ClienteFrecuente clienteExistente = entityManager.find(
+                    ClienteFrecuente.class, clienteFrecuenteActualizadoDTO.getId()
+            );
 
-            // Validar duplicado usando Hash
-            String nuevoHash = SeguridadUtil.hash(dto.getTelefono());
-            String jpql = "SELECT c FROM ClienteFrecuente c WHERE c.telefonoHash = :hash";
-            TypedQuery<ClienteFrecuente> query = entityManager.createQuery(jpql, ClienteFrecuente.class);
-            query.setParameter("hash", nuevoHash);
+            // Validamos que el teléfono que se quiere editar no sea reemplazado por uno existente 
+            String jpql = "SELECT c FROM ClienteFrecuente c WHERE c.telefono = :telefono";
+            TypedQuery<ClienteFrecuente> query =
+                    entityManager.createQuery(jpql, ClienteFrecuente.class);
+            query.setParameter("telefono", clienteFrecuenteActualizadoDTO.getTelefono());
 
             List<ClienteFrecuente> resultados = query.getResultList();
+
             if (!resultados.isEmpty()) {
                 ClienteFrecuente otro = resultados.get(0);
-                if (!otro.getId().equals(dto.getId())) {
-                    throw new PersistenciaException("Teléfono ya en uso por otro cliente");
+
+                if (!otro.getId().equals(clienteFrecuenteActualizadoDTO.getId())) {
+                    throw new PersistenciaException("Teléfono ya en uso");
                 }
             }
 
-            // Actualizar campos de seguridad
-            clienteExistente.setTelefonoEncriptado(SeguridadUtil.encriptar(dto.getTelefono()));
-            clienteExistente.setTelefonoHash(nuevoHash);
-            clienteExistente.setEmail(dto.getEmail());
+            // Ya que validamos, ahora si actualizamos
+            clienteExistente.setTelefono(clienteFrecuenteActualizadoDTO.getTelefono());
+            clienteExistente.setEmail(clienteFrecuenteActualizadoDTO.getEmail());
 
             entityManager.merge(clienteExistente);
             entityManager.getTransaction().commit();
@@ -129,27 +131,23 @@ public class ClienteDAO implements IClienteDAO{
     @Override
     public List<ClienteFrecuente> filtrar(String filtro) throws PersistenciaException {
         try {
-            EntityManager entityManager = ManejadorConexiones.crearEntityManager();
+            EntityManager entityManager = ManejadorConexiones.crearEntityManager(); // Creamos instancia para la conexión
 
-            // Si el filtro parece un teléfono (solo números), buscamos por HASH exacto.
-            // Si es texto, buscamos por nombre/correo normalmente.
-            String jpql;
-            if (filtro.matches("\\d+")) { 
-                jpql = "SELECT c FROM ClienteFrecuente c WHERE c.telefonoHash = :filtroHash";
-            } else {
-                jpql = "SELECT c FROM ClienteFrecuente c WHERE LOWER(c.nombres) LIKE :filtro " +
-                       "OR (c.email IS NOT NULL AND LOWER(c.email) LIKE :filtro)";
-            }
+            // A continuación se define la consulta JPQL (ojo, no es SQL directamente)
+            String jpql = "SELECT c FROM ClienteFrecuente c " + // Seleccionamos a un cliente c de la tabla clienteFrecuente donde:
+                          "WHERE LOWER(c.nombres) LIKE :filtro " + // su nombre (en miusculas) pueda ser como en el filtro (osea el texto que se resibió en la barra de busqueda)...
+                          "OR c.telefono LIKE :filtro " + // O su teléfono sea como el que se recibió (filtro)...
+                          "OR (c.email IS NOT NULL AND LOWER(c.email) LIKE :filtro)"; // O (si es que el correo no es nulo y lo pasamos a minusculas) que el correo sea igual           
+            
+            // Ahora vamos a crear la consulta tipada, asegurando que el resultado sea lo que esperamos (ClienteFrecuente) 
+            TypedQuery<ClienteFrecuente> query =
+                    entityManager.createQuery(jpql, ClienteFrecuente.class);
 
-            TypedQuery<ClienteFrecuente> query = entityManager.createQuery(jpql, ClienteFrecuente.class);
+            // Esta linea es muy especial.
+            query.setParameter("filtro", "%" + filtro.toLowerCase() + "%"); //Aquí definimos un parametro, hacemos que "filtro" sea 
+            // minuscula y al asignarle % al inicio y al final, le decimos a la linea que busque coincidencia EN CUALQUIER parte del texto.
 
-            if (filtro.matches("\\d+")) {
-                query.setParameter("filtroHash", SeguridadUtil.hash(filtro));
-            } else {
-                query.setParameter("filtro", "%" + filtro.toLowerCase() + "%");
-            }
-
-            return query.getResultList();
+            return query.getResultList(); // Regresamos la lista de resultados
 
         } catch (PersistenceException ex) {
             LOGGER.severe(ex.getMessage());
@@ -181,19 +179,23 @@ public class ClienteDAO implements IClienteDAO{
     @Override
     public ClienteFrecuente consultarPorTelefono(String telefono) throws PersistenciaException {
         try {
-            EntityManager entityManager = ManejadorConexiones.crearEntityManager();
-            
-            // Consulta por Hash
-            String jpql = "SELECT c FROM ClienteFrecuente c WHERE c.telefonoHash = :hash";
-            TypedQuery<ClienteFrecuente> query = entityManager.createQuery(jpql, ClienteFrecuente.class);
-            query.setParameter("hash", SeguridadUtil.hash(telefono));
+            EntityManager entityManager = ManejadorConexiones.crearEntityManager(); // Se abre la instancia de conexion
 
-            List<ClienteFrecuente> resultados = query.getResultList();
-            return resultados.isEmpty() ? null : resultados.get(0);
+            String jpql = "SELECT c FROM ClienteFrecuente c WHERE c.telefono = :telefono"; // Definimos la busqueda que haremos 
+            TypedQuery<ClienteFrecuente> query = entityManager.createQuery(jpql, ClienteFrecuente.class); // Creamos la consulta y aseguramos el tipo del resultado (ClienteFrecuenta) 
+            query.setParameter("telefono", telefono); // Asigna el valor recibido
 
-        } catch (PersistenceException e) {
+            List<ClienteFrecuente> resultados = query.getResultList(); // Obtenemos la lista en lugar de un solo resultado
+
+            if (resultados.isEmpty()) { // Si la lista está vacía, el teléfono está disponible
+                return null;  
+            }
+
+            return resultados.get(0); // Si no está vacía, devolvemos el primer registro encontrado
+
+        } catch (PersistenceException e) { 
             LOGGER.severe(e.getMessage());
-            throw new PersistenciaException("Error al consultar por teléfono", e);
+            throw new PersistenciaException("Error al validar la existencia del teléfono", e);
         }
     }
 }

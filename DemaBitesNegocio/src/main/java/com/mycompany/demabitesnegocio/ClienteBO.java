@@ -45,8 +45,7 @@ public class ClienteBO implements IClientesBO {
             throw new NegocioException("El teléfono debe tener exactamente 10 dígitos", null);
         }
 
-        try {
-            // Sigue igual, solo que ahora el DAO buscará por Hash internamente
+         try {
             ClienteFrecuente existente = clienteDAO.consultarPorTelefono(nuevoClienteFrecuente.getTelefono());
             if (existente != null) {
                 throw new NegocioException("Ya existe un cliente con ese número de teléfono", null);
@@ -71,14 +70,14 @@ public class ClienteBO implements IClientesBO {
             throw new NegocioException("El correo es demasiado largo", null);
         }
 
+        
         try {
-            // Aquí el DAO se encarga de la encriptación AES
             return clienteDAO.generarClienteFrecuente(nuevoClienteFrecuente);
 
         } catch (PersistenciaException ex) {
             throw new NegocioException("Error al crear el cliente", ex);
         }
-    } 
+    }
     
     @Override
     public ClienteFrecuente editarClienteFrecuente(NuevoClienteFrecuenteActualizadoDTO nuevoClienteFrecuenteActualizado) throws NegocioException {
@@ -99,7 +98,6 @@ public class ClienteBO implements IClientesBO {
         }
 
         try {
-            // El DAO hará el update de telefono encriptado y telefono hash
             return clienteDAO.editarClienteFrecuente(nuevoClienteFrecuenteActualizado);
 
         } catch (PersistenciaException ex) {
