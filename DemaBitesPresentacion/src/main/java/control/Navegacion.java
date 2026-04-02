@@ -20,6 +20,7 @@ public class Navegacion {
     private JFrame frameActual;
     private String pantallaActual = "";
     private Object datoTemporal;
+    private Long idSeleccionado;
     
     public String getPantallaActual() {
         return pantallaActual;
@@ -31,6 +32,14 @@ public class Navegacion {
 
     public Object getDato() {
         return datoTemporal;
+    }
+    
+    public void setIdSeleccionado(Long id) {
+        this.idSeleccionado = id;
+    }
+
+    public Long getIdSeleccionado() {
+        return idSeleccionado;
     }
     
     public static Navegacion getControlNavegacion(){
@@ -65,6 +74,7 @@ public class Navegacion {
     }
     
     public void abrirEditarClientesForm(){
+        this.pantallaActual = "";
         cambiarPantalla(new FormEditarClientes());
     }
     

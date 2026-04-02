@@ -3,6 +3,7 @@ package com.mycompany.demabitespresentacion;
 import com.mycompany.demabitesdtos.NuevoClienteFrecuenteDTO;
 import control.ClientesControl;
 import javax.swing.JOptionPane;
+import utileria.utilMetodos;
 
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
@@ -24,11 +25,7 @@ public class FormClientes extends javax.swing.JFrame {
         initComponents();
         this.control = new ClientesControl();
         MenuHeader header = new MenuHeader();
-        pnlHeader.setLayout(new java.awt.BorderLayout());
-        pnlHeader.add(header, java.awt.BorderLayout.CENTER);
-        pnlHeader.revalidate();
-        pnlHeader.repaint();
-        
+        utilMetodos.insertarPanel(pnlHeader, header);
     }
 
     /**
