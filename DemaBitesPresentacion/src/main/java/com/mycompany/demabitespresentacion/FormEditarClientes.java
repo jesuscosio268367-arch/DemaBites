@@ -251,13 +251,14 @@ public class FormEditarClientes extends javax.swing.JFrame {
         Long id = Navegacion.getControlNavegacion().getIdSeleccionado();
 
         if (id != null) {
+            
             ClienteFrecuente cliente = control.consultarPorId(id);
 
             if (cliente != null) {
                 txtNombres.setText(cliente.getNombres());
                 txtAPaterno.setText(cliente.getApellidoPaterno());
                 txtAMaterno.setText(cliente.getApellidoMaterno());
-                txtTelefono.setText(cliente.getTelefono());
+                txtTelefono.setText(cliente.getTelefono()); 
                 txtEmail.setText(cliente.getEmail());
 
                 this.idClienteSeleccionado = id;
