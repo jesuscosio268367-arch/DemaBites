@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.mycompany.demabitesnegocio;
 
 import com.mycompany.demabitesdominio.ClienteFrecuente;
@@ -12,17 +8,28 @@ import com.mycompany.demabitespersistencia.PersistenciaException;
 import java.util.List;
 
 /**
- *
+ * Clase de objeto de negocio para la validacion de clientes.
  * @author Jesus Omar
  */
 public class ClienteBO implements IClientesBO {
 
     private final IClienteDAO clienteDAO;
 
+    /**
+     * Contructor con la dao necesaria para la persistencia.
+     * @param clienteDAO instancia que implementa IClienteDAO.
+     */
     public ClienteBO(IClienteDAO clienteDAO) {
         this.clienteDAO = clienteDAO;
     }
 
+    /**
+     * Metodo con las validaciones de campo para crear un nuevo cliente frecuente.
+     * @param nuevoClienteFrecuente DTO con la informacion del prospecto a cliente frecuente.
+     * @return El cliente frecuente registrado.
+     * @throws NegocioException Si se peresenta un error en la validacion, 
+     * se encuentra un cliente con el mismo numero o hay un error en la persistencia.
+     */
     @Override
     public ClienteFrecuente crearClienteFrecuente(NuevoClienteFrecuenteDTO nuevoClienteFrecuente) throws NegocioException {       
         if (nuevoClienteFrecuente.getNombres() == null || nuevoClienteFrecuente.getNombres().trim().isEmpty()) {
@@ -80,6 +87,13 @@ public class ClienteBO implements IClientesBO {
         }
     } 
     
+    /**
+     * Validaciones para la edicion de un cliente frecuente existente.
+     * @param nuevoClienteFrecuenteActualizado DTO con los datos a modificar.
+     * @return El cliente frecuente actualizado.
+     * @throws NegocioException Si el se presenta un error en la validacion, el ID es invalido
+     * se encuentra un cliente con el mismo numero o hay un error en la persistencia.
+     */
     @Override
     public ClienteFrecuente editarClienteFrecuente(NuevoClienteFrecuenteActualizadoDTO nuevoClienteFrecuenteActualizado) throws NegocioException {
         if (nuevoClienteFrecuenteActualizado.getId() == null || nuevoClienteFrecuenteActualizado.getId() <= 0) {
@@ -99,6 +113,13 @@ public class ClienteBO implements IClientesBO {
         }
 
         try {
+            
+            ClienteFrecuente existente = clienteDAO.consultarPorTelefono(nuevoClienteFrecuenteActualizado.getTelefono());
+
+            if (existente != null && !existente.getId().equals(nuevoClienteFrecuenteActualizado.getId())) {
+                throw new NegocioException("El número de teléfono ya está registrado por otro cliente.", null);
+            }
+            
             // El DAO hará el update de telefono encriptado y telefono hash
             return clienteDAO.editarClienteFrecuente(nuevoClienteFrecuenteActualizado);
 
@@ -107,6 +128,11 @@ public class ClienteBO implements IClientesBO {
         }
     }
 
+    /**
+     * Metodo para consultar todos los clientes frecuentes.
+     * @return listado de todos los clientes frecuentes registrados.
+     * @throws NegocioException Si ocurre un error al cargar los datos.
+     */
     @Override
     public List<ClienteFrecuente> consultarTodos() throws NegocioException {
         try {
@@ -118,10 +144,10 @@ public class ClienteBO implements IClientesBO {
     }
 
     /**
-     * Método filtrar
-     * @param filtro
-     * @return
-     * @throws NegocioException 
+     * Metodo filtrar la busqueda de clientes.
+     * @param filtro String el filtro.
+     * @return Lista de clientes que coinciden con el criterio.
+     * @throws NegocioException Si hay un error con la base de datos.
      * Validaciones para implementar el metodo en el buscador
      */
     @Override
@@ -138,6 +164,12 @@ public class ClienteBO implements IClientesBO {
         }
     }
 
+    /**
+     * Metodo para consultar por ID.
+     * @param id El ID del cliente frecuente a consultar.
+     * @return El cliente que coincide con el ID.
+     * @throws NegocioException Si el ID no es valido o no se encuentra el cliente.
+     */
     @Override
     public ClienteFrecuente consultarPorId(Long id) throws NegocioException {
         try {

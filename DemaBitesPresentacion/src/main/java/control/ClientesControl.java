@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package control;
 
 import com.mycompany.demabitesdominio.ClienteFrecuente;
@@ -18,7 +14,7 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 /**
- *
+ * Controlador de la interfaz de usuario para el modulo de Clientes.
  * @author Jesus Omar
  */
 public class ClientesControl {
@@ -26,10 +22,19 @@ public class ClientesControl {
     private final IClientesBO clientesBO;
     
     
+    /**
+     * Contructor que inicializa el flujo de trabajo mediante instanciacion.
+     */
     public ClientesControl(){
         this.clientesBO = new ClienteBO(new ClienteDAO());
     }
 
+    /**
+     * Muestra un cuadro dialogo con el error de la operacion.
+     * @param ventana Frame padre para posicionar el mensaje.
+     * @param mensaje Descripcion del error.
+     * @param ex Excepcion capturada.
+     */
     private void mostrarError(JFrame ventana, String mensaje, Exception ex) {
         JOptionPane.showMessageDialog(
             ventana,
@@ -41,6 +46,10 @@ public class ClientesControl {
     
     // Este método es nuevo y privado para no repetir código
     // Se encarga de convertir el destastre (la encriptación) de la base de datos en números legibles
+    /**
+     * Desencripta los telefonos de los clientes.
+     * @param lista Lista de clientes a los que se le desencriptara los telefonos.
+     */
     private void desencriptarTelefonos(List<ClienteFrecuente> lista) {
         for (ClienteFrecuente cliente : lista) {
             if (cliente.getTelefonoEncriptado() != null) {
@@ -50,6 +59,11 @@ public class ClientesControl {
         }
     }
     
+    /**
+     * Gestiona el registro de un cliente.
+     * @param nuevoCliente DTO con los datos del nuevo cliente.
+     * @param ventana Frame actual para gestionar su cierre.
+     */
     public void registrarCliente(NuevoClienteFrecuenteDTO nuevoCliente, JFrame ventana){
         try{
             clientesBO.crearClienteFrecuente(nuevoCliente);
@@ -67,6 +81,10 @@ public class ClientesControl {
         }
     }
     
+    /**
+     * Carga los clientes registrados y los prepara para ser mostrados.
+     * @return Lista de los clientes legibles.
+     */
     public List<ClienteFrecuente> cargarTabla(){
         try{
             List<ClienteFrecuente> lista = clientesBO.consultarTodos();
@@ -82,10 +100,10 @@ public class ClientesControl {
     }
     
     /**
-     * Método filtrar
-     * @param filtro
-     * @param ventana
-     * @return 
+     * Método filtrar.
+     * @param filtro criterio de busqueda.
+     * @param ventana Frame padre.
+     * @return Lista filtrada de clientes frecuentes.
      * Implementado en el buscador
      */
     public List<ClienteFrecuente> filtrar(String filtro, JFrame ventana) {
@@ -114,7 +132,12 @@ public class ClientesControl {
             return new ArrayList<>();
         }
     }
-      
+    
+    /**
+     * Recupera un cliente por su ID y desencripta su telefono.
+     * @param id ID del cliente.
+     * @return Cliente frecuente con datos legibles.
+     */
     public ClienteFrecuente consultarPorId(Long id){
         try {
             ClienteFrecuente cliente = clientesBO.consultarPorId(id);
@@ -131,6 +154,11 @@ public class ClientesControl {
         }
     }
 
+    /**
+     * Gestiona la actualizacion de datos de un cliente.
+     * @param clienteEditado DTO con la informacion actualizado.
+     * @param ventana Frame de edicion para gestionar su cierre.
+     */
     public void editarCliente(NuevoClienteFrecuenteActualizadoDTO clienteEditado, JFrame ventana) {
         try {
             clientesBO.editarClienteFrecuente(clienteEditado);

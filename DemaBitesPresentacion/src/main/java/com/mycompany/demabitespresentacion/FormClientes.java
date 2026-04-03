@@ -5,12 +5,8 @@ import control.ClientesControl;
 import javax.swing.JOptionPane;
 import utileria.utilMetodos;
 
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 /**
- *
+ * Interfaz grafica para la creacion de Clientes Frecuentes.
  * @author Dario
  */
 public class FormClientes extends javax.swing.JFrame {
@@ -19,7 +15,7 @@ public class FormClientes extends javax.swing.JFrame {
     private final ClientesControl control;
     
     /**
-     * Creates new form FormClientes
+     * Contructor del Frame.
      */
     public FormClientes() {
         initComponents();
@@ -214,6 +210,10 @@ public class FormClientes extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    /**
+     * Gestiona el boton de registrar realizando validaciones y llamando metodos.
+     * @param evt Evento de accion del boton.
+     */
     private void btnRegistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarActionPerformed
         if (txtNombres.getText().trim().isEmpty()) {
             JOptionPane.showMessageDialog(this, "El nombre es obligatorio");

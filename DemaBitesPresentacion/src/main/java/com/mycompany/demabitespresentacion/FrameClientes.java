@@ -8,12 +8,8 @@ import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import utileria.utilMetodos;
 
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 /**
- *
+ * Interfaz grafica para la visualizacion y gestion de Clientes Frecuentes.
  * @author Dario
  */
 public class FrameClientes extends javax.swing.JFrame {
@@ -22,7 +18,7 @@ public class FrameClientes extends javax.swing.JFrame {
     private final ClientesControl control;
 
     /**
-     * Creates new form FrameClientes
+     * Contructor del Frame.
      */
     public FrameClientes() {
         initComponents();
@@ -204,11 +200,19 @@ public class FrameClientes extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    /**
+     * Redirige al usuario a otra pantalla para crear un cliente nuevo.
+     * @param evt Evento de accion del boton.
+     */
     private void btnNuevoClienteActionPerformed(java.awt.event.ActionEvent evt) {
         Navegacion.getControlNavegacion().abrirClientesForm();
         this.dispose();
     }
     
+    /**
+     * Ejecuta la busqueda de clientes.
+     * @param evt Evento de accion del boton.
+     */
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
         consultar(txtBuscar.getText());
     }//GEN-LAST:event_btnBuscarActionPerformed
@@ -217,16 +221,28 @@ public class FrameClientes extends javax.swing.JFrame {
   
     }//GEN-LAST:event_txtBuscarActionPerformed
 
+    /**
+     * Ejecuta el metodo seleccionarClienteEditar.
+     * @param evt Evento de accion del boton.
+     */
     private void btnEditarClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarClienteActionPerformed
         seleccionarClienteEditar();
     }//GEN-LAST:event_btnEditarClienteActionPerformed
 
+    /**
+     * Oculta la columna ID para que no se vea en el sistema
+     * Este funcion sirve para hacer mas facil las tareas de 
+     * manipulacion de clientes sin comprometer el ID de estos.
+     */
     public void ocultarColumnaID() {
         if (tblClientes.getColumnCount() > 0) {
             tblClientes.removeColumn(tblClientes.getColumnModel().getColumn(0));
         }
     }
     
+    /**
+     * Llena la tabla de clientes registrados en el sistema.
+     */
     private void llenarTabla() {
         DefaultTableModel modelo = (DefaultTableModel) tblClientes.getModel();
         modelo.setRowCount(0);
@@ -247,6 +263,10 @@ public class FrameClientes extends javax.swing.JFrame {
         ocultarColumnaID();
     }
 
+    /**
+     * Llena la tabla conforme el resultado del filtro de consulta.
+     * @param filtro String con el texto filtro.
+     */
     private void consultar(String filtro) {
         DefaultTableModel modelo = (DefaultTableModel) tblClientes.getModel();
         modelo.setRowCount(0);
@@ -268,6 +288,10 @@ public class FrameClientes extends javax.swing.JFrame {
         }
     }
     
+    /**
+     * Conforme a la seleccion del cliente en la tabla, redirige al usuario
+     * a otra pantalla para la edicion del cliente seleccionado.
+     */
     private void seleccionarClienteEditar(){
         int fila = tblClientes.getSelectedRow();
             if (fila != -1) {

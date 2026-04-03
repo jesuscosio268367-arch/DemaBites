@@ -69,7 +69,7 @@ public class ClienteDAOTest {
 //            });
 //        }
 
-//    
+    
 //    @Test
 //    public void testGenerarClienteFrecuenteFuncionaOk(){
 //        NuevoClienteFrecuenteDTO nuevoClienteFrecuente = new NuevoClienteFrecuenteDTO("Oscar", "Ramon", "Camara", "email@gmail.com", "7654356278");

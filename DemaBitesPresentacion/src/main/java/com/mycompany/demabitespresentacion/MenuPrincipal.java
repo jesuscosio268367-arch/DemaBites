@@ -1,12 +1,7 @@
 package com.mycompany.demabitespresentacion;
 
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
-
 /**
- *
+ * Interfaz grafica del Menu principal.
  * @author Dario
  */
 public class MenuPrincipal extends javax.swing.JFrame {
@@ -14,7 +9,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(MenuPrincipal.class.getName());
 
     /**
-     * Creates new form MenuPrincipal
+     * Contructor del frame.
      */
     public MenuPrincipal() {
         initComponents();
