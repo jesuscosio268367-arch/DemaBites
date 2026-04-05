@@ -1,3 +1,7 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
+ */
 package com.mycompany.demabitespresentacion;
 
 import com.mycompany.demabitesdominio.ClienteFrecuente;
@@ -11,7 +15,7 @@ import javax.swing.JOptionPane;
 import utileria.utilMetodos;
 
 /**
- * Interfaz grafica para la edicion de clientes frecuentes.
+ *
  * @author Dario
  */
 public class FormEditarClientes extends javax.swing.JFrame {
@@ -21,7 +25,7 @@ public class FormEditarClientes extends javax.swing.JFrame {
     private Long idClienteSeleccionado;
     
     /**
-     * Contructor del Frame.
+     * Creates new form FormEditarClientes
      */
     public FormEditarClientes() {
         initComponents();
@@ -217,10 +221,6 @@ public class FormEditarClientes extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    /**
-     * Gestiona el boton de registrar realizando validaciones y llamando metodos.
-     * @param evt Evento de accion del boton.
-     */
     private void btnRegistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarActionPerformed
         if (!txtEmail.getText().isBlank()) {
             if (!txtEmail.getText().matches("^[\\w.-]+@[\\w.-]+\\.[a-zA-Z]{2,6}$")) {
@@ -247,10 +247,6 @@ public class FormEditarClientes extends javax.swing.JFrame {
         control.editarCliente(nuevoClienteActualizado, this);
     }//GEN-LAST:event_btnRegistrarActionPerformed
 
-    /**
-     * Recupera el ID del cliente seleccionado la pantalla anterior 
-     * y carga sus datos en la pantalla.
-     */
     private void cargarDatos() {
         Long id = Navegacion.getControlNavegacion().getIdSeleccionado();
 
