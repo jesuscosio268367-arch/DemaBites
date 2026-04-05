@@ -6,7 +6,7 @@ import javax.crypto.Cipher;
 import javax.crypto.spec.SecretKeySpec;
 
 /**
- *
+ * Clase de utilieria para la seguridad de datos que se almacenen.
  * @author Emily Lara
  */
 public class SeguridadUtil {
@@ -14,6 +14,12 @@ public class SeguridadUtil {
     private static final String CLAVE = "1234567890123456"; // 16 caracteres para AES-128
 
     // Encriptar (Pasa de texto normal a "basura" segura)
+    /**
+     * Encripta un String utilizando el algoritmo AES.
+     * @param dato String que se desea proteger.
+     * @return String en base 64.
+     * @throws RuntimeException Si ocurre un error en el proceso de cifrado.
+     */
     public static String encriptar(String dato) {
         if (dato == null) return null;
         try {
@@ -27,6 +33,12 @@ public class SeguridadUtil {
     }
 
     //Desencriptar (Pasa de "basura" segura a texto normal)
+    /**
+     * Desencripta un String cifrado con AES.
+     * @param dato String encriptado.
+     * @return String original desencriptado.
+     * @throws RuntimeException Si ocurre un error en el proceso de decifrado.
+     */
     public static String desencriptar(String dato) {
         if (dato == null) return null;
         try {
@@ -40,6 +52,12 @@ public class SeguridadUtil {
     }
 
     // SHA-256 (Huella digital única e irreversible para búsquedas)
+    /**
+     * Genera un hash unico e irreversible utilizando el algoritmo SHA-256.
+     * @param dato String del que se generara el hash.
+     * @return String de 64 caracteres que representa el hash.
+     * @throws RuntimeException Si ocurre un error en el proceso de hashing.
+     */
     public static String hash(String dato) {
         if (dato == null) return null;
         try {

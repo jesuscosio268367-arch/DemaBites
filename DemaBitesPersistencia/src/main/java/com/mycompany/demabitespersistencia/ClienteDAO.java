@@ -12,14 +12,20 @@ import javax.persistence.PersistenceException;
 import javax.persistence.TypedQuery;
 
 /**
- * Clase ClienteDAO.
- * Todas las consultas a la base de datos reacionadas con CLIENTES FRECUENTES
+ * Clase ClienteDAO con metodos para la gestion de clientes.
+ * Todas las consultas a la base de datos reacionadas con CLIENTES FRECUENTES.
  * @author Jesus Omar, Dario Verdugo, Emily Lara
  */
 public class ClienteDAO implements IClienteDAO{
 
     private static final Logger LOGGER = Logger.getLogger(ClienteDAO.class.getName());
     
+    /**
+     * Registra un nuevo cliente frecuente en el sistema.
+     * @param nuevoClienteFrecuente DTO con la informacion del cliente que se registrara.
+     * @return El cliente frecuente creado con su ID generado.
+     * @throws PersistenciaException Si ocurre un error al acceder a la base de datos.
+     */
     @Override
     public ClienteFrecuente generarClienteFrecuente(
             NuevoClienteFrecuenteDTO nuevoClienteFrecuente
@@ -61,7 +67,12 @@ public class ClienteDAO implements IClienteDAO{
         }
     }
     
-    
+    /**
+     * Edita un cliente frecuente del sistema.
+     * @param dto DTO con los datos actualizados.
+     * @return El cliente frecuente con los cambios aplicados.
+     * @throws PersistenciaException Si el cliente no existe o falla la actualizacion.
+     */
     @Override
     public ClienteFrecuente editarClienteFrecuente(
             NuevoClienteFrecuenteActualizadoDTO dto
@@ -102,6 +113,11 @@ public class ClienteDAO implements IClienteDAO{
         }
     }
     
+    /**
+     * Consulta todos los clientes frecuentes que se encuentran en el sistema.
+     * @return La lista de clientes frecuentes en el sistema.
+     * @throws PersistenciaException Si hay un error en la consulta.
+     */
     @Override
     public List<ClienteFrecuente> consultarTodos() throws PersistenciaException {
         try{
@@ -157,6 +173,12 @@ public class ClienteDAO implements IClienteDAO{
         }
     }
     
+    /**
+     * Busca clientes frecuentes con su ID.
+     * @param id ID del cliente frecuente a buscar.
+     * @return El cliente frecuente encontrado.
+     * @throws PersistenciaException Si no encuentra al cliente o ocurre un error en la busqueda.
+     */
     @Override
     public ClienteFrecuente consultarPorId(Long id) throws PersistenciaException {
         try {

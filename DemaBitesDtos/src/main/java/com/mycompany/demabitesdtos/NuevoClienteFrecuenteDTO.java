@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.mycompany.demabitesdtos;
 
 /**
@@ -63,26 +59,29 @@ public class NuevoClienteFrecuenteDTO {
         return email;
     }
 
+    /** @param nombres El nombre o nombres a asignar al cliente. */
     public void setNombres(String nombres) {
         this.nombres = nombres;
     }
 
+    /** @param apellidoPaterno El apellido paterno a asignar al cliente. */
     public void setApellidoPaterno(String apellidoPaterno) {
         this.apellidoPaterno = apellidoPaterno;
     }
 
+    /** @param apellidoMaterno El apellido materno a asignar al cliente. */
     public void setApellidoMaterno(String apellidoMaterno) {
         this.apellidoMaterno = apellidoMaterno;
     }
 
+    /** @param telefono El número de teléfono a asignar al cliente. */
     public void setTelefono(String telefono) {
         this.telefono = telefono;
     }
 
+    /** @param email El correo electrónico a asignar al cliente. */
     public void setEmail(String email) {
         this.email = email;
-    }
-    
-    
+    }  
     
 }
