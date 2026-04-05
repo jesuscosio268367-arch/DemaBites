@@ -1,17 +1,17 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
- */
 package com.mycompany.demabitespresentacion;
 
 import control.Navegacion;
 
 /**
- *
+ * Componente de interfaz de usuario JPanel que representa 
+ * el menu de navegacion / header de la aplicacion.
  * @author Dario
  */
 public class MenuHeader extends javax.swing.JPanel {
 
+    /**
+     * Contructor del Frame.
+     */
     public MenuHeader() {
         initComponents();
         String pantallaActiva = Navegacion.getControlNavegacion().getPantallaActual();
@@ -116,6 +116,10 @@ public class MenuHeader extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    /**
+     * Ejecuta la navegacion hacia el modulo de clientes.
+     * @param evt Evento de accion del boton.
+     */
     private void btnClientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClientesActionPerformed
         Navegacion.getControlNavegacion().abrirClientesFrame();
     }//GEN-LAST:event_btnClientesActionPerformed
@@ -136,6 +140,10 @@ public class MenuHeader extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_btnReportesActionPerformed
 
+    /**
+     * Deshabilita el boton de navegacion que coincida con la pantalla actual.
+     * @param actual Identificador de a pantalla.
+     */
     private void bloquearBotonActual(String actual) {
             if (actual.equals("CLIENTES")) {
                 btnClientes.setEnabled(false); 
