@@ -218,11 +218,11 @@ public class FrameClientes extends javax.swing.JFrame {
      * @param evt Evento de accion del boton.
      */
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
-        //hola
+        consultar(txtBuscar.getText().trim());
     }//GEN-LAST:event_btnBuscarActionPerformed
 
     private void txtBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtBuscarActionPerformed
-        llenarTabla(txtBuscar.getText());
+        llenarTabla();
     }//GEN-LAST:event_txtBuscarActionPerformed
 
     /**
@@ -274,7 +274,7 @@ public class FrameClientes extends javax.swing.JFrame {
         DefaultTableModel modelo = (DefaultTableModel) tblClientes.getModel();
         modelo.setRowCount(0);
 
-        List<ClienteFrecuente> lista = control.buscar(filtro);
+        List<ClienteFrecuente> lista = control.filtrar(filtro, this);
 
         Object[] fila = new Object[6]; 
 
@@ -295,16 +295,15 @@ public class FrameClientes extends javax.swing.JFrame {
      */
     private void seleccionarClienteEditar(){
         int fila = tblClientes.getSelectedRow();
-        if (fila != -1) {
-            int id = (int) tblClientes.getValueAt(fila, 0);
-            String nombre = tblClientes.getValueAt(fila, 1).toString();
-            String telefono = tblClientes.getValueAt(fila, 2).toString();
-            ClienteDTO seleccionado = new ClienteDTO(id, nombre, telefono);
-            Navegacion.getControlNavegacion().setDato(seleccionado);
-            Navegacion.getControlNavegacion().abrirEditarClientesForm();
-        } else {
-            JOptionPane.showMessageDialog(this, "Seleccione un cliente para editar");
-        }
+            if (fila != -1) {
+                int filaModelo = tblClientes.convertRowIndexToModel(fila);
+                Object valorId = tblClientes.getModel().getValueAt(filaModelo, 0); 
+                Long idCliente = Long.valueOf(valorId.toString());
+                Navegacion.getControlNavegacion().setDato(idCliente);
+                Navegacion.getControlNavegacion().abrirEditarClientesForm();
+            }else{
+                JOptionPane.showMessageDialog(this, "Por favor, selecciona un cliente de la tabla.");
+            }
     }
     
 

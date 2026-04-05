@@ -1,11 +1,13 @@
 package control;
 
 import com.mycompany.demabitesdominio.ClienteFrecuente;
+import com.mycompany.demabitesdtos.NuevoClienteFrecuenteActualizadoDTO;
 import com.mycompany.demabitesdtos.NuevoClienteFrecuenteDTO;
 import com.mycompany.demabitesnegocio.ClienteBO;
 import com.mycompany.demabitesnegocio.IClientesBO;
 import com.mycompany.demabitesnegocio.NegocioException;
 import com.mycompany.demabitespersistencia.ClienteDAO;
+import com.mycompany.demabitesutilidades.SeguridadUtil;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JFrame;
@@ -102,7 +104,7 @@ public class ClientesControl {
      */
     public List<ClienteFrecuente> filtrar(String filtro, JFrame ventana) {
         try {
-            return clientesBO.buscar(filtro);
+            return clientesBO.filtrar(filtro);
         } catch (NegocioException ex) {
             JOptionPane.showMessageDialog(null, 
                 "Error al buscar clientes: " + ex.getMessage());
