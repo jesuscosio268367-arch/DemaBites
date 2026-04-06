@@ -1,4 +1,6 @@
+com\mycompany\demabitespersistencia\ClienteDAO.class
+com\mycompany\demabitespersistencia\IComandaDAO.class
 com\mycompany\demabitespersistencia\IClienteDAO.class
+com\mycompany\demabitespersistencia\ComandaDAO.class
 com\mycompany\demabitespersistencia\ManejadorConexiones.class
 com\mycompany\demabitespersistencia\PersistenciaException.class
-com\mycompany\demabitespersistencia\ClienteDAO.class

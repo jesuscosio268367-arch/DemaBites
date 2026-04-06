@@ -5,6 +5,7 @@ package com.mycompany.demabitesdtos;
  * @author Dario
  */
 public class NuevoClienteFrecuenteDTO {
+    private Long id;
     private String nombres;
     private String apellidoPaterno;
     private String apellidoMaterno;
@@ -34,6 +35,21 @@ public class NuevoClienteFrecuenteDTO {
         this.telefono = telefono;
     }
 
+    /**
+     * @return ID del cliente
+     */
+    public Long getId() {
+        return id;
+    }
+
+    /**
+     * @param id 
+     */
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    
     /** @return El nombre o nombres del cliente. */
     public String getNombres() {
         return nombres;

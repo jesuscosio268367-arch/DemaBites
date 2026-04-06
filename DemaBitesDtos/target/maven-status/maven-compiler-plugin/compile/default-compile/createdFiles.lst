@@ -1,3 +1,8 @@
 com\mycompany\demabitesdtos\NuevoClienteDTO.class
-com\mycompany\demabitesdtos\NuevoClienteFrecuenteActualizadoDTO.class
+com\mycompany\demabitesdtos\EstadoComanda.class
 com\mycompany\demabitesdtos\NuevoClienteFrecuenteDTO.class
+com\mycompany\demabitesdtos\NuevoClienteFrecuenteActualizadoDTO.class
+com\mycompany\demabitesdtos\MesaDTO.class
+com\mycompany\demabitesdtos\NuevaComandaDTO.class
+com\mycompany\demabitesdtos\DetalleComandaDTO.class
+com\mycompany\demabitesdtos\ProductoDTO.class
