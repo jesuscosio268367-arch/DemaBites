@@ -8,6 +8,7 @@
     <class>com.mycompany.demabitesdominio.DetalleComanda</class>
     <class>com.mycompany.demabitesdominio.Mesa</class>
     <class>com.mycompany.demabitesdominio.Producto</class>
+    <class>com.mycompany.demabitesdominio.Ingrediente</class>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/DemaBitesBD?zeroDateTimeBehavior=CONVERT_TO_NULL"/>
       <property name="javax.persistence.jdbc.user" value="root"/>
