@@ -25,6 +25,9 @@ public class Mesa implements Serializable {
     @Column(name = "id_mesa")
     private Long id;
 
+    @Column(name = "numero_mesa")
+    private Integer numero;
+    
     public Mesa() {
         // Constructor vacío obligatorio
     }
@@ -36,4 +39,14 @@ public class Mesa implements Serializable {
     public void setId(Long id) {
         this.id = id;
     }
+
+    public Integer getNumero() {
+        return numero;
+    }
+
+    public void setNumero(Integer numero) {
+        this.numero = numero;
+    }
+    
+    
 }
