@@ -17,6 +17,8 @@ public class MainPruebaClientes {
      */
     public static void main(String[] args) {
         Navegacion.getControlNavegacion().abrirClientesFrame();
+        Navegacion.getControlNavegacion().abrirComandasFrame();
+       
     }
     
 }

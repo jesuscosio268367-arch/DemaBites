@@ -3,6 +3,7 @@ package control;
 import com.mycompany.demabitespresentacion.FormClientes;
 import com.mycompany.demabitespresentacion.FormEditarClientes;
 import com.mycompany.demabitespresentacion.FrameClientes;
+import com.mycompany.demabitespresentacion.FrameComandas;
 import com.mycompany.demabitespresentacion.MenuPrincipal;
 import javax.swing.JFrame;
 
@@ -88,6 +89,22 @@ public class Navegacion {
     }
     
     //Comandas
+    
+    /**
+    * Abre el frame principal donde se ve la lista de comandas.
+    */
+    public void abrirComandasFrame() {
+        this.pantallaActual = "COMANDAS";
+        cambiarPantalla(new FrameComandas()); 
+    }
+    
+    public void abrirNuevaComandaForm() {
+        this.pantallaActual = "NUEVA_COMANDA";
+        // Asumiendo que tu form se llama FormComanda
+        // cambiarPantalla(new FormComanda());
+    }
+    
+    
     //Productos
     //Ingredientes
     
@@ -131,5 +148,7 @@ public class Navegacion {
         this.frameActual.setVisible(true);
         this.frameActual.setLocationRelativeTo(null);
     }
+    
+    
  
 }
