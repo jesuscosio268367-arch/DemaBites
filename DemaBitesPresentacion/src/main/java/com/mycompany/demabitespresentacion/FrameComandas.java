@@ -1,9 +1,17 @@
 package com.mycompany.demabitespresentacion;
 
 import com.mycompany.demabitesdominio.Comanda;
+import com.mycompany.demabitesdominio.EstadoComanda;
+import com.mycompany.demabitesdtos.DetalleComandaDTO;
 import control.ComandasControl;
+import control.Navegacion;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 import utileria.utilMetodos;
 
 /**
@@ -14,13 +22,15 @@ import utileria.utilMetodos;
 public class FrameComandas extends javax.swing.JFrame {
 
     private final ComandasControl control; // Instanciamos el control
-    private static final Logger LOGGER = java.util.logging.Logger.getLogger(FrameComandas.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(FrameComandas.class.getName());
     
     public FrameComandas() {
         initComponents();
         this.control = new ComandasControl();
         cargarComandas();
+        ocultarColumnaIdDetalles();
         ocultarColumnaId();
+        configurarEventosTabla();
         MenuHeader header = new MenuHeader();
         utilMetodos.insertarPanel(pnlHeader, header);
     }
@@ -35,6 +45,11 @@ public class FrameComandas extends javax.swing.JFrame {
         tablaComandas.getColumnModel().getColumn(0).setMinWidth(0);
         tablaComandas.getColumnModel().getColumn(0).setPreferredWidth(0);
         tablaComandas.getColumnModel().getColumn(0).setMaxWidth(0);
+    }
+    private void ocultarColumnaIdDetalles() {
+        tablaDetalles.getColumnModel().getColumn(0).setMinWidth(0);
+        tablaDetalles.getColumnModel().getColumn(0).setPreferredWidth(0);
+        tablaDetalles.getColumnModel().getColumn(0).setMaxWidth(0);
     }
 
     /**
@@ -64,9 +79,10 @@ public class FrameComandas extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(254, 255, 234));
-        setPreferredSize(new java.awt.Dimension(1200, 675));
+        setPreferredSize(new java.awt.Dimension(1200, 700));
 
         pnlComandas.setBackground(new java.awt.Color(254, 255, 234));
+        pnlComandas.setPreferredSize(new java.awt.Dimension(1200, 700));
 
         javax.swing.GroupLayout pnlHeaderLayout = new javax.swing.GroupLayout(pnlHeader);
         pnlHeader.setLayout(pnlHeaderLayout);
@@ -83,6 +99,7 @@ public class FrameComandas extends javax.swing.JFrame {
         lbl1.setForeground(new java.awt.Color(52, 59, 27));
         lbl1.setText("Comandas");
 
+        tablaComandas.setFont(new java.awt.Font("Yu Gothic UI Light", 0, 14)); // NOI18N
         tablaComandas.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null, null},
@@ -93,7 +110,15 @@ public class FrameComandas extends javax.swing.JFrame {
             new String [] {
                 "ID", "Folio", "Mesa", "Cliente", "Fecha", "Estado", "Total"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         jScrollPane1.setViewportView(tablaComandas);
 
         javax.swing.GroupLayout pnlTablaComandasLayout = new javax.swing.GroupLayout(pnlTablaComandas);
@@ -104,15 +129,11 @@ public class FrameComandas extends javax.swing.JFrame {
         );
         pnlTablaComandasLayout.setVerticalGroup(
             pnlTablaComandasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlTablaComandasLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 294, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(35, 35, 35))
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 305, Short.MAX_VALUE)
         );
 
-        txtConsultar.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        txtConsultar.setForeground(new java.awt.Color(204, 204, 204));
-        txtConsultar.setText("Ingrese folio, cliente o mesa...");
+        txtConsultar.setFont(new java.awt.Font("Yu Gothic UI Semibold", 0, 18)); // NOI18N
+        txtConsultar.setForeground(new java.awt.Color(0, 0, 0));
         txtConsultar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtConsultarActionPerformed(evt);
@@ -131,15 +152,20 @@ public class FrameComandas extends javax.swing.JFrame {
 
         tablaDetalles.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
+
             },
             new String [] {
                 "ID", "Producto", "Cantidad", "Comentario", "Subtotal"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         jScrollPane2.setViewportView(tablaDetalles);
 
         javax.swing.GroupLayout pnlDetallesComandaLayout = new javax.swing.GroupLayout(pnlDetallesComanda);
@@ -173,7 +199,7 @@ public class FrameComandas extends javax.swing.JFrame {
         btnEntregarComanda.setBackground(new java.awt.Color(47, 65, 86));
         btnEntregarComanda.setFont(new java.awt.Font("Yu Gothic UI", 1, 18)); // NOI18N
         btnEntregarComanda.setForeground(new java.awt.Color(255, 255, 255));
-        btnEntregarComanda.setText("Entregar");
+        btnEntregarComanda.setText("Entregar comanda");
         btnEntregarComanda.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnEntregarComandaActionPerformed(evt);
@@ -183,7 +209,7 @@ public class FrameComandas extends javax.swing.JFrame {
         btnCancelarComanda.setBackground(new java.awt.Color(158, 42, 43));
         btnCancelarComanda.setFont(new java.awt.Font("Yu Gothic UI", 1, 18)); // NOI18N
         btnCancelarComanda.setForeground(new java.awt.Color(255, 255, 255));
-        btnCancelarComanda.setText("CANCELAR");
+        btnCancelarComanda.setText("Cancelar comanda");
         btnCancelarComanda.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCancelarComandaActionPerformed(evt);
@@ -211,9 +237,9 @@ public class FrameComandas extends javax.swing.JFrame {
                             .addComponent(lbl2))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(pnlComandasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(btnNuevaComanda, javax.swing.GroupLayout.DEFAULT_SIZE, 230, Short.MAX_VALUE)
+                            .addComponent(btnNuevaComanda, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(btnEntregarComanda, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(btnCancelarComanda, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                            .addComponent(btnCancelarComanda, javax.swing.GroupLayout.DEFAULT_SIZE, 230, Short.MAX_VALUE))))
                 .addContainerGap(87, Short.MAX_VALUE))
         );
         pnlComandasLayout.setVerticalGroup(
@@ -226,22 +252,22 @@ public class FrameComandas extends javax.swing.JFrame {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlComandasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(txtConsultar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(btnBuscar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(pnlTablaComandas, javax.swing.GroupLayout.PREFERRED_SIZE, 299, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(pnlTablaComandas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(pnlComandasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(pnlComandasLayout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(lbl2, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(pnlDetallesComanda, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(pnlComandasLayout.createSequentialGroup()
-                        .addGap(32, 32, 32)
+                        .addGap(26, 26, 26)
                         .addComponent(btnNuevaComanda, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(btnEntregarComanda, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnCancelarComanda, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(18, Short.MAX_VALUE))
+                .addContainerGap(43, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -269,15 +295,65 @@ public class FrameComandas extends javax.swing.JFrame {
     }//GEN-LAST:event_btnBuscarActionPerformed
 
     private void btnNuevaComandaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevaComandaActionPerformed
-        // TODO add your handling code here:
+        Navegacion.getControlNavegacion().abrirNuevaComandaForm();
     }//GEN-LAST:event_btnNuevaComandaActionPerformed
 
     private void btnEntregarComandaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEntregarComandaActionPerformed
-        // TODO add your handling code here:
+        int fila = tablaComandas.getSelectedRow();
+
+        if (fila == -1) {
+            JOptionPane.showMessageDialog(this, "Por favor, seleccione una comanda de la tabla.", "Aviso", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        Object estadoObj = tablaComandas.getValueAt(fila, 5);
+        if (estadoObj == null || !estadoObj.toString().equalsIgnoreCase("ABIERTA")) {
+            JOptionPane.showMessageDialog(this, 
+                "Solo se pueden entregar comandas con estado 'ABIERTA'.\nEstado actual: " + estadoObj, 
+                "Operación no permitida", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        Long idComanda = (Long) tablaComandas.getValueAt(fila, 0);
+        String folio = tablaComandas.getValueAt(fila, 1).toString();
+
+        int confirmar = JOptionPane.showConfirmDialog(this, 
+                "¿Confirmar entrega de la comanda con folio: " + folio + "?", 
+                "Confirmar Entrega", JOptionPane.YES_NO_OPTION);
+
+        if (confirmar == JOptionPane.YES_OPTION) {
+            control.actualizarEstado(idComanda, EstadoComanda.ENTREGADA, this);
+            cargarComandas();
+        }
     }//GEN-LAST:event_btnEntregarComandaActionPerformed
 
     private void btnCancelarComandaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarComandaActionPerformed
-        // TODO add your handling code here:
+        int fila = tablaComandas.getSelectedRow();
+
+        if (fila == -1) {
+            JOptionPane.showMessageDialog(this, "Por favor, seleccione una comanda para cancelar.", "Aviso", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        Object estadoObj = tablaComandas.getValueAt(fila, 5);
+        if (estadoObj == null || !estadoObj.toString().equalsIgnoreCase("ABIERTA")) {
+            JOptionPane.showMessageDialog(this, 
+                "No se puede cancelar una comanda que ya ha sido " + estadoObj + ".", 
+                "Operación no permitida", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        Long idComanda = (Long) tablaComandas.getValueAt(fila, 0);
+        String folio = tablaComandas.getValueAt(fila, 1).toString();
+
+        int confirmar = JOptionPane.showConfirmDialog(this, 
+                "¿Está seguro de que desea CANCELAR la comanda con folio: " + folio + "?\nEsta acción no se puede deshacer.", 
+                "Advertencia", JOptionPane.YES_NO_OPTION, JOptionPane.ERROR_MESSAGE);
+
+        if (confirmar == JOptionPane.YES_OPTION) {
+            control.actualizarEstado(idComanda, EstadoComanda.CANCELADA, this);
+            cargarComandas();
+        }
     }//GEN-LAST:event_btnCancelarComandaActionPerformed
 
     private void consultar(String filtro) {
@@ -287,11 +363,11 @@ public class FrameComandas extends javax.swing.JFrame {
     
     // Método de apoyo para no repetir código al llenar la tabla
     private void llenarTabla(List<Comanda> lista) {
-        javax.swing.table.DefaultTableModel modelo = (javax.swing.table.DefaultTableModel) tablaComandas.getModel();
+        DefaultTableModel modelo = (DefaultTableModel) tablaComandas.getModel();
         modelo.setRowCount(0); // Limpia la tabla antes de agregar los nuevos datos
         
         // Formato para que la fecha se vea bien
-        java.time.format.DateTimeFormatter formatter = java.time.format.DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
         
         for (Comanda c : lista) {
             String mesaStr = (c.getMesa() != null) ? "Mesa " + c.getMesa().getNumero() : "S/N";
@@ -315,6 +391,49 @@ public class FrameComandas extends javax.swing.JFrame {
         
         // Como reiniciamos el modelo, hay que asegurar que la columna ID siga oculta
         ocultarColumnaId(); 
+    }
+    
+    /**
+     * Configura el evento de clic del ratón para la tabla de comandas.
+     */
+    private void configurarEventosTabla() {
+        tablaComandas.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent evt) {
+                int filaSeleccionada = tablaComandas.getSelectedRow();
+                if (filaSeleccionada != -1) {
+                    // Obtenemos el ID de la columna 0 (aunque esté oculta para el usuario, sigue ahí en el modelo)
+                    Long idComanda = (Long) tablaComandas.getValueAt(filaSeleccionada, 0);
+                    cargarDetallesEnTabla(idComanda);
+                }
+            }
+        });
+    }
+
+    /**
+     * Llama al control para obtener los detalles en forma de DTO y llena la tabla inferior.
+     * @param idComanda El ID de la comanda a consultar.
+     */
+    private void cargarDetallesEnTabla(Long idComanda) {
+        List<DetalleComandaDTO> detalles = control.obtenerDetallesComanda(idComanda);
+        
+        DefaultTableModel modeloDetalles = (DefaultTableModel) tablaDetalles.getModel();
+        modeloDetalles.setRowCount(0); // Limpiamos la tabla de detalles
+        
+        for (com.mycompany.demabitesdtos.DetalleComandaDTO d : detalles) {
+            // Calculamos el subtotal en tiempo real: cantidad * precio de venta histórico
+            double subtotal = d.getCantidad() * d.getPrecioVenta();
+            
+            modeloDetalles.addRow(new Object[]{
+                d.getProducto().getId(),         // ID del producto
+                d.getProducto().getNombre(),     // Nombre del producto
+                d.getCantidad(),                 // Cantidad
+                d.getComentarios(),              // Comentarios
+                String.format("$%.2f", subtotal) // Subtotal formateado
+            });
+            
+            ocultarColumnaIdDetalles();
+        }
     }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -1,8 +1,11 @@
 package control;
 
 import com.mycompany.demabitesdominio.Comanda;
+import com.mycompany.demabitesdominio.DetalleComanda;
 import com.mycompany.demabitesdominio.EstadoComanda;
+import com.mycompany.demabitesdtos.DetalleComandaDTO;
 import com.mycompany.demabitesdtos.NuevaComandaDTO;
+import com.mycompany.demabitesdtos.ProductoDTO;
 import com.mycompany.demabitesnegocio.ComandaBO;
 import com.mycompany.demabitesnegocio.IComandaBO;
 import com.mycompany.demabitesnegocio.NegocioException;
@@ -75,7 +78,7 @@ public class ComandasControl {
             List<Comanda> todas = comandaBO.consultarTodos();
             
             // Si el buscador está vacío, devolvemos todas las comandas
-            if (filtro == null || filtro.trim().isEmpty() || filtro.equals("Ingrese folio, cliente o mesa...")) {
+            if (filtro == null || filtro.trim().isEmpty()) {
                 return todas;
             }
             
@@ -99,6 +102,45 @@ public class ComandasControl {
             
         } catch (NegocioException ex) {
             JOptionPane.showMessageDialog(null, "Error al filtrar comandas: " + ex.getMessage());
+            return new ArrayList<>();
+        }
+    }
+    
+    /**
+     * Obtiene los detalles de una comanda específica y los convierte a DTOs
+     * para que la vista los pueda mostrar sin acoplarse a las entidades.
+     * @param idComanda El ID de la comanda seleccionada.
+     * @return Lista de DetalleComandaDTO.
+     */
+    public List<DetalleComandaDTO> obtenerDetallesComanda(Long idComanda) {
+        try {
+            Comanda comanda = comandaBO.consultar(idComanda);
+            List<DetalleComandaDTO> listaDetallesDTO = new ArrayList<>();
+            
+            if (comanda != null && comanda.getDetalles() != null) {
+                for (DetalleComanda detalle : comanda.getDetalles()) {
+                    
+                    // Mapeamos el Producto a ProductoDTO
+                    ProductoDTO prodDTO = new ProductoDTO(
+                        detalle.getProducto().getId(),
+                        detalle.getProducto().getNombre(),
+                        detalle.getProducto().getPrecio()
+                    );
+                    
+                    // Mapeamos el Detalle a DetalleComandaDTO y lo agregamos a la lista
+                    listaDetallesDTO.add(new DetalleComandaDTO(
+                        detalle.getId(),
+                        detalle.getCantidad(),
+                        detalle.getPrecioVenta(),
+                        detalle.getComentarios(),
+                        prodDTO
+                    ));
+                }
+            }
+            return listaDetallesDTO;
+            
+        } catch (NegocioException ex) {
+            JOptionPane.showMessageDialog(null, "Error al cargar los detalles: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
             return new ArrayList<>();
         }
     }

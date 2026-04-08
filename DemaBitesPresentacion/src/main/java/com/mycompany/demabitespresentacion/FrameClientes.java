@@ -248,19 +248,22 @@ public class FrameClientes extends javax.swing.JFrame {
     private void llenarTabla() {
         DefaultTableModel modelo = (DefaultTableModel) tblClientes.getModel();
         modelo.setRowCount(0);
-        
+
         List<ClienteFrecuente> lista = control.cargarTabla();
 
-        Object[] fila = new Object[6]; 
+        Object[] fila = new Object[5]; 
 
         for (ClienteFrecuente cliente : lista) {
-            fila[0] = cliente.getNombres();
-            fila[1] = cliente.getTelefono();
-            fila[2] = (cliente.getEmail() == null || cliente.getEmail().isEmpty()) 
-                ? "sin correo" : cliente.getEmail();
-            fila[3] = 0; //Falta persistir (mapear) puntos acumulados, visitas y total consumido :/
+            fila[0] = cliente.getId(); 
+            fila[1] = cliente.getNombres();
+            fila[2] = cliente.getTelefono();
+            fila[3] = (cliente.getEmail() == null || cliente.getEmail().isEmpty()) 
+                        ? "sin correo" : cliente.getEmail();
+            fila[4] = 0; // Puntos
+
             modelo.addRow(fila);
         }
+        ocultarColumnaID();
     }
 
     /**
@@ -273,17 +276,19 @@ public class FrameClientes extends javax.swing.JFrame {
 
         List<ClienteFrecuente> lista = control.filtrar(filtro, this);
 
-        Object[] fila = new Object[6]; 
+        Object[] fila = new Object[5]; 
 
         for (ClienteFrecuente cliente : lista) {
-            fila[0] = cliente.getNombres();
-            fila[1] = cliente.getTelefono();
-            fila[2] = (cliente.getEmail() == null || cliente.getEmail().isEmpty()) 
-                ? "sin correo" : cliente.getEmail();
-            fila[3] = 0;
+            fila[0] = cliente.getId();
+            fila[1] = cliente.getNombres();
+            fila[2] = cliente.getTelefono();
+            fila[3] = (cliente.getEmail() == null || cliente.getEmail().isEmpty()) 
+                        ? "sin correo" : cliente.getEmail();
+            fila[4] = 0;
 
             modelo.addRow(fila);
         }
+        ocultarColumnaID();
     }
     
     /**

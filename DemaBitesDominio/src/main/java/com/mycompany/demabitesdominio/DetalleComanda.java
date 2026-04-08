@@ -48,11 +48,12 @@ public class DetalleComanda implements Serializable {
      * Constructor por defecto.
      */
     public DetalleComanda() {
+        
     }
 
     /**
      * Constructor que inicializa la entidad DetalleComanda con sus datos operativos.
-     * * @param cantidad El número de unidades ordenadas del producto.
+     * @param cantidad El número de unidades ordenadas del producto.
      * @param precioVenta El precio del producto fijado al momento de la orden.
      * @param comentarios Instrucciones específicas del cliente.
      * @param comanda La entidad Comanda a la que pertenece este detalle.

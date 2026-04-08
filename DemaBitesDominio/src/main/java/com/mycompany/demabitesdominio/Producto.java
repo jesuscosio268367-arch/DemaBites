@@ -24,9 +24,15 @@ public class Producto implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_producto")
     private Long id;
+    
+    @Column(name = "nombre")
+    private String nombre;
+
+    @Column(name = "precio")
+    private Double precio;
 
     public Producto() {
-        // Constructor vacío obligatorio
+        // Constructor vacío 
     }
 
     public Long getId() {
@@ -36,4 +42,21 @@ public class Producto implements Serializable {
     public void setId(Long id) {
         this.id = id;
     }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public Double getPrecio() {
+        return precio;
+    }
+
+    public void setPrecio(Double precio) {
+        this.precio = precio;
+    }
+    
 }
