@@ -94,4 +94,5 @@ SELECT * FROM ingredientes;
 SELECT * FROM mesas;
 SELECT * FROM producto_ingrediente;
 SELECT * FROM productos;
-SELECT * FROM comandas; 
+
+ 

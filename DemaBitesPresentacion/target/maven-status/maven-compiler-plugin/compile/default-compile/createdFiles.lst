@@ -3,6 +3,7 @@ control\ComandasControl.class
 com\mycompany\demabitespresentacion\MainPruebaClientes.class
 com\mycompany\demabitespresentacion\FrameComandas$1.class
 com\mycompany\demabitespresentacion\BuscarClienteDialog$1.class
+com\mycompany\demabitespresentacion\FrameComandas$8.class
 control\ClientesControl.class
 com\mycompany\demabitespresentacion\FrameComandas$4.class
 com\mycompany\demabitespresentacion\MenuPrincipal.class

@@ -88,6 +88,7 @@ public class ClientesControl {
     public List<ClienteFrecuente> cargarTabla(){
         try{
             List<ClienteFrecuente> listaClientes = clientesBO.consultarTodos();
+            desencriptarTelefonos(listaClientes);
             return listaClientes;
         }catch(NegocioException ex){
             JOptionPane.showMessageDialog(null, "No se pudieron cargar los clientes" + ex.getMessage());
@@ -104,7 +105,9 @@ public class ClientesControl {
      */
     public List<ClienteFrecuente> filtrar(String filtro, JFrame ventana) {
         try {
-            return clientesBO.filtrar(filtro);
+            List<ClienteFrecuente> listaFiltrada = clientesBO.filtrar(filtro);
+            desencriptarTelefonos(listaFiltrada);
+            return listaFiltrada;
         } catch (NegocioException ex) {
             JOptionPane.showMessageDialog(null, 
                 "Error al buscar clientes: " + ex.getMessage());

@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JDialog.java to edit this template
- */
 package com.mycompany.demabitespresentacion;
 
 import com.mycompany.demabitesutilidades.IBusqueda;
@@ -11,7 +7,7 @@ import javax.swing.table.DefaultTableModel;
 
 /**
  *
- * @author emyla
+ * @author Emily Lara
  */
 public class BuscadorDialog extends javax.swing.JDialog {
 
@@ -29,6 +25,7 @@ public class BuscadorDialog extends javax.swing.JDialog {
         this.objetoSeleccionado = null;
         
         configurarTabla();
+        ejecutarBusqueda();
     }
 
     /**
@@ -166,7 +163,7 @@ public class BuscadorDialog extends javax.swing.JDialog {
     private void btnSeleccionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSeleccionarActionPerformed
         seleccionarItem();
     }//GEN-LAST:event_btnSeleccionarActionPerformed
-
+    
     private void configurarTabla() {
         // Le pedimos a la estrategia los nombres de las columnas
         DefaultTableModel modelo = new DefaultTableModel(busqueda.getColumnas(), 0);

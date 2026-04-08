@@ -1,10 +1,5 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package com.mycompany.demabitespresentacion;
 
-import com.mycompany.demabitesdominio.Producto;
 import com.mycompany.demabitesdtos.DetalleComandaDTO;
 import com.mycompany.demabitesdtos.MesaDTO;
 import com.mycompany.demabitesdtos.NuevaComandaDTO;
@@ -324,6 +319,14 @@ public class NuevaComandaForm extends javax.swing.JFrame {
                     "Cantidad", 
                     JOptionPane.QUESTION_MESSAGE);
             
+            if (cantStr == null || cantStr.trim().isEmpty()) {
+                JOptionPane.showMessageDialog(this, 
+                        "Operación cancelada: Debe ingresar una cantidad para agregar el producto.", 
+                        "Aviso", 
+                        JOptionPane.WARNING_MESSAGE);
+                return; 
+            }
+            
             if (cantStr != null && !cantStr.trim().isEmpty()) {
                 try {
                     int cantidad = Integer.parseInt(cantStr);
@@ -389,11 +392,11 @@ public class NuevaComandaForm extends javax.swing.JFrame {
             double totalComanda = Double.parseDouble(totalStr);
 
             // Lista para guardar los detalles
-            java.util.List<DetalleComandaDTO> detalles = new java.util.ArrayList<>();
-            javax.swing.table.DefaultTableModel modelo = (javax.swing.table.DefaultTableModel) jTable2.getModel();
+            List<DetalleComandaDTO> detalles = new java.util.ArrayList<>();
+            DefaultTableModel modelo = (javax.swing.table.DefaultTableModel) jTable2.getModel();
 
             for (int i = 0; i < modelo.getRowCount(); i++) {
-                Long idProducto = Long.parseLong(modelo.getValueAt(i, 0).toString());
+                Long idProducto = Long.valueOf(modelo.getValueAt(i, 0).toString());
 
                 String nombreProductoStr = modelo.getValueAt(i, 1).toString();
 
@@ -462,7 +465,7 @@ public class NuevaComandaForm extends javax.swing.JFrame {
      * Recorre la tabla de productos para sumar los subtotales y mostrar el Total.
      */
     private void actualizarTotalComanda() {
-        javax.swing.table.DefaultTableModel modelo = (javax.swing.table.DefaultTableModel) jTable2.getModel();
+        DefaultTableModel modelo = (DefaultTableModel) jTable2.getModel();
         double total = 0.0;
         
         for (int i = 0; i < modelo.getRowCount(); i++) {

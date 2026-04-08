@@ -1,10 +1,17 @@
 package com.mycompany.demabitespresentacion;
 
 import com.mycompany.demabitesdominio.Comanda;
+import com.mycompany.demabitesdominio.EstadoComanda;
+import com.mycompany.demabitesdtos.DetalleComandaDTO;
 import control.ComandasControl;
 import control.Navegacion;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 import utileria.utilMetodos;
 
 /**
@@ -15,12 +22,13 @@ import utileria.utilMetodos;
 public class FrameComandas extends javax.swing.JFrame {
 
     private final ComandasControl control; // Instanciamos el control
-    private static final Logger LOGGER = java.util.logging.Logger.getLogger(FrameComandas.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(FrameComandas.class.getName());
     
     public FrameComandas() {
         initComponents();
         this.control = new ComandasControl();
         cargarComandas();
+        ocultarColumnaIdDetalles();
         ocultarColumnaId();
         configurarEventosTabla();
         MenuHeader header = new MenuHeader();
@@ -37,6 +45,11 @@ public class FrameComandas extends javax.swing.JFrame {
         tablaComandas.getColumnModel().getColumn(0).setMinWidth(0);
         tablaComandas.getColumnModel().getColumn(0).setPreferredWidth(0);
         tablaComandas.getColumnModel().getColumn(0).setMaxWidth(0);
+    }
+    private void ocultarColumnaIdDetalles() {
+        tablaDetalles.getColumnModel().getColumn(0).setMinWidth(0);
+        tablaDetalles.getColumnModel().getColumn(0).setPreferredWidth(0);
+        tablaDetalles.getColumnModel().getColumn(0).setMaxWidth(0);
     }
 
     /**
@@ -144,7 +157,15 @@ public class FrameComandas extends javax.swing.JFrame {
             new String [] {
                 "ID", "Producto", "Cantidad", "Comentario", "Subtotal"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         jScrollPane2.setViewportView(tablaDetalles);
 
         javax.swing.GroupLayout pnlDetallesComandaLayout = new javax.swing.GroupLayout(pnlDetallesComanda);
@@ -178,7 +199,7 @@ public class FrameComandas extends javax.swing.JFrame {
         btnEntregarComanda.setBackground(new java.awt.Color(47, 65, 86));
         btnEntregarComanda.setFont(new java.awt.Font("Yu Gothic UI", 1, 18)); // NOI18N
         btnEntregarComanda.setForeground(new java.awt.Color(255, 255, 255));
-        btnEntregarComanda.setText("Entregar");
+        btnEntregarComanda.setText("Entregar comanda");
         btnEntregarComanda.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnEntregarComandaActionPerformed(evt);
@@ -278,11 +299,61 @@ public class FrameComandas extends javax.swing.JFrame {
     }//GEN-LAST:event_btnNuevaComandaActionPerformed
 
     private void btnEntregarComandaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEntregarComandaActionPerformed
-        // TODO add your handling code here:
+        int fila = tablaComandas.getSelectedRow();
+
+        if (fila == -1) {
+            JOptionPane.showMessageDialog(this, "Por favor, seleccione una comanda de la tabla.", "Aviso", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        Object estadoObj = tablaComandas.getValueAt(fila, 5);
+        if (estadoObj == null || !estadoObj.toString().equalsIgnoreCase("ABIERTA")) {
+            JOptionPane.showMessageDialog(this, 
+                "Solo se pueden entregar comandas con estado 'ABIERTA'.\nEstado actual: " + estadoObj, 
+                "Operación no permitida", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        Long idComanda = (Long) tablaComandas.getValueAt(fila, 0);
+        String folio = tablaComandas.getValueAt(fila, 1).toString();
+
+        int confirmar = JOptionPane.showConfirmDialog(this, 
+                "¿Confirmar entrega de la comanda con folio: " + folio + "?", 
+                "Confirmar Entrega", JOptionPane.YES_NO_OPTION);
+
+        if (confirmar == JOptionPane.YES_OPTION) {
+            control.actualizarEstado(idComanda, EstadoComanda.ENTREGADA, this);
+            cargarComandas();
+        }
     }//GEN-LAST:event_btnEntregarComandaActionPerformed
 
     private void btnCancelarComandaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarComandaActionPerformed
-        // TODO add your handling code here:
+        int fila = tablaComandas.getSelectedRow();
+
+        if (fila == -1) {
+            JOptionPane.showMessageDialog(this, "Por favor, seleccione una comanda para cancelar.", "Aviso", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        Object estadoObj = tablaComandas.getValueAt(fila, 5);
+        if (estadoObj == null || !estadoObj.toString().equalsIgnoreCase("ABIERTA")) {
+            JOptionPane.showMessageDialog(this, 
+                "No se puede cancelar una comanda que ya ha sido " + estadoObj + ".", 
+                "Operación no permitida", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        Long idComanda = (Long) tablaComandas.getValueAt(fila, 0);
+        String folio = tablaComandas.getValueAt(fila, 1).toString();
+
+        int confirmar = JOptionPane.showConfirmDialog(this, 
+                "¿Está seguro de que desea CANCELAR la comanda con folio: " + folio + "?\nEsta acción no se puede deshacer.", 
+                "Advertencia", JOptionPane.YES_NO_OPTION, JOptionPane.ERROR_MESSAGE);
+
+        if (confirmar == JOptionPane.YES_OPTION) {
+            control.actualizarEstado(idComanda, EstadoComanda.CANCELADA, this);
+            cargarComandas();
+        }
     }//GEN-LAST:event_btnCancelarComandaActionPerformed
 
     private void consultar(String filtro) {
@@ -292,11 +363,11 @@ public class FrameComandas extends javax.swing.JFrame {
     
     // Método de apoyo para no repetir código al llenar la tabla
     private void llenarTabla(List<Comanda> lista) {
-        javax.swing.table.DefaultTableModel modelo = (javax.swing.table.DefaultTableModel) tablaComandas.getModel();
+        DefaultTableModel modelo = (DefaultTableModel) tablaComandas.getModel();
         modelo.setRowCount(0); // Limpia la tabla antes de agregar los nuevos datos
         
         // Formato para que la fecha se vea bien
-        java.time.format.DateTimeFormatter formatter = java.time.format.DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
         
         for (Comanda c : lista) {
             String mesaStr = (c.getMesa() != null) ? "Mesa " + c.getMesa().getNumero() : "S/N";
@@ -326,9 +397,9 @@ public class FrameComandas extends javax.swing.JFrame {
      * Configura el evento de clic del ratón para la tabla de comandas.
      */
     private void configurarEventosTabla() {
-        tablaComandas.addMouseListener(new java.awt.event.MouseAdapter() {
+        tablaComandas.addMouseListener(new MouseAdapter() {
             @Override
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
+            public void mouseClicked(MouseEvent evt) {
                 int filaSeleccionada = tablaComandas.getSelectedRow();
                 if (filaSeleccionada != -1) {
                     // Obtenemos el ID de la columna 0 (aunque esté oculta para el usuario, sigue ahí en el modelo)
@@ -344,9 +415,9 @@ public class FrameComandas extends javax.swing.JFrame {
      * @param idComanda El ID de la comanda a consultar.
      */
     private void cargarDetallesEnTabla(Long idComanda) {
-        List<com.mycompany.demabitesdtos.DetalleComandaDTO> detalles = control.obtenerDetallesComanda(idComanda);
+        List<DetalleComandaDTO> detalles = control.obtenerDetallesComanda(idComanda);
         
-        javax.swing.table.DefaultTableModel modeloDetalles = (javax.swing.table.DefaultTableModel) tablaDetalles.getModel();
+        DefaultTableModel modeloDetalles = (DefaultTableModel) tablaDetalles.getModel();
         modeloDetalles.setRowCount(0); // Limpiamos la tabla de detalles
         
         for (com.mycompany.demabitesdtos.DetalleComandaDTO d : detalles) {
@@ -360,6 +431,8 @@ public class FrameComandas extends javax.swing.JFrame {
                 d.getComentarios(),              // Comentarios
                 String.format("$%.2f", subtotal) // Subtotal formateado
             });
+            
+            ocultarColumnaIdDetalles();
         }
     }
     

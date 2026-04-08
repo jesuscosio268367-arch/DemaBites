@@ -7,6 +7,7 @@ import com.mycompany.demabitesnegocio.ClienteBO;
 import com.mycompany.demabitesnegocio.NegocioException;
 import com.mycompany.demabitespersistencia.ClienteDAO;
 import com.mycompany.demabitesutilidades.IBusqueda;
+import com.mycompany.demabitesutilidades.SeguridadUtil;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
@@ -32,7 +33,6 @@ public class BusquedaClientes implements IBusqueda {
     public List<?> buscar(String textoBusqueda) {
         try {
             List<ClienteFrecuente> listaDominio = clienteBO.filtrar(textoBusqueda);
-
             List<NuevoClienteFrecuenteDTO> listaDTO = new ArrayList<>();
 
             for (ClienteFrecuente clienteEntidad : listaDominio) {
@@ -41,14 +41,17 @@ public class BusquedaClientes implements IBusqueda {
                 dto.setNombres(clienteEntidad.getNombres());
                 dto.setApellidoPaterno(clienteEntidad.getApellidoPaterno());
                 dto.setApellidoMaterno(clienteEntidad.getApellidoMaterno());
-                dto.setTelefono(clienteEntidad.getTelefono());
+
+                String telDesencriptado = SeguridadUtil.desencriptar(clienteEntidad.getTelefonoEncriptado());
+                dto.setTelefono(telDesencriptado); 
+
                 dto.setEmail(clienteEntidad.getEmail()); 
-                
+
                 listaDTO.add(dto);
             }
-            
+
             return listaDTO;
-            
+
         } catch (NegocioException ex) {
             JOptionPane.showMessageDialog(null, "Error al buscar clientes: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
             return new ArrayList<>();
