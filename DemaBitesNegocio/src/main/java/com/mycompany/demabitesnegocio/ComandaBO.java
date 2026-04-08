@@ -102,4 +102,32 @@ public class ComandaBO implements IComandaBO {
             throw new NegocioException("Error al obtener el listado de comandas.", ex);
         }
     }
+    
+    /**
+     * Regla de Negocio: Validar que el ID sea correcto antes de ir a buscar a la base de datos.
+     * @param id Identificador único de la comanda.
+     * @return La comanda encontrada con todos sus detalles.
+     * @throws NegocioException Si el ID es inválido, no existe la comanda, o hay un error de acceso.
+     */
+    @Override 
+    public Comanda consultar(Long id) throws NegocioException {
+        // Validamos que el ID tenga un formato válido
+        if (id == null || id <= 0) {
+            throw new NegocioException("El ID proporcionado para buscar la comanda no es válido.", null);
+        }
+
+        try {
+            Comanda comanda = comandaDAO.consultar(id);
+            
+            // Validamos que realmente exista en la base de datos
+            if (comanda == null) {
+                throw new NegocioException("No se encontró ninguna comanda con el ID: " + id, null);
+            }
+            
+            return comanda;
+            
+        } catch (PersistenciaException ex) {
+            throw new NegocioException("Error interno al consultar la comanda por ID.", ex);
+        }
+    }
 }

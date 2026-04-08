@@ -1,5 +1,7 @@
+com\mycompany\demabitespersistencia\MesaDAO.class
 com\mycompany\demabitespersistencia\ClienteDAO.class
 com\mycompany\demabitespersistencia\IComandaDAO.class
+com\mycompany\demabitespersistencia\IMesaDAO.class
 com\mycompany\demabitespersistencia\IClienteDAO.class
 com\mycompany\demabitespersistencia\ComandaDAO.class
 com\mycompany\demabitespersistencia\ManejadorConexiones.class
