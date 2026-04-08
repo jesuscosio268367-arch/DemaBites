@@ -30,7 +30,8 @@ public class DetalleComandaDTO {
      * @param comentarios Notas especiales solicitadas por el cliente.
      * @param producto El DTO del producto ordenado.
      */
-    public DetalleComandaDTO(Integer cantidad, Double precioVenta, String comentarios, ProductoDTO producto) {
+    public DetalleComandaDTO(Long id, Integer cantidad, Double precioVenta, String comentarios, ProductoDTO producto) {
+        this.id = id;
         this.cantidad = cantidad;
         this.precioVenta = precioVenta;
         this.comentarios = comentarios;

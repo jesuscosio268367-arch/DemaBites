@@ -188,7 +188,7 @@ public class FrameComandas extends javax.swing.JFrame {
         btnCancelarComanda.setBackground(new java.awt.Color(158, 42, 43));
         btnCancelarComanda.setFont(new java.awt.Font("Yu Gothic UI", 1, 18)); // NOI18N
         btnCancelarComanda.setForeground(new java.awt.Color(255, 255, 255));
-        btnCancelarComanda.setText("CANCELAR");
+        btnCancelarComanda.setText("Cancelar comanda");
         btnCancelarComanda.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCancelarComandaActionPerformed(evt);
@@ -216,9 +216,9 @@ public class FrameComandas extends javax.swing.JFrame {
                             .addComponent(lbl2))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(pnlComandasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(btnNuevaComanda, javax.swing.GroupLayout.DEFAULT_SIZE, 230, Short.MAX_VALUE)
+                            .addComponent(btnNuevaComanda, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(btnEntregarComanda, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(btnCancelarComanda, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                            .addComponent(btnCancelarComanda, javax.swing.GroupLayout.DEFAULT_SIZE, 230, Short.MAX_VALUE))))
                 .addContainerGap(87, Short.MAX_VALUE))
         );
         pnlComandasLayout.setVerticalGroup(

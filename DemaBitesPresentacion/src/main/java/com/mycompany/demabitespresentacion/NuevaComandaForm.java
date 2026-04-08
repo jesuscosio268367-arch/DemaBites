@@ -4,10 +4,20 @@
  */
 package com.mycompany.demabitespresentacion;
 
+import com.mycompany.demabitesdominio.Producto;
+import com.mycompany.demabitesdtos.DetalleComandaDTO;
 import com.mycompany.demabitesdtos.MesaDTO;
+import com.mycompany.demabitesdtos.NuevaComandaDTO;
+import com.mycompany.demabitesdtos.NuevoClienteFrecuenteDTO;
+import com.mycompany.demabitesdtos.ProductoDTO;
+import com.mycompany.demabitesutilidades.IBusqueda;
 import control.MesasControl;
 import control.Navegacion;
+import java.time.LocalDateTime;
 import java.util.List;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import utileria.BusquedaProductos;
 
 /**
  *
@@ -17,6 +27,9 @@ public class NuevaComandaForm extends javax.swing.JFrame {
 
     private MesasControl mesasControl;
     private List<MesaDTO> listaMesasDisponibles;
+    private NuevoClienteFrecuenteDTO clienteComanda;
+    
+    
     /**
      * Creates new form NuevaComandaForm
      */
@@ -26,6 +39,8 @@ public class NuevaComandaForm extends javax.swing.JFrame {
         cargarMesasComboBox();
         
         btnBuscarCliente.setVisible(false);
+        txtClienteNombre.setVisible(false);
+        
         cbxCliente.addActionListener(e -> {
             // Validamos que haya un item seleccionado para evitar NullPointerException
             if (cbxCliente.getSelectedItem() != null) {
@@ -34,19 +49,10 @@ public class NuevaComandaForm extends javax.swing.JFrame {
                     btnBuscarCliente.setVisible(true); 
                 } else {
                     btnBuscarCliente.setVisible(false); 
+                    this.clienteComanda = null;
                 }
             }
-        });
-        btnBuscarCliente.setVisible(false);
-        cbxCliente.addActionListener(e -> {
-        String seleccion = cbxCliente.getSelectedItem().toString();
-
-        if (seleccion.equals("Cliente frecuente")) {
-            btnBuscarCliente.setVisible(true); 
-        } else {
-            btnBuscarCliente.setVisible(false); 
-        }
-    });
+        });   
     }
 
     /**
@@ -71,7 +77,7 @@ public class NuevaComandaForm extends javax.swing.JFrame {
         jTable2 = new javax.swing.JTable();
         lbl6 = new javax.swing.JLabel();
         lbl7 = new javax.swing.JLabel();
-        btnBuscar2 = new javax.swing.JButton();
+        btnContinuar = new javax.swing.JButton();
         btnCancelarComanda = new javax.swing.JButton();
         btnBuscarCliente = new javax.swing.JButton();
         txtClienteNombre = new javax.swing.JTextField();
@@ -102,13 +108,15 @@ public class NuevaComandaForm extends javax.swing.JFrame {
         btnBuscar1.setFont(new java.awt.Font("Yu Gothic UI", 1, 18)); // NOI18N
         btnBuscar1.setForeground(new java.awt.Color(255, 255, 255));
         btnBuscar1.setText("Agregar productos");
+        btnBuscar1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBuscar1ActionPerformed(evt);
+            }
+        });
 
         jTable2.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
+
             },
             new String [] {
                 "Id", "Producto", "Cantidad", "Comentario", "Subtotal"
@@ -133,10 +141,15 @@ public class NuevaComandaForm extends javax.swing.JFrame {
         lbl7.setFont(new java.awt.Font("Yu Gothic UI Semilight", 0, 24)); // NOI18N
         lbl7.setText("$00.00");
 
-        btnBuscar2.setBackground(new java.awt.Color(47, 65, 86));
-        btnBuscar2.setFont(new java.awt.Font("Yu Gothic UI", 1, 18)); // NOI18N
-        btnBuscar2.setForeground(new java.awt.Color(255, 255, 255));
-        btnBuscar2.setText("Continuar");
+        btnContinuar.setBackground(new java.awt.Color(47, 65, 86));
+        btnContinuar.setFont(new java.awt.Font("Yu Gothic UI", 1, 18)); // NOI18N
+        btnContinuar.setForeground(new java.awt.Color(255, 255, 255));
+        btnContinuar.setText("Continuar");
+        btnContinuar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnContinuarActionPerformed(evt);
+            }
+        });
 
         btnCancelarComanda.setBackground(new java.awt.Color(158, 42, 43));
         btnCancelarComanda.setFont(new java.awt.Font("Yu Gothic UI", 1, 18)); // NOI18N
@@ -152,6 +165,11 @@ public class NuevaComandaForm extends javax.swing.JFrame {
         btnBuscarCliente.setFont(new java.awt.Font("Yu Gothic UI", 1, 18)); // NOI18N
         btnBuscarCliente.setForeground(new java.awt.Color(255, 255, 255));
         btnBuscarCliente.setText("Buscar cliente");
+        btnBuscarCliente.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBuscarClienteActionPerformed(evt);
+            }
+        });
 
         txtClienteNombre.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
 
@@ -201,7 +219,7 @@ public class NuevaComandaForm extends javax.swing.JFrame {
                         .addGap(5, 5, 5)
                         .addComponent(btnCancelarComanda, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btnBuscar2, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(btnContinuar, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(244, 244, 244)
                         .addComponent(btnBuscarCliente)))
@@ -236,7 +254,7 @@ public class NuevaComandaForm extends javax.swing.JFrame {
                     .addComponent(lbl7))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnBuscar2)
+                    .addComponent(btnContinuar)
                     .addComponent(btnCancelarComanda, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(22, Short.MAX_VALUE))
         );
@@ -259,6 +277,167 @@ public class NuevaComandaForm extends javax.swing.JFrame {
         Navegacion.getControlNavegacion().abrirComandasFrame();
     }//GEN-LAST:event_btnCancelarComandaActionPerformed
 
+    private void btnBuscarClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarClienteActionPerformed
+       
+        IBusqueda busquedaClientes = new utileria.BusquedaClientes(); 
+
+        BuscadorDialog buscador = new BuscadorDialog(this, true, busquedaClientes);
+        buscador.setVisible(true); 
+
+        Object seleccion = buscador.getObjetoSeleccionado();
+
+        if (seleccion != null) {
+            try {
+                NuevoClienteFrecuenteDTO clienteElegido = (NuevoClienteFrecuenteDTO) seleccion;
+
+                String nombreCompleto = clienteElegido.getNombres() + " " + clienteElegido.getApellidoPaterno();
+                txtClienteNombre.setText(nombreCompleto);
+                txtClienteNombre.setEditable(false);
+
+                this.clienteComanda = clienteElegido;
+
+                txtClienteNombre.setVisible(true);            
+
+                jPanel1.revalidate();
+                jPanel1.repaint();
+
+            } catch (ClassCastException e) {
+                JOptionPane.showMessageDialog(this, "Error de tipo de dato", "Error", JOptionPane.ERROR_MESSAGE);
+                
+            }
+        }
+    }//GEN-LAST:event_btnBuscarClienteActionPerformed
+
+    private void btnBuscar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscar1ActionPerformed
+        IBusqueda estrategiaProductos = new BusquedaProductos();
+        
+        BuscadorDialog buscador = new BuscadorDialog(this, true, estrategiaProductos);
+        buscador.setVisible(true); 
+        
+        Object seleccion = buscador.getObjetoSeleccionado();
+        
+        if (seleccion != null) {
+            ProductoDTO producto = (ProductoDTO) seleccion;
+            
+            String cantStr = JOptionPane.showInputDialog(this, 
+                    "¿Qué cantidad de '" + producto.getNombre() + "' desea agregar?", 
+                    "Cantidad", 
+                    JOptionPane.QUESTION_MESSAGE);
+            
+            if (cantStr != null && !cantStr.trim().isEmpty()) {
+                try {
+                    int cantidad = Integer.parseInt(cantStr);
+                    if (cantidad <= 0) {
+                        JOptionPane.showMessageDialog(this, "La cantidad debe ser mayor a 0.");
+                        return;
+                    }
+                    
+                    String comentario = JOptionPane.showInputDialog(this, 
+                            "Comentarios para cocina: \n(Deje en blanco si no hay comentarios)", 
+                            "Comentarios", 
+                            JOptionPane.PLAIN_MESSAGE);
+                    
+                    if (comentario == null) comentario = "";
+
+                    double subtotal = cantidad * producto.getPrecio();
+                    
+                    DefaultTableModel modelo = (DefaultTableModel) jTable2.getModel();
+                    modelo.addRow(new Object[]{
+                        producto.getId(),
+                        producto.getNombre(),
+                        cantidad,
+                        comentario,
+                        "$" + String.format("%.2f", subtotal)
+                    });
+
+                    actualizarTotalComanda();
+                    
+                } catch (NumberFormatException e) {
+                    JOptionPane.showMessageDialog(this, "Por favor ingrese un número válido.", "Error", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        }
+    }//GEN-LAST:event_btnBuscar1ActionPerformed
+
+    private void btnContinuarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnContinuarActionPerformed
+        // Verificar que haya productos en la tabla
+        if (jTable2.getRowCount() == 0) {
+            JOptionPane.showMessageDialog(this, "Debe agregar al menos un producto a la comanda.", "Aviso", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        // Verificar que se haya seleccionado una mesa
+        if (cbxMesa.getSelectedIndex() == -1 || listaMesasDisponibles == null || listaMesasDisponibles.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Debe seleccionar una mesa válida.", "Aviso", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        // Verificar cliente frecuente
+        String tipoCliente = cbxCliente.getSelectedItem().toString();
+        if (tipoCliente.equals("Cliente frecuente") && this.clienteComanda == null) {
+            JOptionPane.showMessageDialog(this, "Debe buscar y seleccionar un cliente frecuente.", "Aviso", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        try {
+            // Obtener la mesa seleccionada
+            int mesaIndex = cbxMesa.getSelectedIndex();
+            MesaDTO mesaSeleccionada = listaMesasDisponibles.get(mesaIndex);
+
+            // Obtener el total (quitando el símbolo $ que agregaste en el label)
+            String totalStr = lbl7.getText().replace("$", "").replace(",", "");
+            double totalComanda = Double.parseDouble(totalStr);
+
+            // Lista para guardar los detalles
+            java.util.List<DetalleComandaDTO> detalles = new java.util.ArrayList<>();
+            javax.swing.table.DefaultTableModel modelo = (javax.swing.table.DefaultTableModel) jTable2.getModel();
+
+            for (int i = 0; i < modelo.getRowCount(); i++) {
+                Long idProducto = Long.parseLong(modelo.getValueAt(i, 0).toString());
+
+                String nombreProductoStr = modelo.getValueAt(i, 1).toString();
+
+                int cantidad = Integer.parseInt(modelo.getValueAt(i, 2).toString());
+                String comentario = modelo.getValueAt(i, 3).toString();
+
+                String subtotalFilaStr = modelo.getValueAt(i, 4).toString().replace("$", "").replace(",", "");
+                double subtotal = Double.parseDouble(subtotalFilaStr);
+                
+                ProductoDTO productoFila = new ProductoDTO();
+                productoFila.setId(idProducto);
+                
+                DetalleComandaDTO detalle = new DetalleComandaDTO(idProducto, cantidad, subtotal, comentario, productoFila);
+                detalles.add(detalle);
+            }
+
+            NuevaComandaDTO nuevaComanda = new NuevaComandaDTO();
+            nuevaComanda.setMesa(mesaSeleccionada);
+            nuevaComanda.setTotal(totalComanda);
+            nuevaComanda.setDetalles(detalles);
+            nuevaComanda.setFechaHora(LocalDateTime.now());
+
+            if (tipoCliente.equals("Cliente frecuente")) {
+                nuevaComanda.setCliente(this.clienteComanda);
+            }
+
+            control.ComandasControl comandasControl = new control.ComandasControl();
+            
+            comandasControl.registrarComanda(nuevaComanda, this);
+
+            boolean guardadoExitoso = true;
+
+            if (guardadoExitoso) {
+                JOptionPane.showMessageDialog(this, "¡Comanda registrada con éxito!", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+                Navegacion.getControlNavegacion().abrirComandasFrame();
+                this.dispose(); 
+            }
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Ocurrió un error inesperado al procesar la comanda.", "Error Crítico", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_btnContinuarActionPerformed
+
     /**
      * Carga las mesas disponibles desde la base de datos y las pone en el ComboBox.
      */
@@ -275,16 +454,35 @@ public class NuevaComandaForm extends javax.swing.JFrame {
             // Si no hay mesas, bloqueamos el ComboBox y avisamos
             cbxMesa.addItem("No hay mesas disponibles");
             cbxMesa.setEnabled(false);
-            btnBuscar2.setEnabled(false); // Bloqueamos el botón de Continuar
+            btnContinuar.setEnabled(false); // Bloqueamos el botón de Continuar
         }
+    }
+    
+    /**
+     * Recorre la tabla de productos para sumar los subtotales y mostrar el Total.
+     */
+    private void actualizarTotalComanda() {
+        javax.swing.table.DefaultTableModel modelo = (javax.swing.table.DefaultTableModel) jTable2.getModel();
+        double total = 0.0;
+        
+        for (int i = 0; i < modelo.getRowCount(); i++) {
+            // Sacamos el texto del subtotal
+            String subtotalStr = modelo.getValueAt(i, 4).toString();
+            // Le quitamos el signo de pesos para poder sumarlo
+            subtotalStr = subtotalStr.replace("$", "").replace(",", "");
+            total += Double.parseDouble(subtotalStr);
+        }
+        
+        // Lo mostramos en la etiqueta
+        lbl7.setText("$" + String.format("%.2f", total));
     }
     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBuscar1;
-    private javax.swing.JButton btnBuscar2;
     private javax.swing.JButton btnBuscarCliente;
     private javax.swing.JButton btnCancelarComanda;
+    private javax.swing.JButton btnContinuar;
     private javax.swing.JComboBox<String> cbxCliente;
     private javax.swing.JComboBox<String> cbxMesa;
     private javax.swing.JPanel jPanel1;

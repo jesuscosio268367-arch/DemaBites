@@ -129,6 +129,7 @@ public class ComandasControl {
                     
                     // Mapeamos el Detalle a DetalleComandaDTO y lo agregamos a la lista
                     listaDetallesDTO.add(new DetalleComandaDTO(
+                        detalle.getId(),
                         detalle.getCantidad(),
                         detalle.getPrecioVenta(),
                         detalle.getComentarios(),
