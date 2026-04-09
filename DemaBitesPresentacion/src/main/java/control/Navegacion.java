@@ -2,8 +2,10 @@ package control;
 
 import com.mycompany.demabitespresentacion.FormClientes;
 import com.mycompany.demabitespresentacion.FormEditarClientes;
+import com.mycompany.demabitespresentacion.FormularioIngredientes;
 import com.mycompany.demabitespresentacion.FrameClientes;
 import com.mycompany.demabitespresentacion.FrameComandas;
+import com.mycompany.demabitespresentacion.IngredientesForm;
 import com.mycompany.demabitespresentacion.MenuPrincipal;
 import com.mycompany.demabitespresentacion.NuevaComandaForm;
 import javax.swing.JFrame;
@@ -107,6 +109,16 @@ public class Navegacion {
     
     //Productos
     //Ingredientes
+    
+    public void abrirFrameIngredientes(){
+        this.pantallaActual = "INGREDIENTES";
+        cambiarPantalla(new IngredientesForm());
+    }
+    
+    public void abrirFormularioIngredientes(){
+        this.pantallaActual = "NUEVO_INGREDIENTE";
+        cambiarPantalla(new FormularioIngredientes());
+    }
     
     //Clientes
     

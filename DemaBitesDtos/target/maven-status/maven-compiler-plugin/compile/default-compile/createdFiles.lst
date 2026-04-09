@@ -1,5 +1,7 @@
 com\mycompany\demabitesdtos\NuevoClienteDTO.class
 com\mycompany\demabitesdtos\EstadoComanda.class
+Enums\Unidad.class
+com\mycompany\demabitesdtos\NuevoIngredienteDTO.class
 com\mycompany\demabitesdtos\NuevoClienteFrecuenteDTO.class
 com\mycompany\demabitesdtos\NuevoClienteFrecuenteActualizadoDTO.class
 com\mycompany\demabitesdtos\MesaDTO.class

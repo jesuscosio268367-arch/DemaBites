@@ -3,6 +3,7 @@ package com.mycompany.demabitespresentacion;
 import com.mycompany.demabitesdominio.Comanda;
 import com.mycompany.demabitesdominio.EstadoComanda;
 import com.mycompany.demabitesdtos.DetalleComandaDTO;
+import com.mycompany.demabitesnegocio.NegocioException;
 import control.ComandasControl;
 import control.Navegacion;
 import java.awt.event.MouseAdapter;
@@ -30,7 +31,7 @@ public class FrameComandas extends javax.swing.JFrame {
         cargarComandas();
         ocultarColumnaIdDetalles();
         ocultarColumnaId();
-        configurarEventosTabla();
+        //configurarEventosTabla();
         MenuHeader header = new MenuHeader();
         utilMetodos.insertarPanel(pnlHeader, header);
     }
@@ -396,25 +397,25 @@ public class FrameComandas extends javax.swing.JFrame {
     /**
      * Configura el evento de clic del ratón para la tabla de comandas.
      */
-    private void configurarEventosTabla() {
-        tablaComandas.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent evt) {
-                int filaSeleccionada = tablaComandas.getSelectedRow();
-                if (filaSeleccionada != -1) {
-                    // Obtenemos el ID de la columna 0 (aunque esté oculta para el usuario, sigue ahí en el modelo)
-                    Long idComanda = (Long) tablaComandas.getValueAt(filaSeleccionada, 0);
-                    cargarDetallesEnTabla(idComanda);
-                }
-            }
-        });
-    }
+//    private void configurarEventosTabla() {
+//        tablaComandas.addMouseListener(new MouseAdapter() {
+//            @Override
+//            public void mouseClicked(MouseEvent evt) {
+//                int filaSeleccionada = tablaComandas.getSelectedRow();
+//                if (filaSeleccionada != -1) {
+//                    // Obtenemos el ID de la columna 0 (aunque esté oculta para el usuario, sigue ahí en el modelo)
+//                    Long idComanda = (Long) tablaComandas.getValueAt(filaSeleccionada, 0);
+//                    cargarDetallesEnTabla(idComanda);
+//                }
+//            }
+//        });
+//    }
 
     /**
      * Llama al control para obtener los detalles en forma de DTO y llena la tabla inferior.
      * @param idComanda El ID de la comanda a consultar.
      */
-    private void cargarDetallesEnTabla(Long idComanda) {
+    private void cargarDetallesEnTabla(Long idComanda)throws NegocioException {
         List<DetalleComandaDTO> detalles = control.obtenerDetallesComanda(idComanda);
         
         DefaultTableModel modeloDetalles = (DefaultTableModel) tablaDetalles.getModel();

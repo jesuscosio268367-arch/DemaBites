@@ -12,6 +12,7 @@ import com.mycompany.demabitesnegocio.NegocioException;
 import com.mycompany.demabitespersistencia.ComandaDAO;
 import java.util.ArrayList;
 import java.util.List;
+import javax.persistence.PersistenceException;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 

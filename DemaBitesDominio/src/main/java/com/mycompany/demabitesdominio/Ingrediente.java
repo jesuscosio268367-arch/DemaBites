@@ -4,12 +4,18 @@
  */
 package com.mycompany.demabitesdominio;
 
+import Enums.Unidad;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
@@ -29,8 +35,29 @@ public class Ingrediente implements Serializable {
     @Column(name = "nombre", nullable = false, length = 100)
     private String nombre;
     
+    @Enumerated(EnumType.STRING)
+    @Column(name = "unidad", nullable = false)
+    private Unidad unidad;
+    
     @Column(name = "stock", nullable = false)
     private double stock;
+    
+    @Column(name = "imagen", nullable = true)
+    private byte[] imagenIngrediente;
+    
+    @OneToMany(mappedBy = "ingrediente")
+    private List<ProductoIngrediente> productos = new ArrayList<>();
+    
+    public Ingrediente(){
+        // Constructor por defecto
+    }
+
+    public Ingrediente(String nombre, Unidad unidad, double stock, byte[] imagenIngrediente) {
+        this.nombre = nombre;
+        this.unidad = unidad;
+        this.stock = stock;
+        this.imagenIngrediente = imagenIngrediente;
+    }
     
     public Long getId() {
         return id;
@@ -48,12 +75,28 @@ public class Ingrediente implements Serializable {
         this.nombre = nombre;
     }
 
+    public Unidad getUnidad() {
+        return unidad;
+    }
+
+    public void setUnidad(Unidad unidad) {
+        this.unidad = unidad;
+    }
+    
     public double getStock() {
         return stock;
     }
 
     public void setStock(double stock) {
         this.stock = stock;
+    }
+
+    public byte[] getImagenIngrediente() {
+        return imagenIngrediente;
+    }
+
+    public void setImagenIngrediente(byte[] imagenIngrediente) {
+        this.imagenIngrediente = imagenIngrediente;
     }
     
     @Override

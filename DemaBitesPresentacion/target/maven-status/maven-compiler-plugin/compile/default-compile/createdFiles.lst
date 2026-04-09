@@ -3,7 +3,6 @@ control\ComandasControl.class
 com\mycompany\demabitespresentacion\MainPruebaClientes.class
 com\mycompany\demabitespresentacion\FrameComandas$1.class
 com\mycompany\demabitespresentacion\BuscarClienteDialog$1.class
-com\mycompany\demabitespresentacion\FrameComandas$8.class
 control\ClientesControl.class
 com\mycompany\demabitespresentacion\FrameComandas$4.class
 com\mycompany\demabitespresentacion\MenuPrincipal.class
@@ -11,6 +10,7 @@ com\mycompany\demabitespresentacion\NuevaComandaForm$3.class
 com\mycompany\demabitespresentacion\FrameComandas.class
 com\mycompany\demabitespresentacion\BuscarClienteDialog.class
 com\mycompany\demabitespresentacion\NuevaComandaForm$2.class
+com\mycompany\demabitespresentacion\IngredientesForm$1.class
 com\mycompany\demabitespresentacion\BuscadorDialog$1.class
 com\mycompany\demabitespresentacion\FrameComandas$2.class
 utileria\utilMetodos.class
@@ -31,5 +31,6 @@ com\mycompany\demabitespresentacion\FrameComandas$3.class
 com\mycompany\demabitespresentacion\NuevaComandaForm$4.class
 com\mycompany\demabitespresentacion\NuevaComandaForm$1.class
 utileria\BusquedaClientes.class
+com\mycompany\demabitespresentacion\IngredientesForm.class
 com\mycompany\demabitespresentacion\FrameComandas$6.class
 com\mycompany\demabitespresentacion\FrameClientes$1.class

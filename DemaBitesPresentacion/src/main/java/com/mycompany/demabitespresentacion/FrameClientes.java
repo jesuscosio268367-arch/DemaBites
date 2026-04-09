@@ -248,7 +248,7 @@ public class FrameClientes extends javax.swing.JFrame {
     private void llenarTabla() {
         DefaultTableModel modelo = (DefaultTableModel) tblClientes.getModel();
         modelo.setRowCount(0);
-
+                                                                    
         List<ClienteFrecuente> lista = control.cargarTabla();
 
         Object[] fila = new Object[5]; 

@@ -4,7 +4,12 @@
  */
 package com.mycompany.demabitespresentacion;
 
+import com.mycompany.demabitesdominio.Ingrediente;
+import control.IngredientesControl;
+import control.Navegacion;
 import java.awt.BorderLayout;
+import java.util.List;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -12,20 +17,46 @@ import java.awt.BorderLayout;
  */
 public class IngredientesForm extends javax.swing.JFrame {
 
+    private final IngredientesControl control;
+    
     /**
      * Creates new form IngredientesForm
      */
     public IngredientesForm() {
         initComponents();
+        this.control = new IngredientesControl();
+        llenarTabla();
         MenuHeader menuHeader = new MenuHeader();
         menuHeader.setVisible(true);
         pnlHeader.setLayout(new BorderLayout());
         pnlHeader.add(menuHeader, BorderLayout.NORTH);
-        
         pnlHeader.revalidate();
         pnlHeader.repaint();
     }
 
+    private void llenarTabla(){
+        DefaultTableModel modelo = (DefaultTableModel) tablaIngredientes.getModel();
+        modelo.setRowCount(0);
+        
+        List<Ingrediente> listaIngredientes = control.cargarTablaIngredientes();
+        
+        Object[] fila = new Object[4];
+        
+        for(Ingrediente i : listaIngredientes){
+            fila[0] = i.getNombre();
+            fila[1] = i.getUnidad();
+            fila[2] = i.getStock();
+            fila[3] = i.getImagenIngrediente();
+            
+            modelo.addRow(fila);
+        }
+    }
+    
+    private void btnNuevoIngredienteActionPerformed(java.awt.event.ActionEvent evt){
+        Navegacion.getControlNavegacion().abrirFormularioIngredientes();
+        this.dispose();
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -68,18 +99,25 @@ public class IngredientesForm extends javax.swing.JFrame {
         tablaIngredientes.setFont(new java.awt.Font("Yu Gothic UI Semilight", 1, 12)); // NOI18N
         tablaIngredientes.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null}
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
             },
             new String [] {
-                "Nombre", "Unidad", "Stock"
+                "Nombre", "Unidad", "Stock", "Imagen"
             }
         ) {
-            boolean[] canEdit = new boolean [] {
-                false, false, false
+            Class[] types = new Class [] {
+                java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Byte.class
             };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];

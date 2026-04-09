@@ -1,4 +1,7 @@
+com\mycompany\demabitespersistencia\IingredientesDAO.class
+com\mycompany\demabitespersistencia\IngredientesDAO.class
 com\mycompany\demabitespersistencia\MesaDAO.class
+Adapters\NuevoIngredienteDTOAIngredienteAdapter.class
 com\mycompany\demabitespersistencia\ClienteDAO.class
 com\mycompany\demabitespersistencia\IComandaDAO.class
 com\mycompany\demabitespersistencia\IMesaDAO.class
