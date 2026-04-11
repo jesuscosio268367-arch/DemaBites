@@ -4,12 +4,14 @@
  */
 package control;
 
+import Enums.Unidad;
 import com.mycompany.demabitesdominio.Ingrediente;
 import com.mycompany.demabitesdtos.NuevoIngredienteDTO;
 import com.mycompany.demabitesnegocio.IingredientesBO;
 import com.mycompany.demabitesnegocio.IngredientesBO;
 import com.mycompany.demabitesnegocio.NegocioException;
 import com.mycompany.demabitespersistencia.IngredientesDAO;
+import java.awt.Component;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JFrame;
@@ -52,4 +54,5 @@ public class IngredientesControl {
             JOptionPane.showMessageDialog(ventana, ex.getMessage(), "Error al guardar", JOptionPane.ERROR_MESSAGE);
         }
     }
+    
 }

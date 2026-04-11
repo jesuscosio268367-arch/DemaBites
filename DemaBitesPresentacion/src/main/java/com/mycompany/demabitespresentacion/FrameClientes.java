@@ -238,7 +238,9 @@ public class FrameClientes extends javax.swing.JFrame {
      */
     public void ocultarColumnaID() {
         if (tblClientes.getColumnCount() > 0) {
-            tblClientes.removeColumn(tblClientes.getColumnModel().getColumn(0));
+            tblClientes.getColumnModel().getColumn(0).setMinWidth(0);
+            tblClientes.getColumnModel().getColumn(0).setMaxWidth(0);
+            tblClientes.getColumnModel().getColumn(0).setPreferredWidth(0);
         }
     }
     

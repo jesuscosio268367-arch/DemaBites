@@ -40,6 +40,11 @@ public class MenuHeader extends javax.swing.JPanel {
         lbl2.setFont(new java.awt.Font("Script MT Bold", 1, 56)); // NOI18N
         lbl2.setForeground(new java.awt.Color(158, 42, 43));
         lbl2.setText("DemaBites");
+        lbl2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lbl2MouseClicked(evt);
+            }
+        });
 
         btnComandas.setBackground(new java.awt.Color(255, 239, 150));
         btnComandas.setFont(new java.awt.Font("Yu Gothic UI", 1, 24)); // NOI18N
@@ -129,16 +134,20 @@ public class MenuHeader extends javax.swing.JPanel {
     }//GEN-LAST:event_btnComandasActionPerformed
 
     private void btnProductosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProductosActionPerformed
-        // TODO add your handling code here:
+        Navegacion.getControlNavegacion().abrirProductosFrame();
     }//GEN-LAST:event_btnProductosActionPerformed
 
     private void btnIngredientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIngredientesActionPerformed
-        // TODO add your handling code here:
+//        Navegacion.getControlNavegacion().abrirIngredientesFrame();
     }//GEN-LAST:event_btnIngredientesActionPerformed
 
     private void btnReportesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReportesActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_btnReportesActionPerformed
+
+    private void lbl2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbl2MouseClicked
+        Navegacion.getControlNavegacion().abrirMenuPrincipal();
+    }//GEN-LAST:event_lbl2MouseClicked
 
     /**
      * Deshabilita el boton de navegacion que coincida con la pantalla actual.
@@ -147,7 +156,16 @@ public class MenuHeader extends javax.swing.JPanel {
     private void bloquearBotonActual(String actual) {
             if (actual.equals("CLIENTES")) {
                 btnClientes.setEnabled(false); 
-            } 
+            }
+            if (actual.equals("PRODUCTOS")) {
+                btnProductos.setEnabled(false); 
+            }
+            if (actual.equals("COMANDAS")) {
+                btnComandas.setEnabled(false); 
+            }
+            if (actual.equals("INGREDIENTES")) {
+                btnIngredientes.setEnabled(false); 
+            }
             //Se modifica aqui cuando se agreguen los demas modulos
     }
     
