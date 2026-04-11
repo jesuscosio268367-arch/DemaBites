@@ -292,7 +292,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_pnlClientesMouseClicked
 
     private void pnlReportesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnlReportesMouseClicked
-        // TODO add your handling code here:
+        Navegacion.getControlNavegacion().abrirReportesFrame();
     }//GEN-LAST:event_pnlReportesMouseClicked
 
     private void pnlComandasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnlComandasMouseClicked

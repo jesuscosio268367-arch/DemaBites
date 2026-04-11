@@ -166,7 +166,9 @@ public class MenuHeader extends javax.swing.JPanel {
             if (actual.equals("INGREDIENTES")) {
                 btnIngredientes.setEnabled(false); 
             }
-            //Se modifica aqui cuando se agreguen los demas modulos
+            if (actual.equals("REPORTES")){
+                btnIngredientes.setEnabled(false);
+            }
     }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables

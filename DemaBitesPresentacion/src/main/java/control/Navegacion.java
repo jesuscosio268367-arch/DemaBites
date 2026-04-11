@@ -8,6 +8,9 @@ import com.mycompany.demabitespresentacion.FormularioIngredientes;
 import com.mycompany.demabitespresentacion.FrameClientes;
 import com.mycompany.demabitespresentacion.FrameComandas;
 import com.mycompany.demabitespresentacion.FrameProductos;
+import com.mycompany.demabitespresentacion.FrameReportes;
+import com.mycompany.demabitespresentacion.FrameReportesClientes;
+import com.mycompany.demabitespresentacion.FrameReportesComandas;
 import com.mycompany.demabitespresentacion.IngredientesForm;
 import com.mycompany.demabitespresentacion.MenuPrincipal;
 import com.mycompany.demabitespresentacion.NuevaComandaForm;
@@ -166,6 +169,31 @@ public class Navegacion {
     }
     
     //Reportes
+    
+    /**
+     * Cierra la pantalla actual y abre FrameReportes.
+     */
+    public void abrirReportesFrame(){
+        this.pantallaActual = "REPORTES";
+        cambiarPantalla(new FrameReportes());
+    }
+    
+    /**
+     * Cierra la pantalla actual y abre FrameReportesComandas.
+     */
+    public void abrirReportesComandasFrame(){
+        this.pantallaActual = "REPORTES_COMANDAS";
+        cambiarPantalla(new FrameReportesComandas());
+    }
+    
+    /**
+     * Cierra la pantalla actual y abre FrameReportesClientes.
+     */
+    public void abrirReportesClientesFrame(){
+        this.pantallaActual = "REPORTES_CLIENTES";
+        cambiarPantalla(new FrameReportesClientes());
+    }
+    
     
     /**
      * Realiza el cambio de pantallas, cierra el frame actual y centra el nuevo.

@@ -7,6 +7,7 @@ control\ProductosControl.class
 com\mycompany\demabitespresentacion\FrameComandas$2.class
 com\mycompany\demabitespresentacion\MenuPrincipal$2.class
 utileria\utilMetodos.class
+com\mycompany\demabitespresentacion\PanelFiltroComandas.class
 com\mycompany\demabitespresentacion\FrameComandas$7.class
 com\mycompany\demabitespresentacion\MenuPrincipal$3.class
 com\mycompany\demabitespresentacion\FrameComandas$5.class
@@ -30,6 +31,7 @@ com\mycompany\demabitespresentacion\FrameComandas$1.class
 com\mycompany\demabitespresentacion\BuscarClienteDialog$1.class
 control\ClientesControl.class
 com\mycompany\demabitespresentacion\FrameProductos$1.class
+com\mycompany\demabitespresentacion\FrameReportes.class
 com\mycompany\demabitespresentacion\MenuPrincipal$4.class
 com\mycompany\demabitespresentacion\FrameComandas$4.class
 com\mycompany\demabitespresentacion\MenuPrincipal.class
@@ -50,5 +52,6 @@ com\mycompany\demabitespresentacion\MenuPrincipal$1.class
 utileria\BusquedaIngredientes.class
 control\Navegacion.class
 com\mycompany\demabitespresentacion\FrameComandas$3.class
+com\mycompany\demabitespresentacion\PanelFiltroClientes.class
 com\mycompany\demabitespresentacion\FrameComandas$6.class
 com\mycompany\demabitespresentacion\FrameClientes$1.class
