@@ -10,7 +10,7 @@ import control.Navegacion;
 public class MenuHeader extends javax.swing.JPanel {
 
     /**
-     * Contructor del Frame.
+     * Contructor del Panel.
      */
     public MenuHeader() {
         initComponents();
@@ -129,22 +129,42 @@ public class MenuHeader extends javax.swing.JPanel {
         Navegacion.getControlNavegacion().abrirClientesFrame();
     }//GEN-LAST:event_btnClientesActionPerformed
 
+    /**
+     * Ejecuta la navegacion hacia el modulo de comandas.
+     * @param evt Evento de accion del boton.
+     */
     private void btnComandasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnComandasActionPerformed
         Navegacion.getControlNavegacion().abrirComandasFrame();
     }//GEN-LAST:event_btnComandasActionPerformed
 
+    /**
+     * Ejecuta la navegacion hacia el modulo de productos.
+     * @param evt Evento de accion del boton.
+     */
     private void btnProductosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProductosActionPerformed
         Navegacion.getControlNavegacion().abrirProductosFrame();
     }//GEN-LAST:event_btnProductosActionPerformed
 
+    /**
+     * Ejecuta la navegacion hacia el modulo de ingredientes.
+     * @param evt Evento de accion del boton.
+     */
     private void btnIngredientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIngredientesActionPerformed
 //        Navegacion.getControlNavegacion().abrirIngredientesFrame();
     }//GEN-LAST:event_btnIngredientesActionPerformed
 
+    /**
+     * Ejecuta la navegacion hacia el modulo de reportes.
+     * @param evt Evento de accion del boton.
+     */
     private void btnReportesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReportesActionPerformed
-        // TODO add your handling code here:
+        Navegacion.getControlNavegacion().abrirReportesFrame();
     }//GEN-LAST:event_btnReportesActionPerformed
 
+    /**
+     * Ejecuta la navegacion hacia el menu principal.
+     * @param evt Evento de accion del boton.
+     */
     private void lbl2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbl2MouseClicked
         Navegacion.getControlNavegacion().abrirMenuPrincipal();
     }//GEN-LAST:event_lbl2MouseClicked

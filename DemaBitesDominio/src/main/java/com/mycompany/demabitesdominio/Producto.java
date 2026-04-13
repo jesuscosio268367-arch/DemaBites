@@ -47,7 +47,7 @@ public class Producto implements Serializable {
     @Column(name = "estado", nullable = false)
     private EstadoProducto estado;
 
-    @OneToMany(mappedBy = "producto", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "producto", cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true)
     private List<ProductoIngrediente> ingredientes;
     
     @Lob

@@ -2,9 +2,6 @@ package com.mycompany.demabitespresentacion;
 
 import com.mycompany.demabitesdominio.ClienteFrecuente;
 import com.mycompany.demabitesdtos.NuevoClienteFrecuenteActualizadoDTO;
-import com.mycompany.demabitesnegocio.NegocioException;
-import com.mycompany.demabitespersistencia.ClienteDAO;
-import com.mycompany.demabitespersistencia.PersistenciaException;
 import control.ClientesControl;
 import control.Navegacion;
 import javax.swing.JOptionPane;
@@ -239,10 +236,8 @@ public class FormEditarClientes extends javax.swing.JFrame {
             txtNombres.requestFocus();
             return;
         }
-
         String email = txtEmail.getText().trim();
         String telefono = txtTelefono.getText().trim();
-
         NuevoClienteFrecuenteActualizadoDTO nuevoClienteActualizado = new NuevoClienteFrecuenteActualizadoDTO(idClienteSeleccionado, email, telefono);
         control.editarCliente(nuevoClienteActualizado, this);
     }//GEN-LAST:event_btnRegistrarActionPerformed
@@ -253,18 +248,14 @@ public class FormEditarClientes extends javax.swing.JFrame {
      */
     private void cargarDatos() {
         Long id = Navegacion.getControlNavegacion().getIdSeleccionado();
-
         if (id != null) {
-            
             ClienteFrecuente cliente = control.consultarPorId(id);
-
             if (cliente != null) {
                 txtNombres.setText(cliente.getNombres());
                 txtAPaterno.setText(cliente.getApellidoPaterno());
                 txtAMaterno.setText(cliente.getApellidoMaterno());
                 txtTelefono.setText(cliente.getTelefono()); 
                 txtEmail.setText(cliente.getEmail());
-
                 this.idClienteSeleccionado = id;
             }
         }

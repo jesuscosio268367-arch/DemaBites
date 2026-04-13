@@ -13,6 +13,10 @@ import java.util.logging.Logger;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceException;
 import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 
 /**
  *
@@ -78,8 +82,44 @@ public class IngredientesDAO implements IingredientesDAO {
         }catch(PersistenceException ex){
             LOGGER.severe(ex.getMessage());
             throw new PersistenciaException("No se encontro ningun ingrediente");
+        } 
+    }
+    
+    @Override
+    public List<Ingrediente> consultarIngredientesFiltro(String filtro) throws PersistenciaException {
+        try {
+            EntityManager em = ManejadorConexiones.crearEntityManager();
+            CriteriaBuilder cb = em.getCriteriaBuilder();
+            CriteriaQuery<Ingrediente> cq = cb.createQuery(Ingrediente.class);
+            Root<Ingrediente> ingrediente = cq.from(Ingrediente.class);
+
+            if (filtro == null || filtro.isBlank()) {
+                return consultarIngredientes();
+            }
+
+            String patron = "%" + filtro.trim().toLowerCase() + "%";
+
+            Predicate pNombre = cb.like(cb.lower(ingrediente.get("nombre")), patron);
+            Predicate pUnidad = cb.like(cb.lower(ingrediente.get("unidadMedida")), patron);
+            cq.where(cb.or(pNombre, pUnidad));
+
+            return em.createQuery(cq).getResultList();
+        } catch (PersistenceException ex) {
+            LOGGER.severe(ex.getMessage());
+            throw new PersistenciaException("No ha sido posible consultar los ingredientes", ex);
         }
-        
+    }
+    
+    @Override
+    public Ingrediente buscarPorId(Long id) throws PersistenciaException {
+        try{
+            EntityManager entityManager = ManejadorConexiones.crearEntityManager();
+            Ingrediente ingrediente = entityManager.find(Ingrediente.class, id);
+            return ingrediente;
+        }catch(PersistenceException ex){
+            LOGGER.severe(ex.getMessage());
+            throw new PersistenciaException("Error al consultar por ID.", ex);
+        }
     }
     
 }

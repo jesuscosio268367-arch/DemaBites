@@ -94,6 +94,7 @@ public class ProductoDAO implements IProductoDAO{
             }else{
                 producto.setIngredientes(new ArrayList<>());
             }
+            entityManager.flush();
             if (nuevoProductoActualizado.getIngredientes() != null) {
                 for (IngredienteProductoDTO ingredienteProducto : nuevoProductoActualizado.getIngredientes()) {
                     ProductoIngrediente detalle = new ProductoIngrediente();

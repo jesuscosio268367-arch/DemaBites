@@ -7,6 +7,10 @@ package com.mycompany.demabitesdtos;
 public class IngredienteProductoDTO {
     private Long idIngrediente;
     private Double cantidadRequerida;
+    
+    // Campos extra para informacion de la interfaz no se persisitiran.
+    private String nombre;
+    private String unidad;
    
     /**
      * Contructor vacio.
@@ -45,5 +49,26 @@ public class IngredienteProductoDTO {
     public void setIdIngrediente(Long idIngrediente) {
         this.idIngrediente = idIngrediente;
     }
+
+    /** @return El nombre del ingrediente que se utiliza para realizar el producto. */
+    public String getNombre() {
+        return nombre;
+    }
+
+     /** @param nombre El nombre del ingrediente que se asignara al producto. */
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+    
+    /** @return La unidad del ingrediente que se utiliza para realizar el producto. */
+    public String getUnidad() {
+        return unidad;
+    }
+
+     /** @param unidad La unidad del ingrediente que se asignara al producto. */
+    public void setUnidad(String unidad) {
+        this.unidad = unidad;
+    }
+    
     
 }

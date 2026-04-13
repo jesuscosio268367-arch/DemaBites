@@ -1,5 +1,6 @@
 package com.mycompany.demabitesdtos;
 
+import Enums.Tipo;
 import java.util.List;
 
 /**
@@ -13,6 +14,9 @@ public class NuevoProductoActualizadoDTO {
     private String descripcion;
     private List<IngredienteProductoDTO> ingredientes;
     private byte[] imagenProducto;
+    
+    //Solo para visualizacion
+    private Tipo tipoProducto;
 
     /**
      * Contructor vacio.
@@ -22,7 +26,7 @@ public class NuevoProductoActualizadoDTO {
     }
 
     /**
-     * Contructor con todos los atributos a excepcion del ID.
+     * Contructor con todos los atributos a excepcion del ID y tipoProducto.
      * @param nombre El nombre del producto.
      * @param precio El precio que tendra el producto.
      * @param descripcion Una breve descripcion del producto.
@@ -95,6 +99,16 @@ public class NuevoProductoActualizadoDTO {
     /** @param imagenProducto La imagen asignada al producto. */
     public void setImagenProducto(byte[] imagenProducto) {
         this.imagenProducto = imagenProducto;
+    }
+
+    /** @return El tipo producto asignado al producto. */
+    public Tipo getTipoProducto() {
+        return tipoProducto;
+    }
+
+    /** @param tipoProducto El tipo de producto que se le asignada al producto. */
+    public void setTipoProducto(Tipo tipoProducto) {
+        this.tipoProducto = tipoProducto;
     }
     
 }

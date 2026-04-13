@@ -55,4 +55,13 @@ public class IngredientesControl {
         }
     }
     
+    public List<Ingrediente> buscarIngredientes(String filtro) {
+        try {
+            return ingredientesBO.consultarIngredientesFiltro(filtro);
+        } catch (NegocioException ex) {
+            JOptionPane.showMessageDialog(null, "Error al buscar ingredientes: " + ex.getMessage());
+            return new ArrayList<>();
+        }
+    }
+    
 }

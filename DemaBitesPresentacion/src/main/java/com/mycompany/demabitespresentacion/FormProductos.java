@@ -1,18 +1,40 @@
 package com.mycompany.demabitespresentacion;
 
+import Enums.Tipo;
+import com.mycompany.demabitesdominio.Ingrediente;
+import com.mycompany.demabitesdtos.IngredienteProductoDTO;
+import com.mycompany.demabitesdtos.NuevoProductoDTO;
+import control.ProductosControl;
+import java.awt.Image;
+import java.io.File;
+import java.util.List;
+import javax.swing.ImageIcon;
+import javax.swing.JFileChooser;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import utileria.BusquedaIngredientes;
+import utileria.utilMetodos;
+
 /**
- *
+ * Interfaz grafica para la creacion de productos y su relacion con ingredientes.
  * @author Dario
  */
 public class FormProductos extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(FormProductos.class.getName());
+    private byte[] imagenBytes;
+    private final ProductosControl control;
 
     /**
-     * Creates new form FormProductos
+     * Contructor del Frame.
      */
     public FormProductos() {
         initComponents();
+        this.control = new ProductosControl();
+        MenuHeader header = new MenuHeader();
+        utilMetodos.insertarPanel(pnlHeader, header);
+        llenarCombo();
     }
 
     /**
@@ -27,6 +49,7 @@ public class FormProductos extends javax.swing.JFrame {
         pnlPrincipal = new javax.swing.JPanel();
         pnlHeader = new javax.swing.JPanel();
         lbl1 = new javax.swing.JLabel();
+        jScrollPane2 = new javax.swing.JScrollPane();
         pnlForm = new javax.swing.JPanel();
         lbl3 = new javax.swing.JLabel();
         lbl4 = new javax.swing.JLabel();
@@ -88,6 +111,11 @@ public class FormProductos extends javax.swing.JFrame {
         txtNombre.setFont(new java.awt.Font("Yu Gothic UI", 0, 18)); // NOI18N
 
         txtPrecio.setFont(new java.awt.Font("Yu Gothic UI", 0, 18)); // NOI18N
+        txtPrecio.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtPrecioKeyTyped(evt);
+            }
+        });
 
         btnRegistrar.setBackground(new java.awt.Color(47, 65, 86));
         btnRegistrar.setFont(new java.awt.Font("Yu Gothic UI", 1, 20)); // NOI18N
@@ -109,14 +137,14 @@ public class FormProductos extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Nombre", "Unidad de Medida", "Cantidad"
+                "ID", "Nombre", "Unidad de Medida", "Cantidad"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.Integer.class
+                java.lang.Long.class, java.lang.String.class, java.lang.String.class, java.lang.Double.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, true
+                false, false, false, true
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -133,6 +161,7 @@ public class FormProductos extends javax.swing.JFrame {
         lbl8.setText("Descripcion:");
 
         txtaDescripcion.setColumns(20);
+        txtaDescripcion.setFont(new java.awt.Font("Yu Gothic Light", 0, 18)); // NOI18N
         txtaDescripcion.setRows(5);
         jScrollPane1.setViewportView(txtaDescripcion);
 
@@ -254,20 +283,21 @@ public class FormProductos extends javax.swing.JFrame {
                     .addContainerGap(462, Short.MAX_VALUE)))
         );
 
+        jScrollPane2.setViewportView(pnlForm);
+
         javax.swing.GroupLayout pnlPrincipalLayout = new javax.swing.GroupLayout(pnlPrincipal);
         pnlPrincipal.setLayout(pnlPrincipalLayout);
         pnlPrincipalLayout.setHorizontalGroup(
             pnlPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(pnlHeader, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(pnlHeader, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(pnlPrincipalLayout.createSequentialGroup()
-                .addGroup(pnlPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(pnlPrincipalLayout.createSequentialGroup()
-                        .addGap(284, 284, 284)
-                        .addComponent(pnlForm, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(pnlPrincipalLayout.createSequentialGroup()
-                        .addGap(19, 19, 19)
-                        .addComponent(lbl1)))
-                .addContainerGap(285, Short.MAX_VALUE))
+                .addGap(19, 19, 19)
+                .addComponent(lbl1)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlPrincipalLayout.createSequentialGroup()
+                .addContainerGap(316, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(251, 251, 251))
         );
         pnlPrincipalLayout.setVerticalGroup(
             pnlPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -275,9 +305,9 @@ public class FormProductos extends javax.swing.JFrame {
                 .addComponent(pnlHeader, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lbl1, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(pnlForm, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(12, 12, 12))
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 616, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -294,83 +324,177 @@ public class FormProductos extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    /**
+     * Ejecuta la agregacion del ingrediente.
+     * @param evt Evento de accion del boton.
+     */
     private void btnAgregarIngredienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarIngredienteActionPerformed
-        // TODO add your handling code here:
+        agregarIngrediente();
     }//GEN-LAST:event_btnAgregarIngredienteActionPerformed
 
+    /**
+     * Ejecuta el registro de un producto.
+     * @param evt Evento de accion del boton.
+     */
     private void btnRegistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarActionPerformed
-//        if (txtNombre.getText().trim().isEmpty()) {
-//            JOptionPane.showMessageDialog(this, "El nombre es obligatorio");
-//            txtNombre.requestFocus();
-//            return;
-//        }
-//        if (txtPrecio.getText().trim().isEmpty()) {
-//            JOptionPane.showMessageDialog(this, "El apellido paterno es obligatorio");
-//            txtPrecio.requestFocus();
-//            return;
-//        }
-//        if (txtAMaterno.getText().trim().isEmpty()) {
-//            JOptionPane.showMessageDialog(this, "El apellido materno es obligatorio");
-//            txtAMaterno.requestFocus();
-//            return;
-//        }
-//        if (!txtEmail.getText().isBlank()) {
-//            if (!txtEmail.getText().matches("^[\\w.-]+@[\\w.-]+\\.[a-zA-Z]{2,6}$")) {
-//                JOptionPane.showMessageDialog(this, "El formato del correo no es valido");
-//                txtNombre.requestFocus();
-//                return;
-//            }
-//        }
-//        if (txtTelefono.getText().trim().isEmpty()) {
-//            JOptionPane.showMessageDialog(this, "El telefono es obligatorio");
-//            txtTelefono.requestFocus();
-//            return;
-//        }
-//        if (!txtTelefono.getText().matches("^[0-9]{10}")) {
-//            JOptionPane.showMessageDialog(this, "El numero solo debe de tener 10 digitos");
-//            txtNombre.requestFocus();
-//            return;
-//        }
-//
-//        String nombres = txtNombre.getText();
-//        String aPaterno = txtPrecio.getText();
-//        String aMaterno = txtAMaterno.getText();
-//        String email = txtEmail.getText();
-//        String telefono = txtTelefono.getText();
-//
-//        NuevoClienteFrecuenteDTO nuevoCliente = new NuevoClienteFrecuenteDTO(nombres, aPaterno, aMaterno, email, telefono);
-//        control.registrarCliente(nuevoCliente, this);
+        registrar();
     }//GEN-LAST:event_btnRegistrarActionPerformed
 
+    /**
+     * Ejecuta la agregacion de una imagen.
+     * @param evt Evento de accion del boton.
+     */
     private void btnAgregarImagenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarImagenActionPerformed
-        // TODO add your handling code here:
+        agregarImagen();
     }//GEN-LAST:event_btnAgregarImagenActionPerformed
 
     /**
-     * @param args the command line arguments
+     * Evita que se agreguen caracteres o mas de un punto en el txtPrecio.
+     * @param evt Evento de accion del teclado.
      */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
+    private void txtPrecioKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPrecioKeyTyped
+        char c = evt.getKeyChar();
+        if (!Character.isDigit(c) && c != '.') {
+            evt.consume();
+        }
+        if (c == '.' && txtPrecio.getText().contains(".")) {
+            evt.consume();
+        }
+    }//GEN-LAST:event_txtPrecioKeyTyped
+
+    /**
+     * Logica para agregar un ingrediente a la tabla de receta del producto.
+     */
+    public void agregarIngrediente(){
+        BuscadorDialog buscador = new BuscadorDialog(null, true, new BusquedaIngredientes());
+        buscador.setLocationRelativeTo(this);
+        buscador.setVisible(true);
+        Object seleccionado = buscador.getObjetoSeleccionado();
+
+        if (seleccionado != null) {
+            Ingrediente ing = (Ingrediente) seleccionado;
+            DefaultTableModel modeloReceta = (DefaultTableModel) tblIngredientes.getModel();
+            for (int i = 0; i < tblIngredientes.getRowCount(); i++) {
+                if (tblIngredientes.getValueAt(i, 0).equals(ing.getId())) {
+                    JOptionPane.showMessageDialog(this, "El ingrediente " + ing.getNombre() + " ya esta en la lista.");
+                    return;
                 }
             }
-        } catch (ReflectiveOperationException | javax.swing.UnsupportedLookAndFeelException ex) {
-            logger.log(java.util.logging.Level.SEVERE, null, ex);
+            modeloReceta.addRow(new Object[]{
+                ing.getId(),
+                ing.getNombre(),
+                ing.getUnidad(),
+                0.0
+            });
         }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(() -> new FormProductos().setVisible(true));
     }
+    
+    /**
+     * Logica para agregar una imagen al panel de imagen y al producto.
+     */
+    public void agregarImagen(){
+        JFileChooser selector = new JFileChooser();
+        selector.setFileFilter(new javax.swing.filechooser.FileNameExtensionFilter("Imagenes (jpg, png, gif)", "jpg", "png", "gif"));
+        int resultado = selector.showOpenDialog(this);
 
+        if (resultado == JFileChooser.APPROVE_OPTION) {
+            try {
+                File archivo = selector.getSelectedFile();
+                imagenBytes = java.nio.file.Files.readAllBytes(archivo.toPath());
+                ImageIcon iconoOriginal = new ImageIcon(imagenBytes);
+                Image imagenEscalada = iconoOriginal.getImage().getScaledInstance(
+                        pnlImagen.getWidth(), pnlImagen.getHeight(), Image.SCALE_SMOOTH);
+                JLabel lblPrevia = new JLabel(new ImageIcon(imagenEscalada));
+                lblPrevia.setSize(pnlImagen.getWidth(), pnlImagen.getHeight());
+                pnlImagen.removeAll();
+                pnlImagen.add(lblPrevia);
+                pnlImagen.revalidate();
+                pnlImagen.repaint();
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(this, "Error al cargar la imagen: " + ex.getMessage());
+            }
+        }
+    }
+    
+    /**
+     * Logica para agregar un producto al sistema.
+     */
+    public void registrar(){
+        if (tblIngredientes.isEditing()) {
+            tblIngredientes.getCellEditor().stopCellEditing();
+        }
+        if (txtNombre.getText().trim().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "El nombre del producto es obligatorio.");
+            txtNombre.requestFocus();
+            return;
+        }
+        if (txtPrecio.getText().trim().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "El precio es obligatorio.");
+            txtPrecio.requestFocus();
+            return;
+        }
+        if (txtaDescripcion.getText().trim().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "La descripcion es obligatoria.");
+            txtaDescripcion.requestFocus();
+            return;
+        }
+        try {
+            Double precio = Double.valueOf(txtPrecio.getText().trim());
+            if (precio <= 0) {
+                JOptionPane.showMessageDialog(this, "El precio debe ser mayor a 0.");
+                return;
+            }
+            if (cmbMedida.getSelectedIndex() == -1) {
+                JOptionPane.showMessageDialog(this, "Debe seleccionar un tipo de producto.");
+                return;
+            }
+            String seleccionCombo = cmbMedida.getSelectedItem().toString().toUpperCase();
+            Tipo tipoProducto = Tipo.valueOf(seleccionCombo);
+            DefaultTableModel modelo = (DefaultTableModel) tblIngredientes.getModel();
+            if (modelo.getRowCount() == 0) {
+                JOptionPane.showMessageDialog(this, "Debe agregar al menos un ingrediente para la receta.");
+                return;
+            }
+            List<IngredienteProductoDTO> receta = new java.util.ArrayList<>();
+            for (int i = 0; i < modelo.getRowCount(); i++) {
+                Long idIng = (Long) modelo.getValueAt(i, 0);
+                Object valorCelda = modelo.getValueAt(i, 3);
+                if (valorCelda == null || valorCelda.toString().trim().isEmpty()) {
+                    JOptionPane.showMessageDialog(this, "La cantidad para " + modelo.getValueAt(i, 1) + " no puede estar vacía.");
+                    return;
+                }
+                Double cant = Double.valueOf(valorCelda.toString());
+                if (cant <= 0) {
+                    JOptionPane.showMessageDialog(this, "La cantidad de " + modelo.getValueAt(i, 1) + " debe ser mayor a 0.");
+                    return;
+                }
+                receta.add(new IngredienteProductoDTO(idIng, cant));
+            }
+            NuevoProductoDTO nuevoProd = new NuevoProductoDTO();
+            nuevoProd.setNombre(txtNombre.getText().trim());
+            nuevoProd.setPrecio(precio);
+            nuevoProd.setTipoProducto(tipoProducto);
+            nuevoProd.setDescripcion(txtaDescripcion.getText().trim());
+            nuevoProd.setImagenProducto(imagenBytes);
+            nuevoProd.setIngredientes(receta);
+            control.registrarProducto(nuevoProd, this);
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "Ingrese valores validos.");
+        } catch (IllegalArgumentException e) {
+            JOptionPane.showMessageDialog(this,"El tipo de producto no es valido.");
+        }
+    }
+    
+    /**
+     * Se encarga de llenar el combo con los tipos del enumerador.
+     */
+    private void llenarCombo(){
+        cmbMedida.removeAllItems();
+        for (Tipo t : Tipo.values()) {
+            cmbMedida.addItem(t.name());;
+        }
+    }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAgregarImagen;
     private javax.swing.JButton btnAgregarIngrediente;
@@ -378,6 +502,7 @@ public class FormProductos extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> cmbMedida;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JLabel lbl1;
     private javax.swing.JLabel lbl3;

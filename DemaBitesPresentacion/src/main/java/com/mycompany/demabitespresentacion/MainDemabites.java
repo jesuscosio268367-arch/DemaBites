@@ -6,14 +6,13 @@ import control.Navegacion;
  *
  * @author Jesus Omar
  */
-public class MainPruebaClientes {
+public class MainDemabites {
 
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        Navegacion.getControlNavegacion().abrirMenuPrincipal();
-               
+        Navegacion.getControlNavegacion().abrirMenuPrincipal();           
     }
     
 }

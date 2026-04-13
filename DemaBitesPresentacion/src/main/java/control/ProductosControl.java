@@ -2,13 +2,19 @@ package control;
 
 import Enums.EstadoProducto;
 import Enums.Tipo;
+import com.mycompany.demabitesdominio.Ingrediente;
 import com.mycompany.demabitesdominio.Producto;
+import com.mycompany.demabitesdominio.ProductoIngrediente;
+import com.mycompany.demabitesdtos.IngredienteProductoDTO;
 import com.mycompany.demabitesdtos.NuevoProductoActualizadoDTO;
 import com.mycompany.demabitesdtos.NuevoProductoDTO;
 import com.mycompany.demabitesdtos.ProductoEstadoActualizadoDTO;
 import com.mycompany.demabitesnegocio.IProductoBO;
+import com.mycompany.demabitesnegocio.IingredientesBO;
+import com.mycompany.demabitesnegocio.IngredientesBO;
 import com.mycompany.demabitesnegocio.NegocioException;
 import com.mycompany.demabitesnegocio.ProductoBO;
+import com.mycompany.demabitespersistencia.IngredientesDAO;
 import com.mycompany.demabitespersistencia.ProductoDAO;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,9 +27,15 @@ import javax.swing.JOptionPane;
  */
 public class ProductosControl {
     private final IProductoBO productoBO;
+    private final IingredientesBO ingredienteBO;
 
+    /**
+     * Contructor de la clase que se conecta con la 
+     * BO para la utilizacion de sus metodos.
+     */
     public ProductosControl() {
         this.productoBO = new ProductoBO(new ProductoDAO());
+        this.ingredienteBO = new IngredientesBO(new IngredientesDAO());
     }
 
     /**
@@ -82,7 +94,7 @@ public class ProductosControl {
             Navegacion.getControlNavegacion().abrirProductosFrame();
             ventana.dispose();
         } catch (NegocioException ex) {
-            mostrarError(ventana, "Error al registrar producto", ex);
+            mostrarError(ventana, "Error al registrar producto.", ex);
         }
     }
 
@@ -94,11 +106,11 @@ public class ProductosControl {
     public void editarProducto(NuevoProductoActualizadoDTO editado, JFrame ventana) {
         try {
             productoBO.editarProducto(editado);
-            JOptionPane.showMessageDialog(ventana, "¡Producto actualizado correctamente!");
+            JOptionPane.showMessageDialog(ventana, "Producto actualizado");
             Navegacion.getControlNavegacion().abrirProductosFrame();
             ventana.dispose();
         } catch (NegocioException ex) {
-            mostrarError(ventana, "Error al editar producto", ex);
+            mostrarError(ventana, "Error al editar producto.", ex);
         }
     }
     
@@ -113,18 +125,66 @@ public class ProductosControl {
 
             if (producto != null) {
                EstadoProducto nuevoEstado = (producto.getEstado() == EstadoProducto.ACTIVO) 
-                                             ? EstadoProducto.INACTIVO 
-                                             : EstadoProducto.ACTIVO;
-
+                       ? EstadoProducto.INACTIVO : EstadoProducto.ACTIVO;
                ProductoEstadoActualizadoDTO dto = new ProductoEstadoActualizadoDTO();
                dto.setId(id);
                dto.setEstado(nuevoEstado);
                productoBO.editarEstadoProducto(dto);
                String msj = (nuevoEstado == EstadoProducto.ACTIVO) ? "activado" : "desactivado";
-               JOptionPane.showMessageDialog(ventana, "¡El producto ha sido " + msj + " con éxito!");
+               JOptionPane.showMessageDialog(ventana, "El producto ha sido " + msj);
             }
         } catch (NegocioException ex) {
-            mostrarError(ventana, "Error al cambiar el estado del producto", ex);
+            mostrarError(ventana, "Error al cambiar el estado del producto.", ex);
+        }
+    }
+    
+    /**
+     * Da los datos para el llenado de la tabla de edicion de 
+     * ingredientes relacionados al producto que se editara.
+     * @param id ID del producto que se editara.
+     * @param ventana Frame actual.
+     * @return Regresa la informacion y si ocurre un error no regresa nada.
+     */
+    public NuevoProductoActualizadoDTO consultarParaEditar(Long id, JFrame ventana) {
+        try{
+            Producto producto = productoBO.buscarPorId(id);
+            if (producto == null) return null;
+            List<IngredienteProductoDTO> ingredientesDTO = new ArrayList<>();
+
+            for (ProductoIngrediente item : producto.getIngredientes()) {
+                IngredienteProductoDTO ingDTO = new IngredienteProductoDTO(
+                    item.getIngrediente().getId(), 
+                    item.getCantidadRequerida()
+                );
+                ingDTO.setNombre(item.getIngrediente().getNombre());
+                String unidadTxt = item.getIngrediente().getUnidad().name();
+                ingDTO.setUnidad(unidadTxt);
+                ingredientesDTO.add(ingDTO);
+            }
+            NuevoProductoActualizadoDTO dto = new NuevoProductoActualizadoDTO(
+                producto.getNombre(),
+                producto.getPrecio(),
+                producto.getDescripcion(),
+                ingredientesDTO,
+                producto.getImagenProducto()
+            );
+            dto.setId(producto.getId());
+            dto.setTipoProducto(producto.getTipoProducto());
+            return dto;
+        } catch (NegocioException ex) {
+            mostrarError(ventana, "Error al consultar ingredientes relacionados al producto.", ex);
+        }
+        return null;
+    }
+    
+    public void actualizarProducto(NuevoProductoActualizadoDTO dto, JFrame ventana) {
+        try {
+            productoBO.editarProducto(dto); 
+            JOptionPane.showMessageDialog(ventana, "¡Producto actualizado con éxito!");
+            Navegacion.getControlNavegacion().abrirProductosFrame();
+            ventana.dispose();
+        } catch (NegocioException ex) {
+            mostrarError(ventana, "Error al actualizar el producto", ex);
         }
     }
 }

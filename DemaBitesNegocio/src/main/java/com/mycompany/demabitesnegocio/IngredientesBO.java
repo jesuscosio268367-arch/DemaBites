@@ -64,4 +64,30 @@ public class IngredientesBO implements IingredientesBO{
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
     
+    @Override
+    public List<Ingrediente> consultarIngredientesFiltro(String filtro) throws NegocioException {
+        try{
+            List<Ingrediente> listaIngredientes = ingredientesDAO.consultarIngredientesFiltro(filtro);
+            return listaIngredientes;
+        }catch(PersistenciaException ex){
+            throw new NegocioException("Error al consultar los ingredientes", ex);
+        }
+    }
+    
+    @Override
+    public Ingrediente buscarPorId(Long id) throws NegocioException {
+        if (id == null || id <= 0) {
+            throw new NegocioException("ID de ingrediente no valido para la busqueda.", null);
+        }
+        try {
+            Ingrediente ingrediente = ingredientesDAO.buscarPorId(id);
+            if (ingrediente == null) {
+                throw new NegocioException("El ingrediente con ID " + id + " no fue encontrado.", null);
+            }
+            return ingrediente;
+        } catch (PersistenciaException ex) {
+            throw new NegocioException("Error al buscar el ingrediente por ID.", ex);
+        }
+    }
+    
 }

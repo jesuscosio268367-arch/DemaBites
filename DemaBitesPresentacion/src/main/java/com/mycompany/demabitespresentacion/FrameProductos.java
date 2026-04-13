@@ -10,17 +10,16 @@ import javax.swing.table.DefaultTableModel;
 import utileria.utilMetodos;
 
 /**
- *
+ * Interfaz grafica para la visualizacion de productos.
  * @author Dario
  */
 public class FrameProductos extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(FrameProductos.class.getName());
-    
     private final ProductosControl control;
 
     /**
-     * Creates new form FrameProductos
+     * Contructor del frame.
      */
     public FrameProductos() {
         initComponents();
@@ -314,7 +313,7 @@ public class FrameProductos extends javax.swing.JFrame {
             int filaModelo = tblProductos.convertRowIndexToModel(fila);
             Object valorId = tblProductos.getModel().getValueAt(filaModelo, 0);
             Long idProducto = Long.valueOf(valorId.toString());
-            Navegacion.getControlNavegacion().setDato(idProducto);
+            Navegacion.getControlNavegacion().setIdSeleccionado(idProducto);
             Navegacion.getControlNavegacion().abrirEditarProductosForm();
         } else {
             JOptionPane.showMessageDialog(this, "Selecciona un producto de la tabla.");

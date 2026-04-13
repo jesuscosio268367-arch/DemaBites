@@ -1,10 +1,13 @@
 com\mycompany\demabitespresentacion\FormEditarProductos.class
+com\mycompany\demabitespresentacion\FrameReportesClientes.class
 com\mycompany\demabitespresentacion\BuscadorDialog.class
+com\mycompany\demabitespresentacion\FrameReportesComandas.class
 com\mycompany\demabitespresentacion\MenuHeader$1.class
 com\mycompany\demabitespresentacion\BuscarClienteDialog.class
 com\mycompany\demabitespresentacion\NuevaComandaForm$2.class
 control\ProductosControl.class
 com\mycompany\demabitespresentacion\FrameComandas$2.class
+com\mycompany\demabitespresentacion\FormEditarProductos$2.class
 com\mycompany\demabitespresentacion\MenuPrincipal$2.class
 utileria\utilMetodos.class
 com\mycompany\demabitespresentacion\PanelFiltroComandas.class
@@ -15,6 +18,7 @@ com\mycompany\demabitespresentacion\FormProductos$1.class
 com\mycompany\demabitespresentacion\FormEditarClientes.class
 control\MesasControl.class
 com\mycompany\demabitespresentacion\BuscarClienteDialog$2.class
+com\mycompany\demabitespresentacion\MainDemabites.class
 com\mycompany\demabitespresentacion\FrameClientes.class
 com\mycompany\demabitespresentacion\NuevaComandaForm$4.class
 com\mycompany\demabitespresentacion\FrameProductos.class
@@ -25,8 +29,8 @@ com\mycompany\demabitespresentacion\IngredientesForm.class
 com\mycompany\demabitespresentacion\FormProductos.class
 com\mycompany\demabitespresentacion\FormularioIngredientes$1.class
 com\mycompany\demabitespresentacion\FormEditarProductos$1.class
+com\mycompany\demabitespresentacion\FrameReportesClientes$1.class
 control\ComandasControl.class
-com\mycompany\demabitespresentacion\MainPruebaClientes.class
 com\mycompany\demabitespresentacion\FrameComandas$1.class
 com\mycompany\demabitespresentacion\BuscarClienteDialog$1.class
 control\ClientesControl.class
@@ -43,6 +47,7 @@ com\mycompany\demabitespresentacion\BuscadorDialog$1.class
 com\mycompany\demabitespresentacion\FormClientes.class
 com\mycompany\demabitespresentacion\FormularioIngredientes.class
 com\mycompany\demabitespresentacion\MenuHeader.class
+com\mycompany\demabitespresentacion\FrameReportesComandas$1.class
 com\mycompany\demabitespresentacion\MenuPrincipal$5.class
 com\mycompany\demabitespresentacion\BuscarClienteDialog$2$1.class
 com\mycompany\demabitespresentacion\BuscadorDialog$2.class
@@ -50,6 +55,7 @@ utileria\BusquedaProductos.class
 com\mycompany\demabitespresentacion\NuevaComandaForm.class
 com\mycompany\demabitespresentacion\MenuPrincipal$1.class
 utileria\BusquedaIngredientes.class
+com\mycompany\demabitespresentacion\FormProductos$2.class
 control\Navegacion.class
 com\mycompany\demabitespresentacion\FrameComandas$3.class
 com\mycompany\demabitespresentacion\PanelFiltroClientes.class

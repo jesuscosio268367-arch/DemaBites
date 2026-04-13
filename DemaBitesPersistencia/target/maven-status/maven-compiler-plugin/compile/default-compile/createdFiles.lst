@@ -1,7 +1,6 @@
 com\mycompany\demabitespersistencia\IingredientesDAO.class
 com\mycompany\demabitespersistencia\MesaDAO.class
 com\mycompany\demabitespersistencia\ClienteDAO.class
-com\mycompany\demabitespersistencia\NuevoProductoActualizadoDTO.class
 com\mycompany\demabitespersistencia\IMesaDAO.class
 com\mycompany\demabitespersistencia\adapters\NuevoProductoDTOAProductoAdapter.class
 com\mycompany\demabitespersistencia\ManejadorConexiones.class
