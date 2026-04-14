@@ -6,7 +6,7 @@ import com.mycompany.demabitespersistencia.PersistenciaException;
 import java.util.List;
 
 /**
- *
+ * Clase de Objetos de negocio para la validacion de reportes.
  * @author Dario
  */
 public class ReportesBO implements IReportesBO {
@@ -21,6 +21,13 @@ public class ReportesBO implements IReportesBO {
         this.reportesDAO = reportesDAO;
     }
     
+    /**
+     * Validaciones para hacer un reporte de clientes.
+     * @param nombreCliente Nombre del cliente para buscar.
+     * @param minVisitas Numero de veces minimo para la busqueda.
+     * @return Lista de clientes que coincidan con el filtro.
+     * @throws NegocioException Si ocurre un error en las validaciones.
+     */
     @Override
     public List<ReporteClientesDTO> reporteClientes(
             String nombreCliente, Integer minVisitas

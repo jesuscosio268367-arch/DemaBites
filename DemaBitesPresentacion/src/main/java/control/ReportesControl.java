@@ -17,6 +17,10 @@ import javax.swing.JOptionPane;
 public class ReportesControl {
     private final IReportesBO reportesBO;
 
+    /**
+     * Contructor de la clase que se conecta con la 
+     * BO para la utilizacion de sus metodos.
+     */
     public ReportesControl() {
         this.reportesBO = new ReportesBO(new ReportesDAO());
     }

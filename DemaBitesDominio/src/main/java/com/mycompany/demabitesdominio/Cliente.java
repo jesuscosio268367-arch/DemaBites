@@ -1,6 +1,7 @@
 package com.mycompany.demabitesdominio;
 
 import java.io.Serializable;
+import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -8,6 +9,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
@@ -33,7 +35,10 @@ public class Cliente implements Serializable {
     
     @Column(name = "apellidoMaterno", nullable = false, length = 30)
     private String apellidoMaterno;
-
+    
+    @OneToMany(mappedBy = "cliente")
+    private List<Comanda> comandas;
+    
     /**
      * Contructor vacio.
      */
@@ -90,6 +95,16 @@ public class Cliente implements Serializable {
     /** @param apellidoMaterno El apellido materno a asignar al cliente. */
     public void setApellidoMaterno(String apellidoMaterno) {
         this.apellidoMaterno = apellidoMaterno;
+    }
+
+    /** @return Las comandas del cliente. */
+    public List<Comanda> getComandas() {
+        return comandas;
+    }
+
+    /** @param comandas Las comandas a asignar al cliente. */
+    public void setComandas(List<Comanda> comandas) {
+        this.comandas = comandas;
     }
     
     /**

@@ -15,6 +15,13 @@ public class ReportesDAO implements IReportesDAO{
     
     private static final Logger LOGGER = Logger.getLogger(ReportesDAO.class.getName());
 
+    /**
+     * Consulta clientes y datos especificos de estos.
+     * @param nombreCliente Nombre del cliente para buscar.
+     * @param minVisitas Numero de veces minimo para la busqueda.
+     * @return Lista de clientes que coincidan con el filtro.
+     * @throws PersistenciaException Si ocurre un error al ejecutar la consulta.
+     */
     @Override
     public List<ReporteClientesDTO> reporteClientes(
             String nombreCliente, Integer minVisitas
@@ -22,12 +29,12 @@ public class ReportesDAO implements IReportesDAO{
         try {
             EntityManager entityManager = ManejadorConexiones.crearEntityManager();
              String jpql="""
-                    SELECT new dto.ReporteClienteDTO(c.nombre, COUNT(q.id), SUM(q.totalVenta), MAX(q.fechaHora))
+                    SELECT new com.mycompany.demabitesdtos.ReporteClientesDTO(c.nombres, COUNT(q), SUM(q.total), MAX(q.fechaHora))
                     FROM Cliente c
                     JOIN c.comandas q
-                    WHERE (:nombre IS NULL OR c.nombre LIKE :nombre)
-                    GROUP BY c.id, c.nombre
-                    HAVING (:minVisitas IS NULL OR COUNT(q.id)>=:minVisitas)
+                    WHERE (:nombre IS NULL OR c.nombres LIKE :nombre)
+                    GROUP BY c.id, c.nombres
+                    HAVING (:minVisitas IS NULL OR COUNT(q)>=:minVisitas)
                     """;  
             TypedQuery<ReporteClientesDTO> query = entityManager.createQuery(jpql, ReporteClientesDTO.class);
             query.setParameter("nombre", (nombreCliente != null && !nombreCliente.isEmpty()) ? "%" + nombreCliente + "%" : null);

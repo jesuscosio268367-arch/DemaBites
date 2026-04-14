@@ -171,6 +171,11 @@ public class ProductosControl {
         return null;
     }
     
+    /**
+     * Ejecuta el metodo de editar producto de la BO.
+     * @param dto DTO con los datos actualzados.
+     * @param ventana Frame donde se ejucutara.
+     */
     public void actualizarProducto(NuevoProductoActualizadoDTO dto, JFrame ventana) {
         try {
             productoBO.editarProducto(dto); 
