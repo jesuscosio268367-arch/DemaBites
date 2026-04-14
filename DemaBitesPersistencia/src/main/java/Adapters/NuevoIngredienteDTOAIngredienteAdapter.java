@@ -13,7 +13,11 @@ import com.mycompany.demabitesdtos.NuevoIngredienteDTO;
  * @author Jesus Omar
  */
 public class NuevoIngredienteDTOAIngredienteAdapter {
-    
+    /**
+     * 
+     * @param nuevoIngrediente
+     * @return un Ingrediente creado con la unidad correcta
+     */
     public static Ingrediente adapter(NuevoIngredienteDTO nuevoIngrediente){
         
         Unidad unidad = Unidad.PIEZAS;

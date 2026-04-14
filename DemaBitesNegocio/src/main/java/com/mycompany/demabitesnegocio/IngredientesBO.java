@@ -11,7 +11,9 @@ import com.mycompany.demabitespersistencia.PersistenciaException;
 import java.util.List;
 
 /**
- *
+ *La clase ingredientesBO se comunnica con la DAO
+ * y presentacion, transforma las DTO de ingredientes
+ * y valida que no se creen objetos con valores no validos
  * @author Jesus Omar
  */
 public class IngredientesBO implements IingredientesBO {
@@ -22,6 +24,12 @@ public class IngredientesBO implements IingredientesBO {
         this.ingredientesDAO = ingredientesDAO;
     }
     
+    /**
+     * Valida que todos los parametrospara registar un ingrediente esten bien
+     * @param nuevoIngrediente
+     * @return regresa el Ingrediente que se registro
+     * @throws NegocioException si hay un error al registar el ingrediente
+     */
     @Override
     public Ingrediente registrarIngrediente(NuevoIngredienteDTO nuevoIngrediente) throws NegocioException {
         if(nuevoIngrediente.getNombre().trim().isEmpty()){
@@ -47,7 +55,12 @@ public class IngredientesBO implements IingredientesBO {
             throw new NegocioException("Error, no se pudo registrar el producto", ex);
         }
     }
-
+    
+    /**
+     * Llama a la DAO para hacer la consulta
+     * @return regresa la lista de todos los Ingredientes
+     * @throws NegocioException si hay un error al contular
+     */
     @Override
     public List<Ingrediente> consultarIngredientes() throws NegocioException {
         try{
@@ -58,6 +71,12 @@ public class IngredientesBO implements IingredientesBO {
         }
     }
 
+    /**
+     * Valida que no hayan valores nulos
+     * @param ingrediente
+     * @return regresa el ingrediente actualizado
+     * @throws NegocioException si hay un error al actualizar el ingrediente
+     */
     @Override
     public Ingrediente actualizarIngrediente(NuevoIngredienteDTO ingrediente) throws NegocioException {
         if(ingrediente.getNombre() == null || ingrediente.getNombre().isEmpty()){
@@ -78,6 +97,13 @@ public class IngredientesBO implements IingredientesBO {
         }
     }
 
+    /**
+     * Llama a la DAO para consultar ingredientes por filtro
+     * @param filtro
+     * @return regresa la lista de los ingredientes que coinciden
+     * con el filtro
+     * @throws NegocioException si hay un error al consultar ingredientes
+     */
     @Override
     public List<Ingrediente> consultarIngredientesFiltro(String filtro) throws NegocioException {
         try{
@@ -88,6 +114,14 @@ public class IngredientesBO implements IingredientesBO {
         }
     }
 
+    /**
+     * Valida que el id no sea negativo ni nulo y llama a la DAO
+     * para buscar el ingrediente por ID
+     * @param id
+     * @return regresa el ingrediente que coincide con el ID
+     * @throws NegocioException si hay un error al buscar o
+     * no cumple con las validaciones
+     */
     @Override
     public Ingrediente buscarPorId(Long id) throws NegocioException {
         if (id == null || id <= 0) {
@@ -104,6 +138,13 @@ public class IngredientesBO implements IingredientesBO {
         }
     }
 
+    /**
+     * Llama a la DAO para eliminar un ingrediente
+     * @param id
+     * @return el ingrediente que se elimino
+     * @throws NegocioException si hay un error al 
+     * eliminar el cliente
+     */
     @Override
     public Ingrediente eliminarIngrediente(Long id) throws NegocioException {
         try{
