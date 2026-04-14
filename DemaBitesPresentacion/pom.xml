@@ -26,10 +26,15 @@
             <artifactId>itextpdf</artifactId>
             <version>5.5.13.3</version>
         </dependency>
+        <dependency>
+            <groupId>com.github.lgooddatepicker</groupId>
+            <artifactId>LGoodDatePicker</artifactId>
+            <version>11.2.1</version>
+        </dependency>
     </dependencies>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.release>23</maven.compiler.release>
-        <exec.mainClass>com.mycompany.demabitespresentacion.DemaBitesPresentacion</exec.mainClass>
+        <exec.mainClass>com.mycompany.demabitespresentacion.MainDemabites</exec.mainClass>
     </properties>
 </project>

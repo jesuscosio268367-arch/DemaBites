@@ -1,8 +1,10 @@
 package com.mycompany.demabitesnegocio;
 
 import com.mycompany.demabitesdtos.ReporteClientesDTO;
+import com.mycompany.demabitesdtos.ReporteComandasDTO;
 import com.mycompany.demabitespersistencia.IReportesDAO;
 import com.mycompany.demabitespersistencia.PersistenciaException;
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -43,6 +45,25 @@ public class ReportesBO implements IReportesBO {
             return reportesDAO.reporteClientes(nombreCliente, minVisitas);
         } catch (PersistenciaException ex) {
             throw new NegocioException("Error al realizar el reporte de clientes.", ex);
+        }
+    }
+    
+    @Override
+    public List<ReporteComandasDTO> reporteComandasPorFecha(
+            LocalDateTime fechaInicio, LocalDateTime fechaFin
+    ) throws NegocioException {
+        try {
+            if (fechaInicio == null || fechaFin == null) {
+                throw new NegocioException("Las fechas de inicio y fin son obligatorias.", null);
+            }
+            if (fechaInicio.isAfter(fechaFin)) {
+                throw new NegocioException("La fecha de inicio no puede ser posterior a la fecha de fin.", null);
+            }
+            
+            return reportesDAO.reporteComandasPorFecha(fechaInicio, fechaFin);
+            
+        } catch (PersistenciaException ex) {
+            throw new NegocioException("Error al generar el reporte de comandas.", ex);
         }
     }
     

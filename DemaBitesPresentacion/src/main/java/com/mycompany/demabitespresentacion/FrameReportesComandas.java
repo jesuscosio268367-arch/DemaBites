@@ -1,5 +1,13 @@
 package com.mycompany.demabitespresentacion;
 
+import com.mycompany.demabitesdtos.ReporteComandasDTO;
+import control.ReportesControl;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.List;
+import javax.swing.table.DefaultTableModel;
+import utileria.utilMetodos;
+
 /**
  *
  * @author Dario
@@ -7,12 +15,18 @@ package com.mycompany.demabitespresentacion;
 public class FrameReportesComandas extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(FrameReportesComandas.class.getName());
-
+    private final ReportesControl control;
+    
     /**
      * Creates new form FrameReportesComandas
      */
-    public FrameReportesComandas() {
+    public FrameReportesComandas(LocalDateTime inicio, LocalDateTime fin) {
         initComponents();
+        this.control = new ReportesControl();
+        MenuHeader header = new MenuHeader();
+        utilMetodos.insertarPanel(pnlHeader, header);
+        txtTotalVendido.setEditable(false);
+        cargarReporte(inicio, fin);
     }
 
     /**
@@ -175,6 +189,55 @@ public class FrameReportesComandas extends javax.swing.JFrame {
 
     }//GEN-LAST:event_btnExportarPDFActionPerformed
 
+    /**
+     * Llama al controlador para obtener los datos y llena la tabla de reportes.
+     * También calcula el total vendido y lo muestra en el campo de texto.
+     * @param inicio Fecha de inicio del reporte
+     * @param fin Fecha de fin del reporte
+     */
+    private void cargarReporte(LocalDateTime inicio, LocalDateTime fin) {
+        
+        DefaultTableModel modelo = (DefaultTableModel) tblRComandas.getModel();
+        modelo.setRowCount(0); 
+
+        List<ReporteComandasDTO> lista = control.consultarReporteComandas(inicio, fin, this);
+        
+        float totalAcumulado = 0.0f; // Variable para sumar el total
+        
+        // Formateadores para separar la fecha y la hora como pide tu tabla
+        DateTimeFormatter formatoFecha = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        DateTimeFormatter formatoHora = DateTimeFormatter.ofPattern("HH:mm");
+
+        // Recorremos la lista de comandas que nos devolvió la base de datos
+        for (ReporteComandasDTO dto : lista) {
+            // Sumamos al total acumulado
+            totalAcumulado += dto.getTotal();
+            
+            String fechaStr = dto.getFechaHora().format(formatoFecha);
+            String horaStr = dto.getFechaHora().format(formatoHora);
+            
+            // Si no hay cliente (es null), ponemos "Cliente General"
+            String cliente = (dto.getNombreCliente() != null && !dto.getNombreCliente().isEmpty()) 
+                             ? dto.getNombreCliente() 
+                             : "Cliente General";
+            
+            // Agregamos la fila respetando el orden de tus columnas:
+            // "Folio", "Fecha", "Hora", "Mesa", "Cliente", "Estado", "Total"
+            modelo.addRow(new Object[]{
+                dto.getFolio(), 
+                fechaStr,
+                horaStr,
+                "Mesa " + dto.getNumeroMesa(),
+                cliente,
+                dto.getEstado(),
+                String.format("$%.2f", dto.getTotal())
+            });
+        }
+        
+        txtTotalVendido.setText(String.format("$%.2f", totalAcumulado));
+        
+        lbl4.setText("Comandas registradas del " + inicio.format(formatoFecha) + " al " + fin.format(formatoFecha));
+    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnExportarPDF;
     private javax.swing.JScrollPane jScrollPane1;

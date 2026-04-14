@@ -22,6 +22,8 @@ public interface IingredientesBO {
     public abstract Ingrediente actualizarIngrediente(NuevoIngredienteDTO ingrediente)throws NegocioException;
     
     public abstract List<Ingrediente> consultarIngredientesFiltro(String filtro) throws NegocioException;
+
+    
     
     public abstract Ingrediente buscarPorId (Long id) throws NegocioException;
     
