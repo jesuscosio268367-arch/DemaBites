@@ -26,6 +26,12 @@ public class IngredientesDAO implements IingredientesDAO {
 
     private static final Logger LOGGER = Logger.getLogger(IngredientesDAO.class.getName());
 
+    /**
+     * Registra un nuevo ingrediente en la base de datos
+     * @param nuevoIngrediente
+     * @return El ingrediente con su ID generado
+     * @throws PersistenciaException si hay un error al registar
+     */
     @Override
     public Ingrediente registrarIngrediente(NuevoIngredienteDTO nuevoIngrediente) throws PersistenciaException {
 
@@ -45,6 +51,11 @@ public class IngredientesDAO implements IingredientesDAO {
 
     }
 
+    /**
+     * Consulta todos los ingredientes en la base de datos
+     * @return una lista con todos los ingredientes
+     * @throws PersistenciaException si hay un error al consultar los ingredientes
+     */
     @Override
     public List<Ingrediente> consultarIngredientes() throws PersistenciaException {
         try {
@@ -61,6 +72,12 @@ public class IngredientesDAO implements IingredientesDAO {
         }
     }
 
+    /**
+     * Actualiza un ingrediente que seleccione el usuario
+     * @param ingrediente
+     * @return el ingredente con sus datos actualizados
+     * @throws PersistenciaException si hay un error al actualizar
+     */
     @Override
     public Ingrediente actualizarIngrediente(NuevoIngredienteDTO ingrediente) throws PersistenciaException {
 
@@ -87,6 +104,14 @@ public class IngredientesDAO implements IingredientesDAO {
 
     }
 
+    /**
+     * Valida que no se agregue un ingrediente repetido
+     * @param nombre
+     * @param unidad
+     * @return regresa true si el ingrediente ya existe
+     * @throws PersistenciaException si hay un error o no encuentra
+     * el ingrediente
+     */
     @Override
     public boolean consultarPorNombreUnidad(String nombre, Unidad unidad) throws PersistenciaException {
 
@@ -106,6 +131,14 @@ public class IngredientesDAO implements IingredientesDAO {
         }
     }
 
+    /**
+     * Va regresando los ingredientes que coincidan con el filto
+     * @param filtro
+     * @return una lista de ingredientes que coincidan con lo que
+     * venga en el filto
+     * @throws PersistenciaException si hay un error al consultar
+     * los ingredientes
+     */
     @Override
     public List<Ingrediente> consultarIngredientesFiltro(String filtro) throws PersistenciaException {
         try {
@@ -131,6 +164,13 @@ public class IngredientesDAO implements IingredientesDAO {
         }
     }
 
+    /**
+     * Regresa el ingrediente que coincida con el id
+     * @param id
+     * @return regresa el ingrediente que coincide con el id
+     * @throws PersistenciaException si hay un error al buscar
+     * el ingrediente
+     */
     @Override
     public Ingrediente buscarPorId(Long id) throws PersistenciaException {
         try {
@@ -144,6 +184,13 @@ public class IngredientesDAO implements IingredientesDAO {
 
     }
 
+    /**
+     * Elimina el ingrediente que coincida con el id
+     * @param id
+     * @return regresa el ingrediente que se elimino
+     * @throws PersistenciaException si hay un error
+     * al eliminar el ingrediente
+     */
     @Override
     public Ingrediente eliminarIngrediente(Long id) throws PersistenciaException {
         try {

@@ -14,17 +14,46 @@ import java.util.List;
  * @author Jesus Omar
  */
 public interface IingredientesBO {
-    
+    /**
+     * 
+     * @param nuevoIngrediente
+     * @return
+     * @throws NegocioException 
+     */
     public abstract Ingrediente registrarIngrediente(NuevoIngredienteDTO nuevoIngrediente)throws NegocioException;
-    
+    /**
+     * 
+     * @return
+     * @throws NegocioException 
+     */
     public abstract List<Ingrediente> consultarIngredientes()throws NegocioException;
-    
+    /**
+     * 
+     * @param ingrediente
+     * @return
+     * @throws NegocioException 
+     */
     public abstract Ingrediente actualizarIngrediente(NuevoIngredienteDTO ingrediente)throws NegocioException;
-    
+    /**
+     * 
+     * @param filtro
+     * @return
+     * @throws NegocioException 
+     */
     public abstract List<Ingrediente> consultarIngredientesFiltro(String filtro) throws NegocioException;
-    
+    /**
+     * 
+     * @param id
+     * @return
+     * @throws NegocioException 
+     */
     public abstract Ingrediente buscarPorId (Long id) throws NegocioException;
-    
+    /**
+     * 
+     * @param id
+     * @return
+     * @throws NegocioException 
+     */
     public abstract Ingrediente eliminarIngrediente(Long id)throws NegocioException;
  
 }
