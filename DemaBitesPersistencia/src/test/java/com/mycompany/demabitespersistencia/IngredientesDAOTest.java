@@ -44,9 +44,15 @@ public class IngredientesDAOTest {
     @Test
     public void testNoPermiteProductoRepetido() {
         //Setup
-        NuevoIngredienteDTO nuevoIngrediente = new NuevoIngredienteDTO(
-                "Leche",
-                Unidad.MILILITROS,
+        NuevoIngredienteDTO ingredienteExistente = new NuevoIngredienteDTO(
+                "Azucar",
+                Unidad.GRAMOS,
+                10,
+                null);
+        
+        NuevoIngredienteDTO ingredienteRepetido = new NuevoIngredienteDTO(
+                "Azucar",
+                Unidad.GRAMOS,
                 10,
                 null
         );
@@ -55,7 +61,8 @@ public class IngredientesDAOTest {
         // y luego el assertTrue es para verificar que si encunetra una coincidencia, la validacion esta en la BO
         // si regresa True no te deja registrar el ingrediente
         assertDoesNotThrow(() -> {
-            boolean resultado = dao.consultarPorNombreUnidad(nuevoIngrediente.getNombre(), nuevoIngrediente.getUnidad());
+            dao.registrarIngrediente(ingredienteExistente);
+            boolean resultado = dao.consultarPorNombreUnidad(ingredienteRepetido.getNombre(), ingredienteRepetido.getUnidad());
             assertTrue(resultado);
         });
     }
@@ -81,10 +88,12 @@ public class IngredientesDAOTest {
     
     @Test
     public void testConsultarTodosLosIngredientesOK(){
-        NuevoIngredienteDTO ingrediete2 = new NuevoIngredienteDTO("Cebolla", Unidad.GRAMOS, 8, null);
-        NuevoIngredienteDTO ingrediete3 = new NuevoIngredienteDTO("Sal", Unidad.GRAMOS, 5, null);
+        NuevoIngredienteDTO ingrediete1 = new NuevoIngredienteDTO("Cebolla", Unidad.GRAMOS, 8, null);
+        NuevoIngredienteDTO ingrediete2 = new NuevoIngredienteDTO("Sal", Unidad.GRAMOS, 5, null);
+        NuevoIngredienteDTO ingrediete3 = new NuevoIngredienteDTO("Pimienta", Unidad.GRAMOS, 20, null);
         
         assertDoesNotThrow(() -> {
+            dao.registrarIngrediente(ingrediete1);
             dao.registrarIngrediente(ingrediete2);
             dao.registrarIngrediente(ingrediete3);
             

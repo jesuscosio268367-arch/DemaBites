@@ -8,7 +8,10 @@ import com.mycompany.demabitesdominio.Ingrediente;
 import control.IngredientesControl;
 import control.Navegacion;
 import java.awt.BorderLayout;
+import java.awt.Image;
 import java.util.List;
+import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -18,14 +21,17 @@ import javax.swing.table.DefaultTableModel;
 public class IngredientesForm extends javax.swing.JFrame {
 
     private final IngredientesControl control;
-    
+    private List<Ingrediente> listaIngredientes;
+
     /**
      * Creates new form IngredientesForm
      */
     public IngredientesForm() {
         initComponents();
         this.control = new IngredientesControl();
-        llenarTabla();
+        this.listaIngredientes = control.cargarTablaIngredientes();
+        llenarTabla(this.listaIngredientes);
+        tablaIngredientes.getColumnModel().getColumn(3).setCellRenderer(new Renderizador());
         MenuHeader menuHeader = new MenuHeader();
         menuHeader.setVisible(true);
         pnlHeader.setLayout(new BorderLayout());
@@ -34,29 +40,38 @@ public class IngredientesForm extends javax.swing.JFrame {
         pnlHeader.repaint();
     }
 
-    private void llenarTabla(){
+    private void llenarTabla(List<Ingrediente> lista) {
         DefaultTableModel modelo = (DefaultTableModel) tablaIngredientes.getModel();
         modelo.setRowCount(0);
-        
-        List<Ingrediente> listaIngredientes = control.cargarTablaIngredientes();
-        
+
+        if (lista == null) {
+            return;
+        }
+
         Object[] fila = new Object[4];
-        
-        for(Ingrediente i : listaIngredientes){
+
+        for (Ingrediente i : listaIngredientes) {
             fila[0] = i.getNombre();
             fila[1] = i.getUnidad();
             fila[2] = i.getStock();
-            fila[3] = i.getImagenIngrediente();
-            
+
+            byte[] bytesImagen = i.getImagenIngrediente();
+
+            if (bytesImagen != null && bytesImagen.length > 0) {
+                ImageIcon iconoOriginal = new ImageIcon(bytesImagen);
+                Image imagenEscalada = iconoOriginal.getImage().getScaledInstance(-1, 50, Image.SCALE_SMOOTH);
+                fila[3] = new ImageIcon(imagenEscalada);
+            } else {
+                fila[3] = null;
+            }
+
             modelo.addRow(fila);
         }
+
+// IMPORTANTE: Dale más altura a las filas para que se vea la imagen
+        tablaIngredientes.setRowHeight(50); // Mismo alto que escalamos la imagen
     }
-    
-    private void btnNuevoIngredienteActionPerformed(java.awt.event.ActionEvent evt){
-        Navegacion.getControlNavegacion().abrirFormularioIngredientes();
-        this.dispose();
-    }
-    
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -71,8 +86,10 @@ public class IngredientesForm extends javax.swing.JFrame {
         lblIngredientes = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tablaIngredientes = new javax.swing.JTable();
-        btnBuscar = new javax.swing.JButton();
         btnNuevoIngrediente = new javax.swing.JButton();
+        btnActualizar = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
+        txtBuscar = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(254, 255, 234));
@@ -130,15 +147,35 @@ public class IngredientesForm extends javax.swing.JFrame {
             tablaIngredientes.getColumnModel().getColumn(2).setResizable(false);
         }
 
-        btnBuscar.setBackground(new java.awt.Color(47, 65, 86));
-        btnBuscar.setFont(new java.awt.Font("Segoe UI", 1, 20)); // NOI18N
-        btnBuscar.setForeground(new java.awt.Color(255, 255, 255));
-        btnBuscar.setText("Buscar");
-
         btnNuevoIngrediente.setBackground(new java.awt.Color(47, 65, 86));
         btnNuevoIngrediente.setFont(new java.awt.Font("Segoe UI", 1, 20)); // NOI18N
         btnNuevoIngrediente.setForeground(new java.awt.Color(255, 255, 255));
         btnNuevoIngrediente.setText("Nuevo Ingrediente");
+        btnNuevoIngrediente.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnNuevoIngredienteMouseClicked(evt);
+            }
+        });
+
+        btnActualizar.setBackground(new java.awt.Color(47, 65, 86));
+        btnActualizar.setFont(new java.awt.Font("Segoe UI", 1, 20)); // NOI18N
+        btnActualizar.setForeground(new java.awt.Color(255, 255, 255));
+        btnActualizar.setText("Actualizar");
+        btnActualizar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnActualizarMouseClicked(evt);
+            }
+        });
+
+        jLabel1.setBackground(new java.awt.Color(47, 65, 86));
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 20)); // NOI18N
+        jLabel1.setText("Buscar");
+
+        txtBuscar.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtBuscarKeyReleased(evt);
+            }
+        });
 
         javax.swing.GroupLayout pnlPrincipalLayout = new javax.swing.GroupLayout(pnlPrincipal);
         pnlPrincipal.setLayout(pnlPrincipalLayout);
@@ -148,13 +185,18 @@ public class IngredientesForm extends javax.swing.JFrame {
             .addGroup(pnlPrincipalLayout.createSequentialGroup()
                 .addGap(173, 173, 173)
                 .addGroup(pnlPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(btnNuevoIngrediente)
-                    .addGroup(pnlPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addGroup(pnlPrincipalLayout.createSequentialGroup()
-                            .addComponent(lblIngredientes)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(btnBuscar))
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 800, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(pnlPrincipalLayout.createSequentialGroup()
+                        .addComponent(lblIngredientes)
+                        .addGap(268, 268, 268)
+                        .addComponent(txtBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 270, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jLabel1)
+                        .addGap(6, 6, 6))
+                    .addGroup(pnlPrincipalLayout.createSequentialGroup()
+                        .addComponent(btnActualizar)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnNuevoIngrediente))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 800, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(227, Short.MAX_VALUE))
         );
         pnlPrincipalLayout.setVerticalGroup(
@@ -164,12 +206,15 @@ public class IngredientesForm extends javax.swing.JFrame {
                 .addGap(50, 50, 50)
                 .addGroup(pnlPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblIngredientes)
-                    .addComponent(btnBuscar))
+                    .addComponent(jLabel1)
+                    .addComponent(txtBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 400, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(btnNuevoIngrediente)
-                .addGap(0, 33, Short.MAX_VALUE))
+                .addGroup(pnlPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnNuevoIngrediente)
+                    .addComponent(btnActualizar))
+                .addGap(0, 34, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -186,13 +231,43 @@ public class IngredientesForm extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btnNuevoIngredienteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnNuevoIngredienteMouseClicked
+        FormularioIngredientes formIngredientes = new FormularioIngredientes(this, true);
+        formIngredientes.setTitle("Registrar Ingrediente");
+        formIngredientes.setVisible(true);
+        this.listaIngredientes = control.cargarTablaIngredientes();
+        llenarTabla(this.listaIngredientes);
+    }//GEN-LAST:event_btnNuevoIngredienteMouseClicked
+
+    private void btnActualizarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnActualizarMouseClicked
+        int fila = tablaIngredientes.getSelectedRow();
+        if (fila != -1) {
+            Ingrediente ingredienteSeleccionado = listaIngredientes.get(fila);
+            FormularioIngredientes formIngredientes = new FormularioIngredientes(this, true);
+            formIngredientes.cargarDatosEdicion(ingredienteSeleccionado);
+            formIngredientes.setVisible(true);
+            this.listaIngredientes = control.cargarTablaIngredientes();
+            llenarTabla(this.listaIngredientes);
+        } else {
+            JOptionPane.showMessageDialog(null, "Selecciona un ingrediente");
+        }
+    }//GEN-LAST:event_btnActualizarMouseClicked
+
+    private void txtBuscarKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBuscarKeyReleased
+        String filtro = txtBuscar.getText();
+        this.listaIngredientes = control.buscarIngredientes(filtro);
+        llenarTabla(listaIngredientes);
+    }//GEN-LAST:event_txtBuscarKeyReleased
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnBuscar;
+    private javax.swing.JButton btnActualizar;
     private javax.swing.JButton btnNuevoIngrediente;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblIngredientes;
     private javax.swing.JPanel pnlHeader;
     private javax.swing.JPanel pnlPrincipal;
     private javax.swing.JTable tablaIngredientes;
+    private javax.swing.JTextField txtBuscar;
     // End of variables declaration//GEN-END:variables
 }

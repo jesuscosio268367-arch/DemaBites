@@ -1,22 +1,36 @@
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
+ * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JDialog.java to edit this template
  */
 package com.mycompany.demabitespresentacion;
 
 import Enums.Unidad;
+import com.mycompany.demabitesdominio.Ingrediente;
+import com.mycompany.demabitesdtos.NuevoIngredienteDTO;
+import control.IngredientesControl;
+import java.awt.Image;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import javax.swing.ImageIcon;
+import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 
 /**
  *
- * @author elgps
+ * @author Jesus Omar
  */
-public class FormularioIngredientes extends javax.swing.JFrame {
+public class FormularioIngredientes extends javax.swing.JDialog {
 
+    private Long idIngrediente = null;
+    private byte[] imagen;
+    private IngredientesControl control = new IngredientesControl();
+    
     /**
      * Creates new form FormularioIngredientes
      */
-    public FormularioIngredientes() {
+    public FormularioIngredientes(java.awt.Frame parent, boolean modal) {
+        super(parent, modal);
         initComponents();
     }
 
@@ -29,48 +43,25 @@ public class FormularioIngredientes extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jTextField1 = new javax.swing.JTextField();
-        pnlPrincipal = new javax.swing.JPanel();
-        lblNuevoIngrediente = new javax.swing.JLabel();
-        txtNombreIngrediente = new javax.swing.JTextField();
+        txtNombre = new javax.swing.JTextField();
+        jLabel1 = new javax.swing.JLabel();
         comboBoxUnidad = new javax.swing.JComboBox<>();
         spinnerStock = new javax.swing.JSpinner();
-        lblNombreIngrediente = new javax.swing.JLabel();
-        lblUnidad = new javax.swing.JLabel();
-        lblStock = new javax.swing.JLabel();
         lblImagen = new javax.swing.JLabel();
         btnExaminar = new javax.swing.JButton();
         btnGuardar = new javax.swing.JButton();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
 
-        jTextField1.setText("jTextField1");
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setBackground(new java.awt.Color(254, 255, 234));
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-
-        pnlPrincipal.setBackground(new java.awt.Color(254, 255, 234));
-
-        lblNuevoIngrediente.setFont(new java.awt.Font("Yu Gothic UI Semilight", 1, 18)); // NOI18N
-        lblNuevoIngrediente.setText("Nuevo Ingrediente");
-
-        txtNombreIngrediente.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        txtNombreIngrediente.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtNombreIngredienteActionPerformed(evt);
-            }
-        });
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel1.setText("Nombre");
 
         comboBoxUnidad.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "PIEZAS", "GRAMOS", "MILILITROS" }));
-        comboBoxUnidad.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
-        spinnerStock.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-
-        lblNombreIngrediente.setFont(new java.awt.Font("Yu Gothic UI Semilight", 1, 14)); // NOI18N
-        lblNombreIngrediente.setText("Nombre");
-
-        lblUnidad.setFont(new java.awt.Font("Yu Gothic UI Semilight", 1, 12)); // NOI18N
-        lblUnidad.setText("Unidad de medida");
-
-        lblStock.setFont(new java.awt.Font("Yu Gothic UI Semilight", 1, 12)); // NOI18N
-        lblStock.setText("Stock");
+        spinnerStock.setModel(new javax.swing.SpinnerNumberModel(0.0d, 0.0d, null, 1.0d));
 
         lblImagen.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
@@ -78,117 +69,158 @@ public class FormularioIngredientes extends javax.swing.JFrame {
         btnExaminar.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         btnExaminar.setForeground(new java.awt.Color(255, 255, 255));
         btnExaminar.setText("Examinar");
+        btnExaminar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnExaminarMouseClicked(evt);
+            }
+        });
 
         btnGuardar.setBackground(new java.awt.Color(47, 65, 86));
-        btnGuardar.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        btnGuardar.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         btnGuardar.setForeground(new java.awt.Color(255, 255, 255));
-        btnGuardar.setText("Guardar");
+        btnGuardar.setText("Registrar");
+        btnGuardar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnGuardarMouseClicked(evt);
+            }
+        });
 
-        javax.swing.GroupLayout pnlPrincipalLayout = new javax.swing.GroupLayout(pnlPrincipal);
-        pnlPrincipal.setLayout(pnlPrincipalLayout);
-        pnlPrincipalLayout.setHorizontalGroup(
-            pnlPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnlPrincipalLayout.createSequentialGroup()
-                .addGroup(pnlPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(pnlPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addGroup(pnlPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(pnlPrincipalLayout.createSequentialGroup()
-                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addGroup(pnlPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(spinnerStock, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(lblStock)))
-                            .addGroup(pnlPrincipalLayout.createSequentialGroup()
-                                .addContainerGap(45, Short.MAX_VALUE)
-                                .addGroup(pnlPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(lblNombreIngrediente)
-                                    .addComponent(txtNombreIngrediente, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(lblNuevoIngrediente))))
-                        .addGroup(pnlPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(comboBoxUnidad, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(lblImagen, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(lblUnidad)))
-                    .addGroup(pnlPrincipalLayout.createSequentialGroup()
-                        .addGap(134, 134, 134)
-                        .addComponent(btnExaminar))
-                    .addGroup(pnlPrincipalLayout.createSequentialGroup()
-                        .addGap(125, 125, 125)
-                        .addComponent(btnGuardar)))
-                .addContainerGap())
-        );
-        pnlPrincipalLayout.setVerticalGroup(
-            pnlPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnlPrincipalLayout.createSequentialGroup()
-                .addGap(7, 7, 7)
-                .addComponent(lblNuevoIngrediente)
-                .addGap(18, 18, 18)
-                .addComponent(lblNombreIngrediente)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtNombreIngrediente, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(pnlPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblUnidad)
-                    .addComponent(lblStock))
-                .addGap(4, 4, 4)
-                .addGroup(pnlPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(comboBoxUnidad, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(spinnerStock, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addComponent(lblImagen, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(btnExaminar)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 63, Short.MAX_VALUE)
-                .addComponent(btnGuardar)
-                .addContainerGap())
-        );
+        jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel2.setText("Unidad");
+
+        jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel3.setText("Stock");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(pnlPrincipal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(142, 142, 142)
+                        .addComponent(jLabel1))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(130, 130, 130)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(btnExaminar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnGuardar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(70, 70, 70)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(txtNombre)
+                            .addComponent(lblImagen, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(comboBoxUnidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel2))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 64, Short.MAX_VALUE)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel3)
+                                    .addComponent(spinnerStock, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))))
+                .addContainerGap(57, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(pnlPrincipal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(49, 49, 49)
+                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel2)
+                    .addComponent(jLabel3))
+                .addGap(5, 5, 5)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(comboBoxUnidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(spinnerStock, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(36, 36, 36)
+                .addComponent(lblImagen, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnExaminar)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 96, Short.MAX_VALUE)
+                .addComponent(btnGuardar)
+                .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void txtNombreIngredienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNombreIngredienteActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtNombreIngredienteActionPerformed
+    public void cargarDatosEdicion(Ingrediente ingrediente) {
+        this.idIngrediente = ingrediente.getId();
+        this.setTitle("Actualizar Ingrediente");
+        btnGuardar.setText("Actualizar");
 
-    private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt){
-        if(txtNombreIngrediente.getText().trim().isEmpty()){
-            JOptionPane.showMessageDialog(this,"El nombre del ingrediente es obligatorio");
-            txtNombreIngrediente.requestFocus();
+        txtNombre.setText(ingrediente.getNombre());
+        comboBoxUnidad.setSelectedItem(ingrediente.getUnidad().toString());
+        spinnerStock.setValue(ingrediente.getStock());
+        if (this.imagen != null) {
+            ImageIcon imagenIngrediente = new ImageIcon(this.imagen);
+            Image imagenAjustada = imagenIngrediente.getImage().getScaledInstance(lblImagen.getWidth(), lblImagen.getHeight(), Image.SCALE_SMOOTH);
+            lblImagen.setIcon(new ImageIcon(imagenAjustada));
+        }
+    }
+
+    private void btnGuardarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnGuardarMouseClicked
+        // 1. Instanciar el DTO
+        if(txtNombre.getText().isEmpty()){
+            JOptionPane.showMessageDialog(this, "El nombre no puede ser nulo");
+            txtNombre.requestFocus();
+            return;
+        }
+        if(((Number)spinnerStock.getValue()).doubleValue() < 0){
+            JOptionPane.showMessageDialog(this, "El stock no puede ser negativo");
             return;
         }
         
-        String nombre = txtNombreIngrediente.getText();
-        String seleccion = comboBoxUnidad.getSelectedItem().toString();
-        Unidad unidad = Unidad.valueOf(seleccion);
-        double stock = (double) spinnerStock.getValue();
-    }
-    
-    /**
-     * @param args the command line arguments
-     */
-   
+        String nombre = txtNombre.getText();
+        Unidad unidad = Unidad.valueOf(comboBoxUnidad.getSelectedItem().toString());
+        double stock = (Double) spinnerStock.getValue();
+        byte[] imagenIngrediente = this.imagen;
+        NuevoIngredienteDTO ingrediente = new NuevoIngredienteDTO(
+                txtNombre.getText(),
+                unidad,
+                stock,
+                imagenIngrediente
+        );
+        // 4. Si es edición, ponerle el ID
+        if (this.idIngrediente != null) {
+            ingrediente.setId(this.idIngrediente);
+            control.actualizarIngrediente(ingrediente, this);
+        } else {
+            control.registrarIngrediente(ingrediente, this);
+        }
+
+        this.dispose();
+    }//GEN-LAST:event_btnGuardarMouseClicked
+
+    private void btnExaminarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnExaminarMouseClicked
+        JFileChooser buscador = new JFileChooser();
+        int resultado = buscador.showOpenDialog(this);
+
+        if (resultado == JFileChooser.APPROVE_OPTION) {
+            File archivo = buscador.getSelectedFile();
+            try {
+                this.imagen = Files.readAllBytes(archivo.toPath());
+                ImageIcon imagenIngrediente = new ImageIcon(imagen);
+                Image imagenAjustada = imagenIngrediente.getImage().getScaledInstance(lblImagen.getWidth(), lblImagen.getHeight(), Image.SCALE_SMOOTH);
+                lblImagen.setIcon(new ImageIcon(imagenAjustada));
+            } catch (IOException ex) {
+                JOptionPane.showMessageDialog(this, "Error al leer la imagen");
+            }
+        }
+    }//GEN-LAST:event_btnExaminarMouseClicked
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnExaminar;
     private javax.swing.JButton btnGuardar;
     private javax.swing.JComboBox<String> comboBoxUnidad;
-    private javax.swing.JTextField jTextField1;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel lblImagen;
-    private javax.swing.JLabel lblNombreIngrediente;
-    private javax.swing.JLabel lblNuevoIngrediente;
-    private javax.swing.JLabel lblStock;
-    private javax.swing.JLabel lblUnidad;
-    private javax.swing.JPanel pnlPrincipal;
     private javax.swing.JSpinner spinnerStock;
-    private javax.swing.JTextField txtNombreIngrediente;
+    private javax.swing.JTextField txtNombre;
     // End of variables declaration//GEN-END:variables
 }

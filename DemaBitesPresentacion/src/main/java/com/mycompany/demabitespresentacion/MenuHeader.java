@@ -133,7 +133,7 @@ public class MenuHeader extends javax.swing.JPanel {
     }//GEN-LAST:event_btnProductosActionPerformed
 
     private void btnIngredientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIngredientesActionPerformed
-        // TODO add your handling code here:
+        Navegacion.getControlNavegacion().abrirFrameIngredientes();
     }//GEN-LAST:event_btnIngredientesActionPerformed
 
     private void btnReportesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReportesActionPerformed

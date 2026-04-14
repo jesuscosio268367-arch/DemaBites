@@ -4,7 +4,6 @@
  */
 package com.mycompany.demabitesnegocio;
 
-import Enums.Unidad;
 import com.mycompany.demabitesdominio.Ingrediente;
 import com.mycompany.demabitesdtos.NuevoIngredienteDTO;
 import com.mycompany.demabitespersistencia.IingredientesDAO;
@@ -60,8 +59,32 @@ public class IngredientesBO implements IingredientesBO{
     }
 
     @Override
-    public Ingrediente actualizarStock(NuevoIngredienteDTO ingrediente) throws NegocioException {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public Ingrediente actualizarIngrediente(NuevoIngredienteDTO ingrediente) throws NegocioException {
+        if(ingrediente.getNombre() == null || ingrediente.getNombre().isEmpty()){
+            throw new NegocioException("El nombre no puede estar vacio", null);
+        }
+        if(ingrediente.getUnidad() == null){
+            throw new NegocioException("La unidad no puede ser nula", null);
+        }
+        if(ingrediente.getStock() < 0){
+            throw new NegocioException("El stock no puede ser negativo", null);
+        }
+        
+        try{
+            Ingrediente ingredienteActualizado = ingredientesDAO.actualizarIngrediente(ingrediente);
+            return ingredienteActualizado;
+        }catch(PersistenciaException ex){
+            throw new NegocioException("Error al actualizar el ingrediente", ex);
+        }
     }
-    
+
+    @Override
+    public List<Ingrediente> consultarIngredientesFiltro(String filtro) throws NegocioException {
+        try{
+            List<Ingrediente> listaIngredientes = ingredientesDAO.consultarIngredientesFiltro(filtro);
+            return listaIngredientes;
+        }catch(PersistenciaException ex){
+            throw new NegocioException("Error al consultar los ingredientes", ex);
+        }
+    }
 }

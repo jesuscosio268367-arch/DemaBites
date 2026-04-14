@@ -14,13 +14,14 @@ import java.util.List;
  * @author Jesus Omar
  */
 public interface IingredientesDAO {
-    
-    public abstract Ingrediente registrarIngrediente(NuevoIngredienteDTO nuevoIngrediente)throws PersistenciaException;
-    
-    public abstract List<Ingrediente> consultarIngredientes()throws PersistenciaException;
-    
-    public abstract Ingrediente actualizarStock(NuevoIngredienteDTO ingrediente)throws PersistenciaException;
-    
-    public abstract boolean consultarPorNombreUnidad(String nombre, Unidad unidad)throws PersistenciaException;
-    
+
+    public abstract Ingrediente registrarIngrediente(NuevoIngredienteDTO nuevoIngrediente) throws PersistenciaException;
+
+    public abstract List<Ingrediente> consultarIngredientes() throws PersistenciaException;
+
+    public abstract Ingrediente actualizarIngrediente(NuevoIngredienteDTO ingrediente) throws PersistenciaException;
+
+    public abstract boolean consultarPorNombreUnidad(String nombre, Unidad unidad) throws PersistenciaException;
+
+    public abstract List<Ingrediente> consultarIngredientesFiltro(String filtro) throws PersistenciaException;
 }

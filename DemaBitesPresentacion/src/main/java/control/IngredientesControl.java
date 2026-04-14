@@ -12,6 +12,7 @@ import com.mycompany.demabitesnegocio.NegocioException;
 import com.mycompany.demabitespersistencia.IngredientesDAO;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
@@ -36,7 +37,7 @@ public class IngredientesControl {
         }
     }
 
-    public void registrarIngrediente(NuevoIngredienteDTO nuevoIngrediente, JFrame ventana) {
+    public void registrarIngrediente(NuevoIngredienteDTO nuevoIngrediente, JDialog ventana) {
         try {
             ingredientesBO.registrarIngrediente(nuevoIngrediente);
 
@@ -44,12 +45,29 @@ public class IngredientesControl {
                     ventana,
                     "¡El ingrediente ha sido guardado con éxito!"
             );
-            
-            Navegacion.getControlNavegacion().abrirFrameIngredientes();
-            ventana.dispose();
-                    
-        }catch(NegocioException ex){
+
+        } catch (NegocioException ex) {
             JOptionPane.showMessageDialog(ventana, ex.getMessage(), "Error al guardar", JOptionPane.ERROR_MESSAGE);
         }
     }
-}
+
+    public void actualizarIngrediente(NuevoIngredienteDTO ingrediente, JDialog ventana){
+        try{
+            ingredientesBO.actualizarIngrediente(ingrediente);
+            
+            JOptionPane.showMessageDialog(ventana, "El ingrediente ha sido actualizado con éxito!");
+        }catch(NegocioException ex){
+            JOptionPane.showMessageDialog(ventana, ex.getMessage(), "Error al actualizar el ingrediente", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+    
+    public List<Ingrediente> buscarIngredientes(String filtro) {
+        try {
+            return ingredientesBO.consultarIngredientesFiltro(filtro);
+        } catch (NegocioException ex) {
+            JOptionPane.showMessageDialog(null, "Error al buscar ingredientes: " + ex.getMessage());
+            return new ArrayList<>();
+        }
+    }
+    
+} 

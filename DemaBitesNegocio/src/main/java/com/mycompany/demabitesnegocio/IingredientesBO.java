@@ -6,6 +6,7 @@ package com.mycompany.demabitesnegocio;
 
 import com.mycompany.demabitesdominio.Ingrediente;
 import com.mycompany.demabitesdtos.NuevoIngredienteDTO;
+import com.mycompany.demabitespersistencia.PersistenciaException;
 import java.util.List;
 
 /**
@@ -18,6 +19,9 @@ public interface IingredientesBO {
     
     public abstract List<Ingrediente> consultarIngredientes()throws NegocioException;
     
-    public abstract Ingrediente actualizarStock(NuevoIngredienteDTO ingrediente)throws NegocioException;
+    public abstract Ingrediente actualizarIngrediente(NuevoIngredienteDTO ingrediente)throws NegocioException;
+    
+    public abstract List<Ingrediente> consultarIngredientesFiltro(String filtro) throws NegocioException;
+
     
 }

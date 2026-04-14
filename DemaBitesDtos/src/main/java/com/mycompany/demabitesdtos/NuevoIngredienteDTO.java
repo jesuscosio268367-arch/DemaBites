@@ -12,6 +12,7 @@ import Enums.Unidad;
  */
 public class NuevoIngredienteDTO {
     
+    private Long id;
     private String nombre;
     private Unidad unidad;
     private double stock;
@@ -24,6 +25,21 @@ public class NuevoIngredienteDTO {
         this.imagenIngrediente = imagenIngrediente;
     }
 
+    public NuevoIngredienteDTO(Long id, String nombre, Unidad unidad, double stock, byte[] imagenIngrediente) {
+        this.id = id;
+        this.nombre = nombre;
+        this.unidad = unidad;
+        this.stock = stock;
+        this.imagenIngrediente = imagenIngrediente;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
     
     public String getNombre() {
         return nombre;

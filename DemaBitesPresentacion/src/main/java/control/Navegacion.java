@@ -115,11 +115,6 @@ public class Navegacion {
         cambiarPantalla(new IngredientesForm());
     }
     
-    public void abrirFormularioIngredientes(){
-        this.pantallaActual = "NUEVO_INGREDIENTE";
-        cambiarPantalla(new FormularioIngredientes());
-    }
-    
     //Clientes
     
     /**
