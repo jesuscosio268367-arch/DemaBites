@@ -24,4 +24,8 @@ public interface IingredientesBO {
     public abstract List<Ingrediente> consultarIngredientesFiltro(String filtro) throws NegocioException;
 
     
+    public abstract List<Ingrediente> consultarIngredientesFiltro(String filtro) throws NegocioException;
+    
+    public abstract Ingrediente buscarPorId (Long id) throws NegocioException;
+ 
 }

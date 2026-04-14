@@ -1,10 +1,12 @@
 com\mycompany\demabitesdominio\Producto.class
+Enums\EstadoProducto.class
+com\mycompany\demabitesdominio\Cliente.class
+com\mycompany\demabitesdominio\DetalleComanda.class
+com\mycompany\demabitesdominio\ClienteFrecuente.class
+Enums\Tipo.class
 com\mycompany\demabitesdominio\EstadoComanda.class
 com\mycompany\demabitesdominio\Ingrediente.class
 Enums\Unidad.class
 com\mycompany\demabitesdominio\Comanda.class
 com\mycompany\demabitesdominio\Mesa.class
-com\mycompany\demabitesdominio\Cliente.class
-com\mycompany\demabitesdominio\DetalleComanda.class
-com\mycompany\demabitesdominio\ClienteFrecuente.class
 com\mycompany\demabitesdominio\ProductoIngrediente.class

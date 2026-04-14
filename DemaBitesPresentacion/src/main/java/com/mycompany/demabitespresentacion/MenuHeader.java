@@ -10,7 +10,7 @@ import control.Navegacion;
 public class MenuHeader extends javax.swing.JPanel {
 
     /**
-     * Contructor del Frame.
+     * Contructor del Panel.
      */
     public MenuHeader() {
         initComponents();
@@ -40,6 +40,11 @@ public class MenuHeader extends javax.swing.JPanel {
         lbl2.setFont(new java.awt.Font("Script MT Bold", 1, 56)); // NOI18N
         lbl2.setForeground(new java.awt.Color(158, 42, 43));
         lbl2.setText("DemaBites");
+        lbl2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lbl2MouseClicked(evt);
+            }
+        });
 
         btnComandas.setBackground(new java.awt.Color(255, 239, 150));
         btnComandas.setFont(new java.awt.Font("Yu Gothic UI", 1, 24)); // NOI18N
@@ -124,21 +129,46 @@ public class MenuHeader extends javax.swing.JPanel {
         Navegacion.getControlNavegacion().abrirClientesFrame();
     }//GEN-LAST:event_btnClientesActionPerformed
 
+    /**
+     * Ejecuta la navegacion hacia el modulo de comandas.
+     * @param evt Evento de accion del boton.
+     */
     private void btnComandasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnComandasActionPerformed
         Navegacion.getControlNavegacion().abrirComandasFrame();
     }//GEN-LAST:event_btnComandasActionPerformed
 
+    /**
+     * Ejecuta la navegacion hacia el modulo de productos.
+     * @param evt Evento de accion del boton.
+     */
     private void btnProductosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProductosActionPerformed
-        // TODO add your handling code here:
+        Navegacion.getControlNavegacion().abrirProductosFrame();
     }//GEN-LAST:event_btnProductosActionPerformed
 
+    /**
+     * Ejecuta la navegacion hacia el modulo de ingredientes.
+     * @param evt Evento de accion del boton.
+     */
     private void btnIngredientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIngredientesActionPerformed
+
         Navegacion.getControlNavegacion().abrirFrameIngredientes();
     }//GEN-LAST:event_btnIngredientesActionPerformed
 
+    /**
+     * Ejecuta la navegacion hacia el modulo de reportes.
+     * @param evt Evento de accion del boton.
+     */
     private void btnReportesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReportesActionPerformed
-        // TODO add your handling code here:
+        Navegacion.getControlNavegacion().abrirReportesFrame();
     }//GEN-LAST:event_btnReportesActionPerformed
+
+    /**
+     * Ejecuta la navegacion hacia el menu principal.
+     * @param evt Evento de accion del boton.
+     */
+    private void lbl2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbl2MouseClicked
+        Navegacion.getControlNavegacion().abrirMenuPrincipal();
+    }//GEN-LAST:event_lbl2MouseClicked
 
     /**
      * Deshabilita el boton de navegacion que coincida con la pantalla actual.
@@ -147,8 +177,19 @@ public class MenuHeader extends javax.swing.JPanel {
     private void bloquearBotonActual(String actual) {
             if (actual.equals("CLIENTES")) {
                 btnClientes.setEnabled(false); 
-            } 
-            //Se modifica aqui cuando se agreguen los demas modulos
+            }
+            if (actual.equals("PRODUCTOS")) {
+                btnProductos.setEnabled(false); 
+            }
+            if (actual.equals("COMANDAS")) {
+                btnComandas.setEnabled(false); 
+            }
+            if (actual.equals("INGREDIENTES")) {
+                btnIngredientes.setEnabled(false); 
+            }
+            if (actual.equals("REPORTES")){
+                btnIngredientes.setEnabled(false);
+            }
     }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables

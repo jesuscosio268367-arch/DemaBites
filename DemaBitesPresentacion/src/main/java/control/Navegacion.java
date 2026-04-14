@@ -2,9 +2,15 @@ package control;
 
 import com.mycompany.demabitespresentacion.FormClientes;
 import com.mycompany.demabitespresentacion.FormEditarClientes;
+import com.mycompany.demabitespresentacion.FormEditarProductos;
+import com.mycompany.demabitespresentacion.FormProductos;
 import com.mycompany.demabitespresentacion.FormularioIngredientes;
 import com.mycompany.demabitespresentacion.FrameClientes;
 import com.mycompany.demabitespresentacion.FrameComandas;
+import com.mycompany.demabitespresentacion.FrameProductos;
+import com.mycompany.demabitespresentacion.FrameReportes;
+import com.mycompany.demabitespresentacion.FrameReportesClientes;
+import com.mycompany.demabitespresentacion.FrameReportesComandas;
 import com.mycompany.demabitespresentacion.IngredientesForm;
 import com.mycompany.demabitespresentacion.MenuPrincipal;
 import com.mycompany.demabitespresentacion.NuevaComandaForm;
@@ -108,6 +114,22 @@ public class Navegacion {
     }
     
     //Productos
+    
+    public void abrirProductosFrame(){
+        this.pantallaActual = "PRODUCTOS";
+        cambiarPantalla(new FrameProductos());
+    }
+    
+    public void abrirProductosForm(){
+        this.pantallaActual = "NUEVO_PRODUCTO";
+        cambiarPantalla(new FormProductos());
+    }
+    
+    public void abrirEditarProductosForm(){
+        this.pantallaActual = "EDITAR_PRODUCTO";
+        cambiarPantalla(new FormEditarProductos());
+    }
+    
     //Ingredientes
     
     public void abrirFrameIngredientes(){
@@ -121,7 +143,7 @@ public class Navegacion {
      * Cierra la pantalla actual y abre FormClientes.
      */
     public void abrirClientesForm(){
-        this.pantallaActual = "";
+        this.pantallaActual = "NUEVO_CLIENTE";
         cambiarPantalla(new FormClientes());
     }
     
@@ -137,11 +159,36 @@ public class Navegacion {
      * Cierra la pantalla actual y abre FormEditarClientes.
      */
     public void abrirEditarClientesForm(){
-        this.pantallaActual = "";
+        this.pantallaActual = "EDITAR_CLIENTES";
         cambiarPantalla(new FormEditarClientes());
     }
     
     //Reportes
+    
+    /**
+     * Cierra la pantalla actual y abre FrameReportes.
+     */
+    public void abrirReportesFrame(){
+        this.pantallaActual = "REPORTES";
+        cambiarPantalla(new FrameReportes());
+    }
+    
+    /**
+     * Cierra la pantalla actual y abre FrameReportesComandas.
+     */
+    public void abrirReportesComandasFrame(){
+        this.pantallaActual = "REPORTES_COMANDAS";
+        cambiarPantalla(new FrameReportesComandas());
+    }
+    
+    /**
+     * Cierra la pantalla actual y abre FrameReportesClientes.
+     */
+    public void abrirReportesClientesFrame(){
+        this.pantallaActual = "REPORTES_CLIENTES";
+        cambiarPantalla(new FrameReportesClientes());
+    }
+    
     
     /**
      * Realiza el cambio de pantallas, cierra el frame actual y centra el nuevo.

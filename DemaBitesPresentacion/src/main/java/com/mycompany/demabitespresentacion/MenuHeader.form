@@ -81,6 +81,9 @@
             </Property>
             <Property name="text" type="java.lang.String" value="DemaBites"/>
           </Properties>
+          <Events>
+            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="lbl2MouseClicked"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="btnComandas">
           <Properties>

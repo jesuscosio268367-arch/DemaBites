@@ -104,5 +104,5 @@ public class IngredientesDAOTest {
             assertTrue(lista.size() == 3);
         });
     }
-    
+
 }

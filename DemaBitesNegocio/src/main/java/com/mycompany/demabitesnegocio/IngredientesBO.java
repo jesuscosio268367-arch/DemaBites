@@ -14,7 +14,7 @@ import java.util.List;
  *
  * @author Jesus Omar
  */
-public class IngredientesBO implements IingredientesBO{
+public class IngredientesBO implements IingredientesBO {
 
     private final IingredientesDAO ingredientesDAO;
     
@@ -87,4 +87,21 @@ public class IngredientesBO implements IingredientesBO{
             throw new NegocioException("Error al consultar los ingredientes", ex);
         }
     }
+
+    @Override
+    public Ingrediente buscarPorId(Long id) throws NegocioException {
+        if (id == null || id <= 0) {
+            throw new NegocioException("ID de ingrediente no valido para la busqueda.", null);
+        }
+        try {
+            Ingrediente ingrediente = ingredientesDAO.buscarPorId(id);
+            if (ingrediente == null) {
+                throw new NegocioException("El ingrediente con ID " + id + " no fue encontrado.", null);
+            }
+            return ingrediente;
+        } catch (PersistenciaException ex) {
+            throw new NegocioException("Error al buscar el ingrediente por ID.", ex);
+        }
+    }
+    
 }

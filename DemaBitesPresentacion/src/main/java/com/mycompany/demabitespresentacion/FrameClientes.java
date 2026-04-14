@@ -3,7 +3,6 @@ package com.mycompany.demabitespresentacion;
 import com.mycompany.demabitesdominio.ClienteFrecuente;
 import control.ClientesControl;
 import control.Navegacion;
-import java.awt.event.ActionEvent;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -218,6 +217,10 @@ public class FrameClientes extends javax.swing.JFrame {
         consultar(txtBuscar.getText().trim());
     }//GEN-LAST:event_btnBuscarActionPerformed
 
+    /**
+     * Ejecuta el metodo llenar tabla.
+     * @param evt Evento accion del boton.
+     */
     private void txtBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtBuscarActionPerformed
         llenarTabla();
     }//GEN-LAST:event_txtBuscarActionPerformed
@@ -238,7 +241,9 @@ public class FrameClientes extends javax.swing.JFrame {
      */
     public void ocultarColumnaID() {
         if (tblClientes.getColumnCount() > 0) {
-            tblClientes.removeColumn(tblClientes.getColumnModel().getColumn(0));
+            tblClientes.getColumnModel().getColumn(0).setMinWidth(0);
+            tblClientes.getColumnModel().getColumn(0).setMaxWidth(0);
+            tblClientes.getColumnModel().getColumn(0).setPreferredWidth(0);
         }
     }
     
