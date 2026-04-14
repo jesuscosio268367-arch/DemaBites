@@ -9,7 +9,6 @@ import java.util.List;
  */
 public class NuevoProductoActualizadoDTO {
     private Long id;
-    private String nombre;
     private Double precio;
     private String descripcion;
     private List<IngredienteProductoDTO> ingredientes;
@@ -17,6 +16,7 @@ public class NuevoProductoActualizadoDTO {
     
     //Solo para visualizacion
     private Tipo tipoProducto;
+    private String nombre;
 
     /**
      * Contructor vacio.
@@ -26,15 +26,13 @@ public class NuevoProductoActualizadoDTO {
     }
 
     /**
-     * Contructor con todos los atributos a excepcion del ID y tipoProducto.
-     * @param nombre El nombre del producto.
+     * Contructor con todos los atributos a excepcion del ID, nombre y tipoProducto.
      * @param precio El precio que tendra el producto.
      * @param descripcion Una breve descripcion del producto.
      * @param ingredientes Lista de ingredientes que conforman el producto.
      * @param imagenProducto Imagen del producto.
      */
-    public NuevoProductoActualizadoDTO(String nombre, Double precio, String descripcion, List<IngredienteProductoDTO> ingredientes, byte[] imagenProducto) {
-        this.nombre = nombre;
+    public NuevoProductoActualizadoDTO(Double precio, String descripcion, List<IngredienteProductoDTO> ingredientes, byte[] imagenProducto) {
         this.precio = precio;
         this.descripcion = descripcion;
         this.ingredientes = ingredientes;

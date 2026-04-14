@@ -37,6 +37,7 @@ public class FormEditarProductos extends javax.swing.JFrame {
         utilMetodos.insertarPanel(pnlHeader, header);
         llenarCombo();
         cargarDatos();
+        ocultarColumnaID();
     }
 
     /**
@@ -110,6 +111,7 @@ public class FormEditarProductos extends javax.swing.JFrame {
         lbl7.setFont(new java.awt.Font("Yu Gothic UI Semilight", 0, 18)); // NOI18N
         lbl7.setText("Agregar Ingredientes:");
 
+        txtNombre.setEditable(false);
         txtNombre.setFont(new java.awt.Font("Yu Gothic UI", 0, 18)); // NOI18N
 
         txtPrecio.setFont(new java.awt.Font("Yu Gothic UI", 0, 18)); // NOI18N
@@ -135,6 +137,12 @@ public class FormEditarProductos extends javax.swing.JFrame {
         cmbMedida.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         cmbMedida.setEnabled(false);
 
+        jScrollPane3.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jScrollPane3MouseClicked(evt);
+            }
+        });
+
         tblIngredientes.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -156,6 +164,11 @@ public class FormEditarProductos extends javax.swing.JFrame {
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
+            }
+        });
+        tblIngredientes.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblIngredientesMouseClicked(evt);
             }
         });
         jScrollPane3.setViewportView(tblIngredientes);
@@ -362,6 +375,35 @@ public class FormEditarProductos extends javax.swing.JFrame {
     }//GEN-LAST:event_btnAgregarImagenActionPerformed
 
     /**
+     * Me equivoque de evento aqui no va nada.
+     * @param evt .
+     */
+    private void jScrollPane3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jScrollPane3MouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jScrollPane3MouseClicked
+
+    /**
+     * Ejecuta el metodo eliminar ingrediente al clickear dos veces una fila.
+     * @param evt Evento de accion del boton.
+     */
+    private void tblIngredientesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblIngredientesMouseClicked
+        if (evt.getClickCount() == 2) {
+            eliminarIngredienteSeleccionado();
+        }
+    }//GEN-LAST:event_tblIngredientesMouseClicked
+
+    /**
+    * Oculta la columna del ID para que no sea visible al usuario pero siga existiendo en el modelo.
+    */
+    public void ocultarColumnaID() {
+         if (tblIngredientes.getColumnCount() > 0) {
+             tblIngredientes.getColumnModel().getColumn(0).setMinWidth(0);
+             tblIngredientes.getColumnModel().getColumn(0).setMaxWidth(0);
+             tblIngredientes.getColumnModel().getColumn(0).setPreferredWidth(0);
+         }
+    }
+    
+    /**
      * Se encarga de llenar el combo con los tipos del enumerador.
      */
     private void llenarCombo(){
@@ -502,7 +544,17 @@ public class FormEditarProductos extends javax.swing.JFrame {
             List<IngredienteProductoDTO> receta = new java.util.ArrayList<>();
             for (int i = 0; i < modelo.getRowCount(); i++) {
                 Long idIng = (Long) modelo.getValueAt(i, 0);
-                Double cant = Double.valueOf(modelo.getValueAt(i, 3).toString());
+                Double cant;
+                try {
+                    cant = Double.valueOf(modelo.getValueAt(i, 3).toString());
+                } catch (NumberFormatException e) {
+                    JOptionPane.showMessageDialog(this, "Formato invalido: ingresa solo numeros en las cantidades.");
+                    return; 
+                }
+                if (cant <= 0) {
+                    JOptionPane.showMessageDialog(this, "La cantidad del ingrediente debe ser mayor a 0.");
+                    return;
+                }
                 receta.add(new IngredienteProductoDTO(idIng, cant));
             }
             NuevoProductoActualizadoDTO productoEditado = new NuevoProductoActualizadoDTO();
@@ -517,6 +569,27 @@ public class FormEditarProductos extends javax.swing.JFrame {
             control.actualizarProducto(productoEditado, this);
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Error en los datos: " + e.getMessage());
+        }
+    }
+    
+    /**
+     * Elimina un ingrediente que se encuentre en la tabla de ingredientes.
+     */
+    private void eliminarIngredienteSeleccionado() {
+        int fila = tblIngredientes.getSelectedRow();
+        if (fila != -1) {
+            String nombreIng = tblIngredientes.getValueAt(fila, 1).toString();
+            int respuesta = JOptionPane.showConfirmDialog(
+                this, 
+                "¿Estas seguro de que deseas eliminar el ingrediente '" + nombreIng + "' de la receta?",
+                "Confirmar eliminación",
+                JOptionPane.YES_NO_OPTION,
+                JOptionPane.WARNING_MESSAGE
+            );
+            if (respuesta == JOptionPane.YES_OPTION) {
+                DefaultTableModel modelo = (DefaultTableModel) tblIngredientes.getModel();
+                modelo.removeRow(fila);
+            }
         }
     }
 

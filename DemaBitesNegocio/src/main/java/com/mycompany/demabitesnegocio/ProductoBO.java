@@ -73,12 +73,6 @@ public class ProductoBO implements IProductoBO{
         if (nuevoProductoActualizado.getId() == null || nuevoProductoActualizado.getId() <= 0) {
             throw new NegocioException("El ID del producto a editar no es valido.", null);
         }
-        if (nuevoProductoActualizado.getNombre() == null || nuevoProductoActualizado.getNombre().isBlank()) {
-            throw new NegocioException("El nombre del producto no puede estar vacio.", null);
-        }
-        if (nuevoProductoActualizado.getNombre().length() > 50) {
-            throw new NegocioException("El nombre no puede ser tan largo.", null);
-        }
         if (nuevoProductoActualizado.getPrecio() == null || nuevoProductoActualizado.getPrecio() <= 0) {
             throw new NegocioException("El precio debe ser un valor positivo.", null);
         }

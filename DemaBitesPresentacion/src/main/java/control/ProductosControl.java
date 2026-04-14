@@ -2,7 +2,6 @@ package control;
 
 import Enums.EstadoProducto;
 import Enums.Tipo;
-import com.mycompany.demabitesdominio.Ingrediente;
 import com.mycompany.demabitesdominio.Producto;
 import com.mycompany.demabitesdominio.ProductoIngrediente;
 import com.mycompany.demabitesdtos.IngredienteProductoDTO;
@@ -10,11 +9,8 @@ import com.mycompany.demabitesdtos.NuevoProductoActualizadoDTO;
 import com.mycompany.demabitesdtos.NuevoProductoDTO;
 import com.mycompany.demabitesdtos.ProductoEstadoActualizadoDTO;
 import com.mycompany.demabitesnegocio.IProductoBO;
-import com.mycompany.demabitesnegocio.IingredientesBO;
-import com.mycompany.demabitesnegocio.IngredientesBO;
 import com.mycompany.demabitesnegocio.NegocioException;
 import com.mycompany.demabitesnegocio.ProductoBO;
-import com.mycompany.demabitespersistencia.IngredientesDAO;
 import com.mycompany.demabitespersistencia.ProductoDAO;
 import java.util.ArrayList;
 import java.util.List;
@@ -27,7 +23,6 @@ import javax.swing.JOptionPane;
  */
 public class ProductosControl {
     private final IProductoBO productoBO;
-    private final IingredientesBO ingredienteBO;
 
     /**
      * Contructor de la clase que se conecta con la 
@@ -35,7 +30,6 @@ public class ProductosControl {
      */
     public ProductosControl() {
         this.productoBO = new ProductoBO(new ProductoDAO());
-        this.ingredienteBO = new IngredientesBO(new IngredientesDAO());
     }
 
     /**
@@ -162,13 +156,13 @@ public class ProductosControl {
                 ingredientesDTO.add(ingDTO);
             }
             NuevoProductoActualizadoDTO dto = new NuevoProductoActualizadoDTO(
-                producto.getNombre(),
                 producto.getPrecio(),
                 producto.getDescripcion(),
                 ingredientesDTO,
                 producto.getImagenProducto()
             );
             dto.setId(producto.getId());
+            dto.setNombre(producto.getNombre());
             dto.setTipoProducto(producto.getTipoProducto());
             return dto;
         } catch (NegocioException ex) {

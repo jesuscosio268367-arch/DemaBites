@@ -35,6 +35,7 @@ public class FormProductos extends javax.swing.JFrame {
         MenuHeader header = new MenuHeader();
         utilMetodos.insertarPanel(pnlHeader, header);
         llenarCombo();
+        ocultarColumnaID();
     }
 
     /**
@@ -362,6 +363,17 @@ public class FormProductos extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_txtPrecioKeyTyped
 
+    /**
+    * Oculta la columna del ID para que no sea visible al usuario pero siga existiendo en el modelo.
+    */
+    public void ocultarColumnaID() {
+         if (tblIngredientes.getColumnCount() > 0) {
+             tblIngredientes.getColumnModel().getColumn(0).setMinWidth(0);
+             tblIngredientes.getColumnModel().getColumn(0).setMaxWidth(0);
+             tblIngredientes.getColumnModel().getColumn(0).setPreferredWidth(0);
+         }
+    }
+    
     /**
      * Logica para agregar un ingrediente a la tabla de receta del producto.
      */

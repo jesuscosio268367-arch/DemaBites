@@ -40,7 +40,7 @@ public class ProductoEstadoActualizadoDTO {
         return id;
     }
 
-    /** @param id El ID asignado al producto. */
+    /** @param id El ID a asignar al producto. */
     public void setId(Long id) {
         this.id = id;
     }
@@ -50,7 +50,7 @@ public class ProductoEstadoActualizadoDTO {
         return estado;
     }
 
-    /** @param estado El estado asignado al producto (valor predeterminado "ACTIVO"). */
+    /** @param estado El estado a asignar al producto (valor predeterminado "ACTIVO"). */
     public void setEstado(EstadoProducto estado) {
         this.estado = estado;
     }
