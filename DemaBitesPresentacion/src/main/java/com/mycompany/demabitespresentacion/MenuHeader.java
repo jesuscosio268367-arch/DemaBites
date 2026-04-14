@@ -8,7 +8,7 @@ import control.Navegacion;
  * @author Dario
  */
 public class MenuHeader extends javax.swing.JPanel {
-
+    private String rol = Navegacion.getControlNavegacion().getRol();
     /**
      * Contructor del Panel.
      */
@@ -16,6 +16,13 @@ public class MenuHeader extends javax.swing.JPanel {
         initComponents();
         String pantallaActiva = Navegacion.getControlNavegacion().getPantallaActual();
         bloquearBotonActual(pantallaActiva);
+        if(rol.equals("MESERO")){
+            btnClientes.setVisible(false);
+            btnComandas.setVisible(false);
+            btnIngredientes.setVisible(false);
+            btnProductos.setVisible(false);
+            btnReportes.setVisible(false);
+        }
     }
 
     /**

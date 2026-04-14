@@ -12,7 +12,7 @@ public class MainDemabites {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        Navegacion.getControlNavegacion().abrirMenuPrincipal();           
+        Navegacion.getControlNavegacion().inicializar(new FrameInicioSesion());
     }
     
 }

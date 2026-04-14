@@ -103,5 +103,14 @@ public class IngredientesBO implements IingredientesBO {
             throw new NegocioException("Error al buscar el ingrediente por ID.", ex);
         }
     }
+
+    @Override
+    public Ingrediente eliminarIngrediente(Long id) throws NegocioException {
+        try{
+            return ingredientesDAO.eliminarIngrediente(id);
+        }catch(PersistenciaException ex){
+            throw new NegocioException("Error al eliminar el ingrediente", ex);
+        }
+    }
     
 }

@@ -63,28 +63,28 @@ public class IngredientesDAO implements IingredientesDAO {
 
     @Override
     public Ingrediente actualizarIngrediente(NuevoIngredienteDTO ingrediente) throws PersistenciaException {
-        
-        try{
+
+        try {
             EntityManager entityManager = ManejadorConexiones.crearEntityManager();
             entityManager.getTransaction().begin();
-            
+
             Ingrediente ingredienteAActualizar = entityManager.find(Ingrediente.class, ingrediente.getId());
             Ingrediente ingredienteActualizado = NuevoIngredienteDTOAIngredienteAdapter.adapter(ingrediente);
-            
+
             ingredienteAActualizar.setNombre(ingredienteActualizado.getNombre());
             ingredienteAActualizar.setStock(ingredienteActualizado.getStock());
             ingredienteAActualizar.setUnidad(ingredienteActualizado.getUnidad());
             ingredienteAActualizar.setImagenIngrediente(ingredienteActualizado.getImagenIngrediente());
-            
+
             entityManager.merge(ingredienteAActualizar);
             entityManager.getTransaction().commit();
-            
+
             return ingredienteAActualizar;
-        }catch(PersistenceException ex){
+        } catch (PersistenceException ex) {
             LOGGER.severe(ex.getMessage());
             throw new PersistenciaException("Error al actualizar el ingrediente");
         }
-        
+
     }
 
     @Override
@@ -103,9 +103,9 @@ public class IngredientesDAO implements IingredientesDAO {
         } catch (PersistenceException ex) {
             LOGGER.severe(ex.getMessage());
             throw new PersistenciaException("No se encontro ningun ingrediente");
-        } 
+        }
     }
-    
+
     @Override
     public List<Ingrediente> consultarIngredientesFiltro(String filtro) throws PersistenciaException {
         try {
@@ -121,7 +121,7 @@ public class IngredientesDAO implements IingredientesDAO {
             String patron = "%" + filtro.trim().toLowerCase() + "%";
 
             Predicate pNombre = cb.like(cb.lower(ingrediente.get("nombre")), patron);
-            Predicate pUnidad = cb.like(cb.lower(ingrediente.get("unidadMedida")), patron);
+            Predicate pUnidad = cb.like(cb.lower(ingrediente.get("unidad")), patron);
             cq.where(cb.or(pNombre, pUnidad));
 
             return em.createQuery(cq).getResultList();
@@ -130,18 +130,39 @@ public class IngredientesDAO implements IingredientesDAO {
             throw new PersistenciaException("No ha sido posible consultar los ingredientes", ex);
         }
     }
-    
+
     @Override
     public Ingrediente buscarPorId(Long id) throws PersistenciaException {
-        try{
+        try {
             EntityManager entityManager = ManejadorConexiones.crearEntityManager();
             Ingrediente ingrediente = entityManager.find(Ingrediente.class, id);
             return ingrediente;
-        }catch(PersistenceException ex){
+        } catch (PersistenceException ex) {
             LOGGER.severe(ex.getMessage());
             throw new PersistenciaException("Error al consultar por ID.", ex);
         }
 
+    }
+
+    @Override
+    public Ingrediente eliminarIngrediente(Long id) throws PersistenciaException {
+        try {
+            EntityManager entityManager = ManejadorConexiones.crearEntityManager();
+            entityManager.getTransaction().begin();
+            Ingrediente ingrediente = entityManager.find(Ingrediente.class, id);
+
+            if (ingrediente.getProductos() != null && !ingrediente.getProductos().isEmpty()) {
+                throw new PersistenciaException("No se puede eliminar por que el ingrediente esta asociado a un producto");
+            }
+            
+            entityManager.remove(ingrediente);
+            entityManager.getTransaction().commit();
+            
+            return ingrediente;
+        } catch (PersistenceException ex) {
+            LOGGER.severe(ex.getMessage());
+            throw new PersistenciaException("Error al eliminar el ingrediente");
+        }
     }
 
 }

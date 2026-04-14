@@ -98,6 +98,14 @@ public class Ingrediente implements Serializable {
     public void setImagenIngrediente(byte[] imagenIngrediente) {
         this.imagenIngrediente = imagenIngrediente;
     }
+
+    public List<ProductoIngrediente> getProductos() {
+        return productos;
+    }
+
+    public void setProductos(List<ProductoIngrediente> productos) {
+        this.productos = productos;
+    }
     
     @Override
     public int hashCode() {

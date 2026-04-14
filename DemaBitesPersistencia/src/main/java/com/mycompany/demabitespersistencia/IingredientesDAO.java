@@ -26,5 +26,7 @@ public interface IingredientesDAO {
     public abstract List<Ingrediente> consultarIngredientesFiltro(String filtro) throws PersistenciaException;
     
     public abstract Ingrediente buscarPorId (Long id) throws PersistenciaException;
+    
+    public abstract Ingrediente eliminarIngrediente(Long id)throws PersistenciaException;
  
 }

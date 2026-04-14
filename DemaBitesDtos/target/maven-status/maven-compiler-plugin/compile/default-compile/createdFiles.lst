@@ -7,6 +7,7 @@ com\mycompany\demabitesdtos\NuevoProductoActualizadoDTO.class
 com\mycompany\demabitesdtos\ProductoEstadoActualizadoDTO.class
 com\mycompany\demabitesdtos\MesaDTO.class
 com\mycompany\demabitesdtos\NuevaComandaDTO.class
+com\mycompany\demabitesdtos\ReporteClientesDTO.class
 com\mycompany\demabitesdtos\DetalleComandaDTO.class
 com\mycompany\demabitesdtos\ProductoDTO.class
 com\mycompany\demabitesdtos\NuevoClienteDTO.class

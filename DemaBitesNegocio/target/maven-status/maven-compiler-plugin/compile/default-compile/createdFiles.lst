@@ -1,11 +1,13 @@
-com\mycompany\demabitesnegocio\ClienteBO.class
 com\mycompany\demabitesnegocio\IClientesBO.class
 com\mycompany\demabitesnegocio\IComandaBO.class
+com\mycompany\demabitesnegocio\IProductoBO.class
+com\mycompany\demabitesnegocio\IingredientesBO.class
+com\mycompany\demabitesnegocio\ClienteBO.class
 com\mycompany\demabitesnegocio\IngredientesBO.class
 com\mycompany\demabitesnegocio\MesaBO.class
 com\mycompany\demabitesnegocio\ComandaBO.class
-com\mycompany\demabitesnegocio\IProductoBO.class
 com\mycompany\demabitesnegocio\NegocioException.class
-com\mycompany\demabitesnegocio\IingredientesBO.class
+com\mycompany\demabitesnegocio\ReportesBO.class
+com\mycompany\demabitesnegocio\IReportesBO.class
 com\mycompany\demabitesnegocio\IMesaBO.class
 com\mycompany\demabitesnegocio\ProductoBO.class

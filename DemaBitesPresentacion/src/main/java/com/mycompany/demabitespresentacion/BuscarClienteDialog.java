@@ -2,7 +2,7 @@ package com.mycompany.demabitespresentacion;
 
 /**
  *
- * @author elgps
+ * @author Jesus Omar
  */
 public class BuscarClienteDialog extends javax.swing.JDialog {
 

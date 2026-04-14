@@ -28,6 +28,15 @@ public class Navegacion {
     //Objeto para mandar cualquier tipo de dato de una pantalla a otra
     private Object datoTemporal;
     private Long idSeleccionado;
+    private String rol;
+
+    public String getRol() {
+        return rol;
+    }
+    
+    public void setRol(String rol){
+        this.rol = rol;
+    }
     
     /**
      * Obtiene el identificador de la pantalla que se esta visualizando.
@@ -91,10 +100,15 @@ public class Navegacion {
     }
     
     /**
-     * Cierra la pantalla actual y abre el Menu Principal.
+     * Si el usuario se identifica como mesero abre las comandas
+     * si se identifica como administrador abre el menu principal
      */
     public void abrirMenuPrincipal(){
-        cambiarPantalla(new MenuPrincipal());
+        if(this.rol.equals("MESERO")){
+            abrirComandasFrame();
+        }else{
+            cambiarPantalla(new MenuPrincipal());
+        }
     }
     
     //Comandas

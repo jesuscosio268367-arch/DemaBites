@@ -86,6 +86,7 @@ public class IngredientesForm extends javax.swing.JFrame {
         btnActualizar = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         txtBuscar = new javax.swing.JTextField();
+        btnEliminar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(254, 255, 234));
@@ -173,6 +174,16 @@ public class IngredientesForm extends javax.swing.JFrame {
             }
         });
 
+        btnEliminar.setBackground(new java.awt.Color(153, 0, 0));
+        btnEliminar.setFont(new java.awt.Font("Segoe UI", 1, 20)); // NOI18N
+        btnEliminar.setForeground(new java.awt.Color(255, 255, 255));
+        btnEliminar.setText("Eliminar");
+        btnEliminar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnEliminarMouseClicked(evt);
+            }
+        });
+
         javax.swing.GroupLayout pnlPrincipalLayout = new javax.swing.GroupLayout(pnlPrincipal);
         pnlPrincipal.setLayout(pnlPrincipalLayout);
         pnlPrincipalLayout.setHorizontalGroup(
@@ -180,7 +191,7 @@ public class IngredientesForm extends javax.swing.JFrame {
             .addComponent(pnlHeader, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(pnlPrincipalLayout.createSequentialGroup()
                 .addGap(173, 173, 173)
-                .addGroup(pnlPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGroup(pnlPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addGroup(pnlPrincipalLayout.createSequentialGroup()
                         .addComponent(lblIngredientes)
                         .addGap(268, 268, 268)
@@ -189,6 +200,8 @@ public class IngredientesForm extends javax.swing.JFrame {
                         .addComponent(jLabel1)
                         .addGap(6, 6, 6))
                     .addGroup(pnlPrincipalLayout.createSequentialGroup()
+                        .addComponent(btnEliminar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnActualizar)
                         .addGap(18, 18, 18)
                         .addComponent(btnNuevoIngrediente))
@@ -209,7 +222,8 @@ public class IngredientesForm extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(pnlPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnNuevoIngrediente)
-                    .addComponent(btnActualizar))
+                    .addComponent(btnActualizar)
+                    .addComponent(btnEliminar))
                 .addGap(0, 34, Short.MAX_VALUE))
         );
 
@@ -230,6 +244,7 @@ public class IngredientesForm extends javax.swing.JFrame {
     private void btnNuevoIngredienteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnNuevoIngredienteMouseClicked
         FormularioIngredientes formIngredientes = new FormularioIngredientes(this, true);
         formIngredientes.setTitle("Registrar Ingrediente");
+        formIngredientes.setLocationRelativeTo(null);
         formIngredientes.setVisible(true);
         this.listaIngredientes = control.cargarTablaIngredientes();
         llenarTabla(this.listaIngredientes);
@@ -241,6 +256,7 @@ public class IngredientesForm extends javax.swing.JFrame {
             Ingrediente ingredienteSeleccionado = listaIngredientes.get(fila);
             FormularioIngredientes formIngredientes = new FormularioIngredientes(this, true);
             formIngredientes.cargarDatosEdicion(ingredienteSeleccionado);
+            formIngredientes.setLocationRelativeTo(null);
             formIngredientes.setVisible(true);
             this.listaIngredientes = control.cargarTablaIngredientes();
             llenarTabla(this.listaIngredientes);
@@ -255,8 +271,25 @@ public class IngredientesForm extends javax.swing.JFrame {
         llenarTabla(listaIngredientes);
     }//GEN-LAST:event_txtBuscarKeyReleased
 
+    private void btnEliminarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnEliminarMouseClicked
+        int fila = tablaIngredientes.getSelectedRow();
+        if (fila != -1) {
+            Ingrediente ingredienteSeleccionado = listaIngredientes.get(fila);
+            Long id = ingredienteSeleccionado.getId();
+            int respuesta = JOptionPane.showConfirmDialog(this,
+                    "Seguro que quieres eliminar este producto?"
+                    + ingredienteSeleccionado.getNombre()
+                    + ingredienteSeleccionado.getUnidad()
+            );
+            if (respuesta == JOptionPane.YES_OPTION) {
+                control.eliminarIngrediente(id, this);
+            }
+        }
+    }//GEN-LAST:event_btnEliminarMouseClicked
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnActualizar;
+    private javax.swing.JButton btnEliminar;
     private javax.swing.JButton btnNuevoIngrediente;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;

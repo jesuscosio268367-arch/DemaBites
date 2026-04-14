@@ -276,7 +276,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void pnlIngredientesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnlIngredientesMouseClicked
-        //Navegacion.getControlNavegacion(). no se que va aqui
+        Navegacion.getControlNavegacion().abrirFrameIngredientes();
     }//GEN-LAST:event_pnlIngredientesMouseClicked
 
     private void pnlComandasKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_pnlComandasKeyPressed

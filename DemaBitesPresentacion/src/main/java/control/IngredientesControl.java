@@ -72,6 +72,14 @@ public class IngredientesControl {
         }
     }
 
+    public void eliminarIngrediente(Long id, JFrame ventana){
+        try{
+            ingredientesBO.eliminarIngrediente(id);
+            JOptionPane.showMessageDialog(ventana, "El ingrediente ha sido eliminado con éxito!");
+        }catch(NegocioException ex){
+            JOptionPane.showMessageDialog(ventana, ex.getMessage(), "Error al eliminar el ingrediente", JOptionPane.ERROR_MESSAGE);
+        }
+    }
 } 
 
 
