@@ -11,5 +11,4 @@ public class MainDemabites {
     public static void main(String[] args) {
         Navegacion.getControlNavegacion().inicializar(new FrameInicioSesion());
     }
-    
 }

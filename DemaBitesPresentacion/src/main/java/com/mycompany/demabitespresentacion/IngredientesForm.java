@@ -278,11 +278,13 @@ public class IngredientesForm extends javax.swing.JFrame {
             Long id = ingredienteSeleccionado.getId();
             int respuesta = JOptionPane.showConfirmDialog(this,
                     "Seguro que quieres eliminar este producto?"
-                    + ingredienteSeleccionado.getNombre()
-                    + ingredienteSeleccionado.getUnidad()
+                    + "" + ingredienteSeleccionado.getNombre()
+                    + "" + ingredienteSeleccionado.getUnidad()
             );
             if (respuesta == JOptionPane.YES_OPTION) {
                 control.eliminarIngrediente(id, this);
+                this.listaIngredientes = control.cargarTablaIngredientes();
+                llenarTabla(this.listaIngredientes);
             }
         }
     }//GEN-LAST:event_btnEliminarMouseClicked

@@ -20,7 +20,7 @@ public class ProductoIngrediente implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "cantidadRequerida", nullable = false)
+    @Column(name = "cantidad", nullable = false)
     private Double cantidadRequerida;
 
     @ManyToOne

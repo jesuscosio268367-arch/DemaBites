@@ -10,12 +10,10 @@ import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 import com.mycompany.demabitesdtos.ReporteClientesDTO;
-import java.awt.Font;
 import java.io.FileOutputStream;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.text.Document;
 import utileria.utilMetodos;
 
 
