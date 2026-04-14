@@ -1,10 +1,21 @@
 package com.mycompany.demabitespresentacion;
 
+import com.itextpdf.text.BaseColor;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.Element;
+import com.itextpdf.text.Font;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.Phrase;
+import com.itextpdf.text.pdf.PdfPCell;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfWriter;
 import com.mycompany.demabitesdtos.ReporteComandasDTO;
 import control.ReportesControl;
+import java.io.FileOutputStream;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import utileria.utilMetodos;
 
@@ -186,7 +197,7 @@ public class FrameReportesComandas extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnExportarPDFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExportarPDFActionPerformed
-
+        generarPDF();
     }//GEN-LAST:event_btnExportarPDFActionPerformed
 
     /**
@@ -237,6 +248,55 @@ public class FrameReportesComandas extends javax.swing.JFrame {
         txtTotalVendido.setText(String.format("$%.2f", totalAcumulado));
         
         lbl4.setText("Comandas registradas del " + inicio.format(formatoFecha) + " al " + fin.format(formatoFecha));
+    }
+    
+    /**
+     * Metodo para convertir la tabla de reportes a pdf.
+     */
+    private void generarPDF() {
+        try {
+            String timestamp = java.time.LocalDateTime.now().format(java.time.format.DateTimeFormatter.ofPattern("yyyyMMdd_HHmm"));
+            String rutaPDF = System.getProperty("user.home") + "/Downloads/Reporte_Clientes_" + timestamp + ".pdf";
+
+            Document document = new Document();
+            PdfWriter.getInstance(document, new FileOutputStream(rutaPDF));
+            document.open();
+
+            Font tituloFont = new Font(Font.FontFamily.HELVETICA, 18, Font.BOLD, BaseColor.BLACK);
+            Paragraph titulo = new Paragraph("REPORTE DE CLIENTES FRECUENTES", tituloFont);
+            titulo.setAlignment(Element.ALIGN_CENTER);
+            titulo.setSpacingAfter(20);
+            document.add(titulo);
+
+            document.add(new Paragraph("Fecha de generación: " + java.time.LocalDateTime.now()));
+            document.add(new Paragraph(" "));
+
+            int columnas = tblRComandas.getColumnCount();
+            PdfPTable tablaPDF = new PdfPTable(columnas);
+            tablaPDF.setWidthPercentage(100);
+
+            for (int i = 0; i < columnas; i++) {
+                PdfPCell header = new PdfPCell(new Phrase(tblRComandas.getColumnName(i)));
+                header.setHorizontalAlignment(Element.ALIGN_CENTER);
+                header.setBackgroundColor(new BaseColor(230, 230, 230));
+                header.setPadding(5);
+                tablaPDF.addCell(header);
+            }
+
+            for (int i = 0; i < tblRComandas.getRowCount(); i++) {
+                for (int j = 0; j < columnas; j++) {
+                    Object valor = tblRComandas.getValueAt(i, j);
+                    tablaPDF.addCell(valor != null ? valor.toString() : "");
+                }
+            }
+
+            document.add(tablaPDF);
+            document.close();
+            JOptionPane.showMessageDialog(this, "PDF generado con exito en: \n" + rutaPDF);
+            
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Error al crear PDF: " + e.getMessage());
+        }
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnExportarPDF;
