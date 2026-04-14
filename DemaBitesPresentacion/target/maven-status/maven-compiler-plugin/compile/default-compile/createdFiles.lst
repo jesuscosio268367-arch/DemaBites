@@ -2,6 +2,7 @@ com\mycompany\demabitespresentacion\FormEditarProductos.class
 com\mycompany\demabitespresentacion\FrameReportesClientes.class
 com\mycompany\demabitespresentacion\BuscadorDialog.class
 com\mycompany\demabitespresentacion\FrameReportesComandas.class
+com\mycompany\demabitespresentacion\PanelFiltroClientes$1.class
 com\mycompany\demabitespresentacion\MenuHeader$1.class
 com\mycompany\demabitespresentacion\BuscarClienteDialog.class
 com\mycompany\demabitespresentacion\NuevaComandaForm$2.class
@@ -42,6 +43,7 @@ com\mycompany\demabitespresentacion\MenuPrincipal.class
 com\mycompany\demabitespresentacion\NuevaComandaForm$3.class
 com\mycompany\demabitespresentacion\FrameComandas.class
 control\IngredientesControl.class
+control\ReportesControl.class
 com\mycompany\demabitespresentacion\FormEditarProductos$4.class
 com\mycompany\demabitespresentacion\IngredientesForm$1.class
 com\mycompany\demabitespresentacion\BuscadorDialog$1.class

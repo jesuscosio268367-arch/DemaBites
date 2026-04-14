@@ -1,5 +1,7 @@
+com\mycompany\demabitespersistencia\IReportesDAO.class
 com\mycompany\demabitespersistencia\IingredientesDAO.class
 com\mycompany\demabitespersistencia\MesaDAO.class
+com\mycompany\demabitespersistencia\ReportesDAO.class
 com\mycompany\demabitespersistencia\ClienteDAO.class
 com\mycompany\demabitespersistencia\IMesaDAO.class
 com\mycompany\demabitespersistencia\adapters\NuevoProductoDTOAProductoAdapter.class

@@ -27,7 +27,7 @@ public class ClienteBO implements IClientesBO {
      * Metodo con las validaciones de campo para crear un nuevo cliente frecuente.
      * @param nuevoClienteFrecuente DTO con la informacion del prospecto a cliente frecuente.
      * @return El cliente frecuente registrado.
-     * @throws NegocioException Si se peresenta un error en la validacion, 
+     * @throws NegocioException Si se presenta un error en la validacion,
      * se encuentra un cliente con el mismo numero o hay un error en la persistencia.
      */
     @Override
@@ -79,30 +79,22 @@ public class ClienteBO implements IClientesBO {
         if (nuevoClienteFrecuenteActualizado.getId() == null || nuevoClienteFrecuenteActualizado.getId() <= 0) {
             throw new NegocioException("ID inválido", null);
         }
-
         if (nuevoClienteFrecuenteActualizado.getTelefono() == null || nuevoClienteFrecuenteActualizado.getTelefono().trim().isEmpty()) {
             throw new NegocioException("El teléfono no puede estar vacío", null);
         }
-
         if (!nuevoClienteFrecuenteActualizado.getTelefono().matches("\\d{10}")) {
             throw new NegocioException("El teléfono debe tener exactamente 10 dígitos", null);
         }
-
         if (nuevoClienteFrecuenteActualizado.getEmail() != null && nuevoClienteFrecuenteActualizado.getEmail().length() > 60) {
             throw new NegocioException("El correo es demasiado largo", null);
         }
-
         try {
-            
             ClienteFrecuente existente = clienteDAO.consultarPorTelefono(nuevoClienteFrecuenteActualizado.getTelefono());
-
             if (existente != null && !existente.getId().equals(nuevoClienteFrecuenteActualizado.getId())) {
                 throw new NegocioException("El número de teléfono ya está registrado por otro cliente.", null);
             }
-            
             // El DAO hará el update de telefono encriptado y telefono hash
             return clienteDAO.editarClienteFrecuente(nuevoClienteFrecuenteActualizado);
-
         } catch (PersistenciaException ex) {
             throw new NegocioException("Error al editar el cliente", ex);
         }
@@ -166,7 +158,6 @@ public class ClienteBO implements IClientesBO {
             }
             ClienteFrecuente cliente = clienteDAO.consultarPorId(id);
             return cliente;
-
         } catch (PersistenciaException ex) {
             throw new NegocioException("No pudimos obtener la informacion del cliente.", ex);
         }

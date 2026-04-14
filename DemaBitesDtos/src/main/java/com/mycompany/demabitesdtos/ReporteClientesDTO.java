@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
  */
 public class ReporteClientesDTO {
     private String nombreCliente;
-    private Integer numeroVisitas;
+    private Long numeroVisitas;
     private Double totalGastado;
     private LocalDateTime ultimaVisita;
 
@@ -26,7 +26,7 @@ public class ReporteClientesDTO {
      * @param totalGastado Total gastado entre comandas realizadas.
      * @param ultimaVisita Ultima visita del cliente (ultima comanda realizada).
      */
-    public ReporteClientesDTO(String nombreCliente, Integer numeroVisitas, Double totalGastado, LocalDateTime ultimaVisita) {
+    public ReporteClientesDTO(String nombreCliente, Long numeroVisitas, Double totalGastado, LocalDateTime ultimaVisita) {
         this.nombreCliente = nombreCliente;
         this.numeroVisitas = numeroVisitas;
         this.totalGastado = totalGastado;
@@ -44,12 +44,12 @@ public class ReporteClientesDTO {
     }
 
     /** @return El numero de visitas del cliente consultado. */
-    public Integer getNumeroVisitas() {
+    public Long getNumeroVisitas() {
         return numeroVisitas;
     }
 
     /** @param numeroVisitas El numero de visitas que se asignara al reporte. */
-    public void setNumeroVisitas(Integer numeroVisitas) {
+    public void setNumeroVisitas(Long numeroVisitas) {
         this.numeroVisitas = numeroVisitas;
     }
 
