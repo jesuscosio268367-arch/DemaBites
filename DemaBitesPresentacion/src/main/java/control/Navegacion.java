@@ -1,5 +1,6 @@
 package control;
 
+import com.mycompany.demabitesdtos.ReporteClientesDTO;
 import com.mycompany.demabitespresentacion.FormClientes;
 import com.mycompany.demabitespresentacion.FormEditarClientes;
 import com.mycompany.demabitespresentacion.FormEditarProductos;
@@ -16,6 +17,7 @@ import com.mycompany.demabitespresentacion.MenuPrincipal;
 import com.mycompany.demabitespresentacion.NuevaComandaForm;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 import javax.swing.JFrame;
 
 /**
@@ -200,9 +202,11 @@ public class Navegacion {
     /**
      * Cierra la pantalla actual y abre FrameReportesClientes.
      */
-    public void abrirReportesClientesFrame(){
+    public void abrirReportesClientesFrame(List<ReporteClientesDTO> lista){
         this.pantallaActual = "REPORTES_CLIENTES";
-        cambiarPantalla(new FrameReportesClientes());
+        FrameReportesClientes nuevoFrame = new FrameReportesClientes();
+        nuevoFrame.cargarDatos(lista);
+        cambiarPantalla(nuevoFrame);
     }
     
     

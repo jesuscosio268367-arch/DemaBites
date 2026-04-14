@@ -181,12 +181,18 @@ public class FrameReportesClientes extends javax.swing.JFrame {
     public void cargarDatos(List<ReporteClientesDTO> lista) {
         DefaultTableModel modelo = (DefaultTableModel) tblRClientes.getModel();
         modelo.setRowCount(0);
+        java.time.format.DateTimeFormatter formatoFecha = java.time.format.DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
         for (ReporteClientesDTO dto : lista) {
+            String fechaStr = (dto.getUltimaVisita() != null) 
+                          ? dto.getUltimaVisita().format(formatoFecha) 
+                          : "Sin visitas";
+            String totalStr = String.format("$%.2f", dto.getTotalGastado());
+            
             modelo.addRow(new Object[]{
                 dto.getNombreCliente(),
                 dto.getNumeroVisitas(),
-                dto.getTotalGastado(),
-                dto.getUltimaVisita()
+                totalStr,
+                fechaStr
             });
         }
     }

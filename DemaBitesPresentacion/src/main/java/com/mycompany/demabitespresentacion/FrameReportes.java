@@ -2,7 +2,6 @@ package com.mycompany.demabitespresentacion;
 
 import com.mycompany.demabitesdtos.ReporteClientesDTO;
 import control.ReportesControl;
-import java.awt.BorderLayout;
 import java.util.List;
 import control.Navegacion;
 import java.awt.BorderLayout;
@@ -227,6 +226,10 @@ public class FrameReportes extends javax.swing.JFrame {
         pnlDinamico.revalidate();
         pnlDinamico.repaint();
     }
+    
+    /**
+     * Manda al proximo frame donde se generar el reporte.
+     */
     private void generarReporteClientes() {
         String seleccion = cbxOpcion.getSelectedItem().toString();
         if (seleccion.equals("Clientes") && pnlClientes != null) {
@@ -234,17 +237,15 @@ public class FrameReportes extends javax.swing.JFrame {
             Integer visitas = pnlClientes.getVisitas();
             try {
                 List<ReporteClientesDTO> lista = control.consultarReporte(nombre, visitas, this);
-                FrameReportesClientes tablaFrame = new FrameReportesClientes();
-                tablaFrame.cargarDatos(lista);
-                tablaFrame.setVisible(true);
-                tablaFrame.setLocationRelativeTo(null);
+                if (lista == null || lista.isEmpty()) {
+                    JOptionPane.showMessageDialog(this, "No se encontraron datos para los filtros seleccionados.");
+                    return;
+                }
+                Navegacion.getControlNavegacion().abrirReportesClientesFrame(lista);
                 this.dispose(); 
             } catch (Exception e) {
                 JOptionPane.showMessageDialog(this, "Error al generar reporte: " + e.getMessage());
             }
-        } 
-        else if (seleccion.equals("Comandas")) {
-            JOptionPane.showMessageDialog(this, "Reporte de comandas no implementado.");
         }
     }
     
