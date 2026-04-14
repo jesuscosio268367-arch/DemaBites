@@ -1,16 +1,36 @@
 package com.mycompany.demabitespresentacion;
 
+import com.github.lgooddatepicker.components.DatePicker;
+import java.awt.BorderLayout;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.util.logging.Logger;
+
 /**
  *
  * @author Dario
  */
 public class PanelFiltroComandas extends javax.swing.JPanel {
 
+    private static final Logger LOGGER = Logger.getLogger(PanelFiltroComandas.class.getName());
+    private DatePicker dpDesde;
+    private DatePicker dpHasta;
+    
     /**
      * Creates new form PanelFiltroComandas
      */
     public PanelFiltroComandas() {
         initComponents();
+        dpDesde = new DatePicker();
+        dpHasta = new DatePicker();
+        
+        // 3. Los agregamos a los paneles que pusiste en el diseño
+        pnlDesde.setLayout(new BorderLayout());
+        pnlDesde.add(dpDesde, BorderLayout.CENTER);
+        
+        pnlHasta.setLayout(new BorderLayout());
+        pnlHasta.add(dpHasta, BorderLayout.CENTER);
     }
 
     /**
@@ -24,8 +44,8 @@ public class PanelFiltroComandas extends javax.swing.JPanel {
 
         lbl16 = new javax.swing.JLabel();
         lbl17 = new javax.swing.JLabel();
-        ftfDesde = new javax.swing.JFormattedTextField();
-        ftfHasta = new javax.swing.JFormattedTextField();
+        pnlDesde = new javax.swing.JPanel();
+        pnlHasta = new javax.swing.JPanel();
 
         lbl16.setFont(new java.awt.Font("Yu Gothic UI Semilight", 0, 18)); // NOI18N
         lbl16.setText("Desde:");
@@ -33,11 +53,27 @@ public class PanelFiltroComandas extends javax.swing.JPanel {
         lbl17.setFont(new java.awt.Font("Yu Gothic UI Semilight", 0, 18)); // NOI18N
         lbl17.setText("Hasta:");
 
-        ftfDesde.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(java.text.DateFormat.getDateInstance(java.text.DateFormat.SHORT))));
-        ftfDesde.setFont(new java.awt.Font("Yu Gothic UI Light", 0, 18)); // NOI18N
+        javax.swing.GroupLayout pnlDesdeLayout = new javax.swing.GroupLayout(pnlDesde);
+        pnlDesde.setLayout(pnlDesdeLayout);
+        pnlDesdeLayout.setHorizontalGroup(
+            pnlDesdeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 169, Short.MAX_VALUE)
+        );
+        pnlDesdeLayout.setVerticalGroup(
+            pnlDesdeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
 
-        ftfHasta.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(java.text.DateFormat.getDateInstance(java.text.DateFormat.SHORT))));
-        ftfHasta.setFont(new java.awt.Font("Yu Gothic UI Light", 0, 18)); // NOI18N
+        javax.swing.GroupLayout pnlHastaLayout = new javax.swing.GroupLayout(pnlHasta);
+        pnlHasta.setLayout(pnlHastaLayout);
+        pnlHastaLayout.setHorizontalGroup(
+            pnlHastaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+        pnlHastaLayout.setVerticalGroup(
+            pnlHastaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -48,32 +84,56 @@ public class PanelFiltroComandas extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(lbl17)
                     .addComponent(lbl16))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(ftfDesde, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(ftfHasta, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(353, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(pnlDesde, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(pnlHasta, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(286, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lbl16)
-                    .addComponent(ftfDesde, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(pnlDesde, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lbl16, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(ftfHasta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lbl17))
-                .addContainerGap(50, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(lbl17, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(pnlHasta, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(70, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    /**
+     * Obtiene la fecha inicial seleccionada y le asigna la hora 00:00:00.
+     * @return LocalDateTime con la fecha inicial, o null si está vacío/inválido.
+     */
+    public LocalDateTime getFechaInicio() {
+        LocalDate fecha = dpDesde.getDate();
+        if (fecha != null) {
+            return fecha.atStartOfDay(); // Retorna a las 00:00:00
+        }
+        return null;
+    }
+
+    /**
+     * Obtiene la fecha final seleccionada y le asigna la hora 23:59:59.
+     * @return LocalDateTime con la fecha final, o null si está vacío/inválido.
+     */
+    public LocalDateTime getFechaFin() {
+        LocalDate fecha = dpHasta.getDate();
+        if (fecha != null) {
+            return fecha.atTime(LocalTime.MAX); // Retorna a las 23:59:59
+        }
+        return null;
+    
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JFormattedTextField ftfDesde;
-    private javax.swing.JFormattedTextField ftfHasta;
     private javax.swing.JLabel lbl16;
     private javax.swing.JLabel lbl17;
+    private javax.swing.JPanel pnlDesde;
+    private javax.swing.JPanel pnlHasta;
     // End of variables declaration//GEN-END:variables
 }

@@ -1,6 +1,8 @@
 package com.mycompany.demabitespersistencia;
 
 import com.mycompany.demabitesdtos.ReporteClientesDTO;
+import com.mycompany.demabitesdtos.ReporteComandasDTO;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.logging.Logger;
 import javax.persistence.EntityManager;
@@ -43,6 +45,41 @@ public class ReportesDAO implements IReportesDAO{
         } catch (PersistenceException ex) {
             LOGGER.severe(ex.getMessage());
             throw new PersistenciaException("Error al realizar la consulta.", ex);
+        }
+    }
+    
+    @Override
+    public List<ReporteComandasDTO> reporteComandasPorFecha(
+            LocalDateTime fechaInicio, LocalDateTime fechaFin
+    ) throws PersistenciaException {
+        try {
+            EntityManager entityManager = ManejadorConexiones.crearEntityManager();
+
+            String jpql = """
+                    SELECT new com.mycompany.demabitesdtos.ReporteComandasDTO(
+                        c.folio, 
+                        c.fechaHora, 
+                        m.numero, 
+                        c.total, 
+                        c.estado, 
+                        cli.nombres
+                    )
+                    FROM Comanda c
+                    JOIN c.mesa m
+                    LEFT JOIN c.cliente cli
+                    WHERE c.fechaHora BETWEEN :inicio AND :fin
+                    ORDER BY c.fechaHora ASC
+                    """;
+
+            TypedQuery<ReporteComandasDTO> query = entityManager.createQuery(jpql, ReporteComandasDTO.class);
+            query.setParameter("inicio", fechaInicio);
+            query.setParameter("fin", fechaFin);
+
+            return query.getResultList();
+
+        } catch (PersistenceException ex) {
+            LOGGER.severe(ex.getMessage());
+            throw new PersistenciaException("Error al consultar comandas por fecha.", ex);
         }
     }
     

@@ -14,6 +14,8 @@ import com.mycompany.demabitespresentacion.FrameReportesComandas;
 import com.mycompany.demabitespresentacion.IngredientesForm;
 import com.mycompany.demabitespresentacion.MenuPrincipal;
 import com.mycompany.demabitespresentacion.NuevaComandaForm;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import javax.swing.JFrame;
 
 /**
@@ -190,9 +192,9 @@ public class Navegacion {
     /**
      * Cierra la pantalla actual y abre FrameReportesComandas.
      */
-    public void abrirReportesComandasFrame(){
+    public void abrirReportesComandasFrame(LocalDateTime inicio, LocalDateTime fin){
         this.pantallaActual = "REPORTES_COMANDAS";
-        cambiarPantalla(new FrameReportesComandas());
+        cambiarPantalla(new FrameReportesComandas(inicio, fin));
     }
     
     /**

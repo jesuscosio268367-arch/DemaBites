@@ -1,10 +1,12 @@
 package control;
 
 import com.mycompany.demabitesdtos.ReporteClientesDTO;
+import com.mycompany.demabitesdtos.ReporteComandasDTO;
 import com.mycompany.demabitesnegocio.IReportesBO;
 import com.mycompany.demabitesnegocio.NegocioException;
 import com.mycompany.demabitesnegocio.ReportesBO;
 import com.mycompany.demabitespersistencia.ReportesDAO;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JFrame;
@@ -40,4 +42,23 @@ public class ReportesControl {
         }
         return new ArrayList<>();
     }
+    
+    /**
+    * Coordina la consulta del reporte de comandas por rango de fechas
+    * Maneja las excepciones de negocio mostrando un mensaje de advertencia en la ventana principal
+    * @param inicio Fecha inicial capturada en la interfaz
+    * @param fin Fecha final capturada en la interfaz
+    * @param ventana Referencia al JFrame para posicionar el cuadro de diálogo de error
+    * @return Lista de objetos DTO para llenar la tabla de la interfaz
+    */
+    public List<ReporteComandasDTO> consultarReporteComandas(
+            LocalDateTime inicio, LocalDateTime fin, JFrame ventana) {
+        try {
+            return reportesBO.reporteComandasPorFecha(inicio, fin);
+        } catch (NegocioException ex) {
+            JOptionPane.showMessageDialog(ventana, ex.getMessage(), "Error de negocio", JOptionPane.WARNING_MESSAGE);
+            return new ArrayList<>();
+        }
+    }
+    
 }

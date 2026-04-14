@@ -4,6 +4,10 @@ import com.mycompany.demabitesdtos.ReporteClientesDTO;
 import control.ReportesControl;
 import java.awt.BorderLayout;
 import java.util.List;
+import control.Navegacion;
+import java.awt.BorderLayout;
+import java.awt.Component;
+import java.time.LocalDateTime;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import utileria.utilMetodos;
@@ -182,7 +186,16 @@ public class FrameReportes extends javax.swing.JFrame {
      * @param evt 
      */
     private void btnGenerarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGenerarActionPerformed
-        generar();
+    String seleccion = cbxOpcion.getSelectedItem().toString();
+        
+        if (seleccion.equals("Comandas")) {
+            generarReporteComandas();   
+        } else if (seleccion.equals("Clientes")) {
+            generarReporteClientes();
+            
+        } else {
+            JOptionPane.showMessageDialog(this, "Por favor seleccione un tipo de reporte.");
+        }
     }//GEN-LAST:event_btnGenerarActionPerformed
 
     /**
@@ -214,11 +227,7 @@ public class FrameReportes extends javax.swing.JFrame {
         pnlDinamico.revalidate();
         pnlDinamico.repaint();
     }
-    
-    /**
-     * Metodo para generar y filtrar reportes.
-     */
-    private void generar() {
+    private void generarReporteClientes() {
         String seleccion = cbxOpcion.getSelectedItem().toString();
         if (seleccion.equals("Clientes") && pnlClientes != null) {
             String nombre = pnlClientes.getNombre();
@@ -236,6 +245,34 @@ public class FrameReportes extends javax.swing.JFrame {
         } 
         else if (seleccion.equals("Comandas")) {
             JOptionPane.showMessageDialog(this, "Reporte de comandas no implementado.");
+        }
+    }
+    
+    /**
+     * Extrae las fechas del panel dinámico, valida y abre la ventana del reporte.
+     */
+    private void generarReporteComandas() {
+        if (pnlDinamico.getComponentCount() == 0) {
+            return;
+        }
+
+        Component componente = pnlDinamico.getComponent(0);
+        
+        if (componente instanceof PanelFiltroComandas) {
+            PanelFiltroComandas panelFiltro = (PanelFiltroComandas) componente;
+            
+            LocalDateTime inicio = panelFiltro.getFechaInicio();
+            LocalDateTime fin = panelFiltro.getFechaFin();
+            
+            // Validamos que el usuario no las haya dejado en blanco
+            if (inicio == null || fin == null) {
+                JOptionPane.showMessageDialog(this, 
+                    "Por favor seleccione ambas fechas para generar el reporte.", 
+                    "Aviso", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+            
+            Navegacion.getControlNavegacion().abrirReportesComandasFrame(inicio, fin);
         }
     }
     

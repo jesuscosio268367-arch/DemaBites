@@ -1,6 +1,8 @@
 package com.mycompany.demabitesnegocio;
 
 import com.mycompany.demabitesdtos.ReporteClientesDTO;
+import com.mycompany.demabitesdtos.ReporteComandasDTO;
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -18,4 +20,9 @@ public interface IReportesBO {
      */
     public abstract List<ReporteClientesDTO> reporteClientes(String nombreCliente, Integer minVisitas)
             throws NegocioException;
+    
+    public List<ReporteComandasDTO> reporteComandasPorFecha(
+            LocalDateTime fechaInicio, LocalDateTime fechaFin
+    ) throws NegocioException;
+    
 }
