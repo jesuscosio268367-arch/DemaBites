@@ -30,14 +30,19 @@ public class ReportesDAO implements IReportesDAO{
     ) throws PersistenciaException {
         try {
             EntityManager entityManager = ManejadorConexiones.crearEntityManager();
-             String jpql="""
-                    SELECT new com.mycompany.demabitesdtos.ReporteClientesDTO(c.nombres, COUNT(q), SUM(q.total), MAX(q.fechaHora))
-                    FROM Cliente c
+            String jpql="""
+                    SELECT new com.mycompany.demabitesdtos.ReporteClientesDTO(
+                        c.nombres, 
+                        COUNT(q.id), 
+                        SUM(q.total), 
+                        MAX(q.fechaHora)
+                    )
+                    FROM ClienteFrecuente c
                     JOIN c.comandas q
                     WHERE (:nombre IS NULL OR c.nombres LIKE :nombre)
                     GROUP BY c.id, c.nombres
-                    HAVING (:minVisitas IS NULL OR COUNT(q)>=:minVisitas)
-                    """;  
+                    HAVING (:minVisitas IS NULL OR COUNT(q.id) >= :minVisitas)
+                """; 
             TypedQuery<ReporteClientesDTO> query = entityManager.createQuery(jpql, ReporteClientesDTO.class);
             query.setParameter("nombre", (nombreCliente != null && !nombreCliente.isEmpty()) ? "%" + nombreCliente + "%" : null);
             query.setParameter("minVisitas", (minVisitas != null) ? minVisitas.longValue() : null);

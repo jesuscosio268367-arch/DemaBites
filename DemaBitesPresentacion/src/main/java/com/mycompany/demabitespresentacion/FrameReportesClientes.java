@@ -195,48 +195,102 @@ public class FrameReportesClientes extends javax.swing.JFrame {
      * Metodo para convertir la tabla de reportes a pdf.
      */
     public void pdf() {
-        try {
-            String timestamp = java.time.LocalDateTime.now().format(java.time.format.DateTimeFormatter.ofPattern("yyyyMMdd_HHmm"));
-            String rutaPDF = System.getProperty("user.home") + "/Downloads/Reporte_Clientes_" + timestamp + ".pdf";
+        // Validación: Si la tabla está vacía, no tiene caso exportar
+        if (tblRClientes.getRowCount() == 0) {
+            JOptionPane.showMessageDialog(this, "No hay datos en la tabla para exportar.", "Aviso", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
 
-            Document document = new Document();
-            PdfWriter.getInstance(document, new FileOutputStream(rutaPDF));
-            document.open();
+        // Configurar el JFileChooser
+        javax.swing.JFileChooser fileChooser = new javax.swing.JFileChooser();
+        fileChooser.setDialogTitle("Guardar Reporte de Comandas");
+        
+        // Nombre por defecto con fecha y hora
+        String nombreDefault = "Reporte_Comandas_" + java.time.LocalDateTime.now().format(java.time.format.DateTimeFormatter.ofPattern("yyyyMMdd_HHmm")) + ".pdf";
+        fileChooser.setSelectedFile(new java.io.File(nombreDefault));
 
-            Font tituloFont = new Font(Font.FontFamily.HELVETICA, 18, Font.BOLD, BaseColor.BLACK);
-            Paragraph titulo = new Paragraph("REPORTE DE CLIENTES FRECUENTES", tituloFont);
-            titulo.setAlignment(Element.ALIGN_CENTER);
-            titulo.setSpacingAfter(20);
-            document.add(titulo);
+        // Filtro para que solo muestre y guarde archivos PDF
+        javax.swing.filechooser.FileNameExtensionFilter filtro = new javax.swing.filechooser.FileNameExtensionFilter("Archivos PDF", "pdf");
+        fileChooser.setFileFilter(filtro);
 
-            document.add(new Paragraph("Fecha de generación: " + java.time.LocalDateTime.now()));
-            document.add(new Paragraph(" "));
+        //Mostrar el diálogo de guardar
+        int seleccion = fileChooser.showSaveDialog(this);
 
-            int columnas = tblRClientes.getColumnCount();
-            PdfPTable tablaPDF = new PdfPTable(columnas);
-            tablaPDF.setWidthPercentage(100);
+        if (seleccion == javax.swing.JFileChooser.APPROVE_OPTION) {
+            String rutaPDF = fileChooser.getSelectedFile().getAbsolutePath();
 
-            for (int i = 0; i < columnas; i++) {
-                PdfPCell header = new PdfPCell(new Phrase(tblRClientes.getColumnName(i)));
-                header.setHorizontalAlignment(Element.ALIGN_CENTER);
-                header.setBackgroundColor(new BaseColor(230, 230, 230));
-                header.setPadding(5);
-                tablaPDF.addCell(header);
+            // Asegurarnos de que tenga la extensión .pdf
+            if (!rutaPDF.toLowerCase().endsWith(".pdf")) {
+                rutaPDF += ".pdf";
             }
 
-            for (int i = 0; i < tblRClientes.getRowCount(); i++) {
-                for (int j = 0; j < columnas; j++) {
-                    Object valor = tblRClientes.getValueAt(i, j);
-                    tablaPDF.addCell(valor != null ? valor.toString() : "");
+            try {              
+                Document document = new Document();
+                PdfWriter.getInstance(document, new FileOutputStream(rutaPDF));
+                document.open();
+
+                // Título del documento
+                Font tituloFont = new Font(Font.FontFamily.HELVETICA, 18, Font.BOLD, BaseColor.BLACK);
+                Paragraph titulo = new Paragraph("REPORTE DE COMANDAS REGISTRADAS", tituloFont);
+                titulo.setAlignment(Element.ALIGN_CENTER);
+                titulo.setSpacingAfter(20);
+                document.add(titulo);
+
+                // Información de generación
+                document.add(new Paragraph("Fecha de generación: " + java.time.LocalDateTime.now().format(java.time.format.DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss"))));
+                document.add(new Paragraph("Rango del reporte: " + lbl4.getText().replace("Comandas registradas del ", "")));
+                document.add(new Paragraph(" ")); // Espacio en blanco
+
+                // Configuración de la tabla PDF
+                int columnas = tblRClientes.getColumnCount();
+                PdfPTable tablaPDF = new PdfPTable(columnas);
+                tablaPDF.setWidthPercentage(100);
+
+                // Cabeceras de la tabla
+                for (int i = 0; i < columnas; i++) {
+                    PdfPCell header = new PdfPCell(new Phrase(tblRClientes.getColumnName(i)));
+                    header.setHorizontalAlignment(Element.ALIGN_CENTER);
+                    header.setBackgroundColor(new BaseColor(47, 65, 86)); 
+                    header.setPadding(5);
+                    // Texto de cabecera en blanco para que contraste
+                    header.setPhrase(new Phrase(tblRClientes.getColumnName(i), new Font(Font.FontFamily.HELVETICA, 11, Font.BOLD, BaseColor.WHITE)));
+                    tablaPDF.addCell(header);
                 }
-            }
 
-            document.add(tablaPDF);
-            document.close();
-            JOptionPane.showMessageDialog(this, "PDF generado con exito en: \n" + rutaPDF);
-            
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Error al crear PDF: " + e.getMessage());
+                // Datos de la tabla
+                for (int i = 0; i < tblRClientes.getRowCount(); i++) {
+                    for (int j = 0; j < columnas; j++) {
+                        Object valor = tblRClientes.getValueAt(i, j);
+                        PdfPCell celda = new PdfPCell(new Phrase(valor != null ? valor.toString() : ""));
+                        celda.setPadding(5);
+                        tablaPDF.addCell(celda);
+                    }
+                }
+
+                document.add(tablaPDF);
+                document.close();
+                
+
+                //PREVISUALIZACIÓN
+                int respuesta = JOptionPane.showConfirmDialog(this, 
+                        "PDF generado con éxito.\n¿Desea abrir el archivo para visualizarlo?", 
+                        "Exportación Exitosa", 
+                        JOptionPane.YES_NO_OPTION, 
+                        JOptionPane.INFORMATION_MESSAGE);
+
+                if (respuesta == JOptionPane.YES_OPTION) {
+                    java.io.File archivo = new java.io.File(rutaPDF);
+                    if (java.awt.Desktop.isDesktopSupported()) {
+                        java.awt.Desktop.getDesktop().open(archivo);
+                    } else {
+                        JOptionPane.showMessageDialog(this, "Tu sistema no soporta la apertura automática, pero el archivo está en:\n" + rutaPDF);
+                    }
+                }
+
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(this, "Error al crear PDF: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                e.printStackTrace();
+            }
         }
     }
 
